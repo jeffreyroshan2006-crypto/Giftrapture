@@ -73,7 +73,7 @@ export default function CategoryGrid() {
         </motion.p>
       </div>
 
-      <div className="grid grid-cols-12 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
         {categories.map((category, index) => (
           <motion.div
             key={category.title}

@@ -58,7 +58,7 @@ export default function InstagramGrid() {
         </p>
       </div>
 
-      <div className="grid grid-cols-12 grid-rows-2 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-4 md:gap-6">
         {posts.map((post, index) => (
           <motion.div
             key={post.id}
