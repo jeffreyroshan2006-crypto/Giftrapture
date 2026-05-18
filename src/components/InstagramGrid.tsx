@@ -10,25 +10,25 @@ const posts = [
     id: 1, 
     type: "video", 
     src: "/images/cat-bouquets.png", 
-    className: "col-span-12 md:col-span-4 row-span-2 h-[400px] md:h-[620px]" 
+    className: "col-span-2 md:col-span-4 md:row-span-2 h-[400px] md:h-[620px]" 
   },
   { 
     id: 2, 
     type: "image", 
     src: "/images/cat-hampers.png", 
-    className: "col-span-6 md:col-span-4 row-span-1 h-[200px] md:h-[300px]" 
+    className: "col-span-1 md:col-span-4 md:row-span-1 h-[200px] md:h-[300px]" 
   },
   { 
     id: 3, 
     type: "video", 
     src: "/images/cat-wedding.png", 
-    className: "col-span-6 md:col-span-4 row-span-1 h-[200px] md:h-[300px]" 
+    className: "col-span-1 md:col-span-4 md:row-span-1 h-[200px] md:h-[300px]" 
   },
   { 
     id: 4, 
     type: "image", 
     src: "/images/hero.png", 
-    className: "col-span-12 md:col-span-8 row-span-1 h-[250px] md:h-[300px]" 
+    className: "col-span-2 md:col-span-8 md:row-span-1 h-[250px] md:h-[300px]" 
   },
 ];
 
@@ -58,7 +58,7 @@ export default function InstagramGrid() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-12 md:grid-rows-2 gap-4 md:gap-6">
         {posts.map((post, index) => (
           <motion.div
             key={post.id}

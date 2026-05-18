@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="pt-24 pb-32 md:pb-12 px-6 border-t border-text-main/5 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
-          <div className="col-span-12 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
+          <div className="col-span-1 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
             <Link href="/" className="mb-8 flex flex-col lg:flex-row items-center gap-4 group">
                <div className="relative w-12 h-12 transition-transform duration-500 group-hover:scale-110">
                   <Image 
@@ -32,7 +32,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="col-span-12 md:col-span-6 lg:col-span-2 flex flex-col items-center md:items-start text-center md:text-left">
+          <div className="col-span-1 md:col-span-6 lg:col-span-2 flex flex-col items-center md:items-start text-center md:text-left w-full">
             <h4 className="font-serif text-xl font-bold mb-6">Explore</h4>
             <ul className="space-y-4 text-soft-gray text-sm font-medium tracking-tight">
               <li><Link href="/shop/luxury-bouquets" className="hover:text-text-main transition-colors">Luxury Bouquets</Link></li>
@@ -44,7 +44,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="col-span-12 md:col-span-6 lg:col-span-2 flex flex-col items-center md:items-start text-center md:text-left">
+          <div className="col-span-1 md:col-span-6 lg:col-span-2 flex flex-col items-center md:items-start text-center md:text-left w-full">
             <h4 className="font-serif text-xl font-bold mb-6">Policies</h4>
             <ul className="space-y-4 text-soft-gray text-sm font-medium tracking-tight">
               <li><Link href="/policies/shipping" className="hover:text-text-main transition-colors">Shipping Policy</Link></li>
@@ -54,7 +54,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="col-span-12 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
+          <div className="col-span-1 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
             <h4 className="font-serif text-xl font-bold mb-6 italic">Gifts of Elegance, <span className="font-bold not-italic">Directly to You.</span></h4>
             <p className="text-soft-gray text-sm mb-6 max-w-xs font-sans tracking-tight">Subscribe for exclusive access to new collections and luxury gifting tips.</p>
             <div className="relative w-full max-w-sm">
