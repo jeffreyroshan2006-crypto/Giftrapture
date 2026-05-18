@@ -12,7 +12,7 @@ const items = [
     name: "Classic Ranunculus Bouquet",
     price: "₹ 2,499",
     tag: "Best Seller",
-    image: "/images/cat-bouquets.png",
+    image: "/images/bouquets/IMG_3926.png",
   },
   {
     name: "Luxury Silk Trousseau Box",
@@ -30,7 +30,7 @@ const items = [
     name: "Premium Peony Arrangement",
     price: "₹ 4,799",
     tag: "Limited Edition",
-    image: "/images/cat-bouquets.png",
+    image: "/images/bouquets/IMG_3893.jpg",
   },
 ];
 

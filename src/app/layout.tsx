@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { montserrat, playfair } from "./fonts";
 import "./globals.css";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Gift Rapture | Luxury Gifting & Trousseau Packing",
@@ -23,7 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${montserrat.variable} ${playfair.variable} h-full antialiased`}>
       <body className="font-sans min-h-screen selection:bg-accent-gold/30 selection:text-text-main flex flex-col bg-secondary text-text-main scroll-smooth">
-        {children}
+        <div className="flex-1">
+          {children}
+        </div>
+        <Footer />
       </body>
     </html>
   );

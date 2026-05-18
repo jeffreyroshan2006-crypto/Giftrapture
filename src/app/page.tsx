@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import CategoryGrid from "@/components/CategoryGrid";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
 import InstagramGrid from "@/components/InstagramGrid";
+import ProductCard from "@/components/ProductCard";
 import { ArrowRight, Mail, Camera, Globe, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -21,6 +22,75 @@ export default function Home() {
 
       {/* Featured Products */}
       <FeaturedCarousel />
+
+      {/* Bestsellers Section */}
+      <section className="py-24 px-6 max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <span className="text-accent-gold text-[10px] tracking-[0.3em] font-sans uppercase font-bold mb-4 block">Most Loved</span>
+          <h2 className="text-4xl md:text-5xl font-serif tracking-tighter italic">Bestsellers</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <ProductCard
+            id="bs-1"
+            name="The Royal Azure Box"
+            regularPrice={7500}
+            salePrice={6800}
+            discountPercentage={9}
+            image="/images/themed-hampers/IMG_3723.jpg"
+            href="/product/royal-azure"
+          />
+          <ProductCard
+            id="bs-2"
+            name="Blush Peony Symphony"
+            regularPrice={4200}
+            image="/images/bouquets/IMG_3895.jpg"
+            href="/product/blush-peony"
+          />
+          <ProductCard
+            id="bs-3"
+            name="Corporate Executive Kit"
+            regularPrice={12000}
+            salePrice={9999}
+            discountPercentage={16}
+            image="/images/themed-hampers/IMG_3899.jpg"
+            href="/product/corporate-kit"
+          />
+          <ProductCard
+            id="bs-4"
+            name="Classic Trousseau Trunk"
+            regularPrice={15000}
+            image="/images/themed-hampers/IMG_3915.jpg"
+            href="/product/trousseau-trunk"
+          />
+        </div>
+        <div className="mt-16 text-center">
+          <Link
+            href="/shop"
+            className="inline-flex items-center gap-2 group px-8 py-3 border border-text-main text-text-main font-bold rounded-full transition-all duration-300 hover:bg-text-main hover:text-white"
+          >
+            View Entire Collection
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Make Your Own Box Promo */}
+      <section className="py-12 px-6 max-w-7xl mx-auto">
+        <div className="bg-primary/20 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden flex flex-col items-center justify-center border border-accent-gold/20">
+          <span className="text-accent-sage text-[10px] tracking-[0.3em] font-sans uppercase font-bold mb-4 block">Customized For Them</span>
+          <h2 className="text-3xl md:text-5xl font-serif text-text-main mb-6 italic">Make Your Own Box</h2>
+          <p className="text-soft-gray mb-8 max-w-xl text-center">
+            Handpick every item from our curated collection to build a hamper that truly speaks to their heart.
+          </p>
+          <Link
+            href="/shop/custom-box"
+            className="inline-flex items-center gap-2 group px-8 py-4 bg-accent-gold text-white font-bold rounded-full transition-all duration-300 hover:shadow-2xl hover:scale-105"
+          >
+            Start Building
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
+      </section>
 
       {/* Promotional Section */}
       <section className="py-24 px-6 md:px-12">
@@ -57,83 +127,66 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Social Proof */}
-      <InstagramGrid />
-
-      {/* Footer */}
-      <footer className="pt-24 pb-32 md:pb-12 px-6 border-t border-text-main/5 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-12 gap-12 mb-16">
-            <div className="col-span-12 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
-              <Link href="/" className="mb-8 flex items-center gap-4 group">
-                 <div className="relative w-12 h-12 transition-transform duration-500 group-hover:scale-110">
-                    <Image 
-                      src="/images/logo.png" 
-                      alt="Gift Rapture" 
-                      fill 
-                      className="object-contain"
-                    />
-                 </div>
-                 <div className="flex flex-col text-left">
-                    <span className="font-serif text-2xl tracking-tighter font-bold text-text-main">GIFT RAPTURE</span>
-                    <p className="text-[10px] tracking-[0.2em] font-sans text-accent-sage uppercase font-medium mt-1">Curated Elegance</p>
-                 </div>
+      {/* Shop by Collections (Price & Relations) */}
+      <section className="py-24 px-6 max-w-7xl mx-auto space-y-24">
+        {/* Shop by Price */}
+        <div>
+          <h3 className="text-3xl font-serif text-center mb-12 italic">Shop by Price</h3>
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+            {['Under ₹2,000', '₹2,000 - ₹5,000', '₹5,000 - ₹10,000', 'Above ₹10,000'].map((price) => (
+              <Link 
+                key={price} 
+                href={`/shop?price=${encodeURIComponent(price)}`}
+                className="px-8 py-4 rounded-full border border-text-main/10 hover:border-accent-gold hover:text-accent-gold transition-colors font-medium text-sm text-text-main bg-white shadow-sm"
+              >
+                {price}
               </Link>
-              <p className="text-soft-gray text-sm md:text-base mb-8 max-w-xs font-sans tracking-tight leading-relaxed">
-                Your premier destination for high-end luxury gifting, artistic bouquets, and bespoke trousseau services.
-              </p>
-              <div className="flex space-x-6 text-text-main">
-                <Link href="#" className="hover:text-accent-gold transition-colors"><Camera className="w-6 h-6" /></Link>
-                <Link href="#" className="hover:text-accent-gold transition-colors"><Globe className="w-6 h-6" /></Link>
-                <Link href="#" className="hover:text-accent-gold transition-colors"><MessageSquare className="w-6 h-6" /></Link>
-              </div>
-            </div>
-
-            <div className="col-span-12 md:col-span-6 lg:col-span-2 flex flex-col items-center md:items-start text-center md:text-left">
-              <h4 className="font-serif text-xl font-bold mb-6">Explore</h4>
-              <ul className="space-y-4 text-soft-gray text-sm font-medium tracking-tight">
-                <li><Link href="#" className="hover:text-text-main transition-colors">Luxury Bouquets</Link></li>
-                <li><Link href="#" className="hover:text-text-main transition-colors">Themed Hampers</Link></li>
-                <li><Link href="#" className="hover:text-text-main transition-colors">Wedding Trousseau</Link></li>
-                <li><Link href="#" className="hover:text-text-main transition-colors">Occasional Hampers</Link></li>
-              </ul>
-            </div>
-
-            <div className="col-span-12 md:col-span-6 lg:col-span-2 flex flex-col items-center md:items-start text-center md:text-left">
-              <h4 className="font-serif text-xl font-bold mb-6">Concierge</h4>
-              <ul className="space-y-4 text-soft-gray text-sm font-medium tracking-tight">
-                <li><Link href="#" className="hover:text-text-main transition-colors">Corporate Gifting</Link></li>
-                <li><Link href="#" className="hover:text-text-main transition-colors">Bespoke Orders</Link></li>
-                <li><Link href="#" className="hover:text-text-main transition-colors">Track Order</Link></li>
-                <li><Link href="#" className="hover:text-text-main transition-colors">Shipping & Returns</Link></li>
-              </ul>
-            </div>
-
-            <div className="col-span-12 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
-              <h4 className="font-serif text-xl font-bold mb-6 italic">Gifts of Elegance, <span className="font-bold not-italic">Directly to You.</span></h4>
-              <p className="text-soft-gray text-sm mb-6 max-w-xs font-sans tracking-tight">Subscribe for exclusive access to new collections and luxury gifting tips.</p>
-              <div className="relative w-full max-w-sm">
-                <input
-                  type="email"
-                  placeholder="Your exquisite email address"
-                  className="w-full px-6 py-4 rounded-full border border-text-main/10 bg-secondary/30 text-sm focus:outline-none focus:border-accent-gold transition-all duration-300 font-sans tracking-tight italic"
-                />
-                <button className="absolute right-2 top-2 bottom-2 px-6 bg-text-main text-white text-[10px] md:text-xs font-bold rounded-full uppercase tracking-widest hover:bg-accent-gold hover:text-text-main transition-all duration-300 shadow-xl">
-                  Join
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-12 border-t border-text-main/5 flex flex-col md:flex-row items-center justify-between text-[10px] md:text-xs uppercase tracking-[0.2em] text-soft-gray font-bold">
-            <p>© 2024 Gift Rapture. All rights reserved.</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <Link href="#" className="hover:text-text-main">Privacy Policy</Link>
-              <Link href="#" className="hover:text-text-main">Terms of Service</Link>
-            </div>
+            ))}
           </div>
         </div>
-      </footer>
+
+        {/* Shop by Relations */}
+        <div>
+          <h3 className="text-3xl font-serif text-center mb-12 italic">Shop by Relation</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {['For Her', 'For Him', 'For Parents', 'For Siblings', 'For Colleagues', 'For Couples'].map((relation) => (
+              <Link 
+                key={relation} 
+                href={`/shop?relation=${encodeURIComponent(relation)}`}
+                className="group flex flex-col items-center gap-4"
+              >
+                <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 overflow-hidden border border-transparent group-hover:border-accent-gold/40">
+                  <span className="font-serif italic text-lg text-text-main">{relation.split(' ')[1]}</span>
+                </div>
+                <span className="text-sm font-bold text-text-main">{relation}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews Section */}
+      <section className="py-24 px-6 bg-primary/10 border-y border-accent-gold/10">
+        <div className="max-w-4xl mx-auto text-center">
+          <span className="text-accent-gold text-[10px] tracking-[0.3em] font-sans uppercase font-bold mb-4 block">Testimonials</span>
+          <h2 className="text-4xl font-serif mb-16 italic">Words of Rapture</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { text: "The presentation was breathtaking. It felt less like a gift and more like an experience.", author: "Aanya S." },
+              { text: "We trusted them with our corporate Diwali hampers, and the feedback was incredible.", author: "Rajiv M." },
+              { text: "Perfect trousseau packing! It was elegant, cohesive, and incredibly luxurious.", author: "Sneha V." }
+            ].map((review, i) => (
+              <div key={i} className="bg-white p-8 rounded-3xl shadow-sm text-center">
+                <p className="text-soft-gray italic mb-6">"{review.text}"</p>
+                <p className="font-bold text-sm text-text-main">— {review.author}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof */}
+      <InstagramGrid />
 
       <MobileBottomNav />
     </main>
