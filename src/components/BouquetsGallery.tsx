@@ -67,10 +67,11 @@ export default function BouquetsGallery() {
 function BouquetCard({ bouquet, index }: { bouquet: any, index: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay: (index % 4) * 0.15 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: (index % 4) * 0.1 }}
+      style={{ willChange: "transform, opacity" }}
       className="break-inside-avoid relative group rounded-[2rem] overflow-hidden bg-white shadow-premium hover:shadow-2xl transition-all duration-700 hover:-translate-y-2 border border-text-main/5"
     >
       <div className="relative w-full overflow-hidden bg-primary/10">
@@ -79,6 +80,7 @@ function BouquetCard({ bouquet, index }: { bouquet: any, index: number }) {
           alt={bouquet.name}
           width={600}
           height={800}
+          priority={index < 2}
           className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
