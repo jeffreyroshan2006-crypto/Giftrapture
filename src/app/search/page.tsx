@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import Image from "next/image";
-import { Star, ShoppingBag, Heart, Search } from "lucide-react";
+import { Star, ShoppingBag, Heart, Search, Check } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useState, useMemo, Suspense } from "react";
 
@@ -59,6 +59,15 @@ function SearchContent() {
   const initialQuery = searchParams.get("q") || "";
   const [query, setQuery] = useState(initialQuery);
   const addItem = useCartStore((state) => state.addItem);
+  const [addedItems, setAddedItems] = useState<Record<string, boolean>>({});
+
+  const handleQuickAdd = (productId: string, product: any) => {
+    addItem({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
+    setAddedItems(prev => ({ ...prev, [productId]: true }));
+    setTimeout(() => {
+      setAddedItems(prev => ({ ...prev, [productId]: false }));
+    }, 2000);
+  };
 
   const results = useMemo(() => {
     if (!query.trim()) return [];
@@ -116,7 +125,7 @@ function SearchContent() {
                       className="object-cover transition-transform duration-1000 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-700" />
                     
                     <div className="absolute top-5 left-5 z-20">
                       <span className="px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest font-bold text-text-main shadow-sm">
@@ -124,17 +133,30 @@ function SearchContent() {
                       </span>
                     </div>
 
-                    <button className="absolute top-5 right-5 z-20 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-text-main hover:text-accent-gold hover:scale-110 transition-all duration-300 shadow-sm opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0">
+                    <button className="absolute top-5 right-5 z-20 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-text-main hover:text-accent-gold hover:scale-110 transition-all duration-300 shadow-sm lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-4 lg:group-hover:translate-y-0">
                       <Heart className="w-5 h-5" />
                     </button>
 
-                    <div className="absolute bottom-6 left-6 right-6 z-20 flex justify-center opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-100">
+                    <div className="absolute bottom-6 left-6 right-6 z-20 flex justify-center lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-8 lg:group-hover:translate-y-0 transition-all duration-500 delay-100">
                       <button
-                        onClick={() => addItem({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 })}
-                        className="w-full py-4 bg-white text-text-main font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-text-main hover:text-white transition-colors duration-300 shadow-2xl text-sm uppercase tracking-widest"
+                        onClick={() => handleQuickAdd(product.id, product)}
+                        className={`w-full py-4 font-bold rounded-2xl flex items-center justify-center gap-2 transition-all duration-300 shadow-2xl text-sm uppercase tracking-widest ${
+                          addedItems[product.id]
+                            ? "bg-accent-sage text-white scale-95"
+                            : "bg-white text-text-main hover:bg-text-main hover:text-white"
+                        }`}
                       >
-                        <ShoppingBag className="w-4 h-4" />
-                        Quick Add
+                        {addedItems[product.id] ? (
+                          <>
+                            <Check className="w-4 h-4" />
+                            Added
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingBag className="w-4 h-4" />
+                            Quick Add
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>

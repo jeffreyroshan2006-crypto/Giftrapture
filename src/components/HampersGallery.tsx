@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
-import { ShoppingBag, Star, Heart } from "lucide-react";
+import { useRef, useState } from "react";
+import { ShoppingBag, Star, Heart, Check } from "lucide-react";
+import { useCartStore } from "@/store/cartStore";
 
 const hampers = [
   { id: 1, name: "Royal Celebration Hamper", price: "₹ 7,499", image: "/images/themed-hampers/IMG_3723.jpg", tag: "Premium" },
@@ -66,6 +67,26 @@ export default function HampersGallery() {
 }
 
 function HamperCard({ hamper, index }: { hamper: any, index: number }) {
+  const addItem = useCartStore((state) => state.addItem);
+  const [added, setAdded] = useState(false);
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const numericPrice = parseInt(hamper.price.replace(/[^\d]/g, ""), 10);
+    addItem({
+      id: `hm-${hamper.id}`,
+      name: hamper.name,
+      price: numericPrice,
+      image: hamper.image,
+      quantity: 1
+    });
+
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
@@ -86,7 +107,8 @@ function HamperCard({ hamper, index }: { hamper: any, index: number }) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
         
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        {/* Mobile-optimized overlay layout (always visible on touch, hover on desktop) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-700" />
         
         <div className="absolute top-5 left-5 z-20">
           <span className="px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest font-bold text-text-main shadow-sm">
@@ -94,14 +116,30 @@ function HamperCard({ hamper, index }: { hamper: any, index: number }) {
           </span>
         </div>
 
-        <button className="absolute top-5 right-5 z-20 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-text-main hover:text-accent-gold hover:scale-110 transition-all duration-300 shadow-sm opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0">
+        <button className="absolute top-5 right-5 z-20 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-text-main hover:text-accent-gold hover:scale-110 transition-all duration-300 shadow-sm lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-4 lg:group-hover:translate-y-0">
           <Heart className="w-5 h-5" />
         </button>
 
-        <div className="absolute bottom-6 left-6 right-6 z-20 flex justify-center opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-100">
-          <button className="w-full py-4 bg-white text-text-main font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-text-main hover:text-white transition-colors duration-300 shadow-2xl text-sm uppercase tracking-widest">
-            <ShoppingBag className="w-4 h-4" />
-            Quick Add
+        <div className="absolute bottom-6 left-6 right-6 z-20 flex justify-center lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-8 lg:group-hover:translate-y-0 transition-all duration-500 delay-100">
+          <button 
+            onClick={handleAdd}
+            className={`w-full py-4 font-bold rounded-2xl flex items-center justify-center gap-2 transition-all duration-300 shadow-2xl text-sm uppercase tracking-widest ${
+              added 
+                ? "bg-accent-sage text-white scale-95" 
+                : "bg-white text-text-main hover:bg-text-main hover:text-white"
+            }`}
+          >
+            {added ? (
+              <>
+                <Check className="w-4 h-4" />
+                Added
+              </>
+            ) : (
+              <>
+                <ShoppingBag className="w-4 h-4" />
+                Quick Add
+              </>
+            )}
           </button>
         </div>
       </div>
