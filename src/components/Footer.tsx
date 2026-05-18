@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
           <div className="col-span-12 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
-            <Link href="/" className="mb-8 flex items-center gap-4 group">
+            <Link href="/" className="mb-8 flex flex-col lg:flex-row items-center gap-4 group">
                <div className="relative w-12 h-12 transition-transform duration-500 group-hover:scale-110">
                   <Image 
                     src="/images/logo.png" 
@@ -17,7 +17,7 @@ export default function Footer() {
                     className="object-contain"
                   />
                </div>
-               <div className="flex flex-col text-left">
+               <div className="flex flex-col text-center lg:text-left">
                   <span className="font-serif text-2xl tracking-tighter font-bold text-text-main">GIFT RAPTURE</span>
                   <p className="text-[10px] tracking-[0.2em] font-sans text-accent-sage uppercase font-medium mt-1">Curated Elegance</p>
                </div>
