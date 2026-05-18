@@ -6,7 +6,8 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import Image from "next/image";
 import { Star, ShoppingBag, Heart, Search, Check } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
-import { useState, useMemo, Suspense } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
 // Combined Product Pool for search
 const ALL_PRODUCTS = [
@@ -60,6 +61,31 @@ function SearchContent() {
   const [query, setQuery] = useState(initialQuery);
   const addItem = useCartStore((state) => state.addItem);
   const [addedItems, setAddedItems] = useState<Record<string, boolean>>({});
+  const [products, setProducts] = useState(ALL_PRODUCTS);
+
+  // Load products from Supabase
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+        if (data && data.length > 0) {
+          const casted = data.map((p: any) => ({
+            ...p,
+            price: Number(p.price)
+          }));
+          setProducts(casted);
+        }
+      } catch (err) {
+        console.warn("Supabase fetch failed or table doesn't exist yet. Safely using local fallback dataset.", err);
+      }
+    }
+    fetchProducts();
+  }, []);
 
   const handleQuickAdd = (productId: string, product: any) => {
     addItem({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
@@ -72,10 +98,10 @@ function SearchContent() {
   const results = useMemo(() => {
     if (!query.trim()) return [];
     const normalized = query.toLowerCase();
-    return ALL_PRODUCTS.filter(
-      (p) => p.name.toLowerCase().includes(normalized) || p.tag.toLowerCase().includes(normalized)
+    return products.filter(
+      (p) => p.name.toLowerCase().includes(normalized) || (p.tag && p.tag.toLowerCase().includes(normalized))
     );
-  }, [query]);
+  }, [query, products]);
 
   return (
     <main className="min-h-screen bg-secondary">

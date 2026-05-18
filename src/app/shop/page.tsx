@@ -8,6 +8,7 @@ import { Star, ShoppingBag, Heart, SlidersHorizontal, X, Check } from "lucide-re
 import { useCartStore } from "@/store/cartStore";
 import { useState, useMemo, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "@/lib/supabaseClient";
 
 // Combined Product Pool for shop listing
 const ALL_PRODUCTS = [
@@ -64,7 +65,32 @@ function ShopContent() {
   const [activePriceRange, setActivePriceRange] = useState<string>("all");
   const [activeRelation, setActiveRelation] = useState<string>("all");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [products, setProducts] = useState(ALL_PRODUCTS);
   const [addedItems, setAddedItems] = useState<Record<string, boolean>>({});
+
+  // Load products from Supabase
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+        if (data && data.length > 0) {
+          const casted = data.map((p: any) => ({
+            ...p,
+            price: Number(p.price)
+          }));
+          setProducts(casted);
+        }
+      } catch (err) {
+        console.warn("Supabase fetch failed or table doesn't exist yet. Safely using local fallback dataset.", err);
+      }
+    }
+    fetchProducts();
+  }, []);
 
   const handleQuickAdd = (productId: string, product: any) => {
     addItem({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
@@ -83,7 +109,7 @@ function ShopContent() {
   }, [searchParams]);
 
   const filteredProducts = useMemo(() => {
-    return ALL_PRODUCTS.filter((product) => {
+    return products.filter((product) => {
       // Category Filter
       if (activeCategory !== "all" && product.category !== activeCategory) return false;
 
@@ -101,7 +127,7 @@ function ShopContent() {
 
       return true;
     });
-  }, [activeCategory, activePriceRange, activeRelation]);
+  }, [activeCategory, activePriceRange, activeRelation, products]);
 
   const clearFilters = () => {
     setActiveCategory("all");
