@@ -69,8 +69,6 @@ export default function AdminLoginPage() {
         return;
       }
 
-      // Set admin cookie for middleware and redirect
-      document.cookie = "isAdmin=true; path=/; max-age=86400; SameSite=Lax";
       router.push("/admin/dashboard");
     } catch (err: any) {
       setError("An unexpected error occurred. Please try again.");
