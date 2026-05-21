@@ -133,20 +133,20 @@ function SearchContent() {
             </p>
           </div>
         ) : (
-          <div>
-            <p className="text-xs uppercase tracking-widest text-soft-gray font-bold mb-8 text-center sm:text-left">
-              Found {results.length} exquisite match{results.length > 1 ? "es" : ""}
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {results.map((product) => (
-                <div
-                  key={product.id}
-                  className="relative group rounded-[2rem] overflow-hidden bg-white shadow-premium hover:shadow-2xl transition-all duration-700 hover:-translate-y-2 border border-text-main/5"
-                >
-                  <div className="relative w-full aspect-[4/5] bg-primary/10 overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
+            <div>
+              <p className="text-xs uppercase tracking-widest text-soft-gray font-bold mb-8 text-center sm:text-left">
+                Found {results.length} exquisite match{results.length > 1 ? "es" : ""}
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-stretch">
+                {results.map((product) => (
+                  <div
+                    key={product.id}
+                    className="relative group rounded-[2rem] overflow-hidden bg-white shadow-premium hover:shadow-2xl transition-all duration-700 hover:-translate-y-2 border border-text-main/5 flex flex-col h-full"
+                  >
+                    <div className="relative w-full aspect-[4/5] bg-primary/10 overflow-hidden shrink-0">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
                       fill
                       className="object-cover transition-transform duration-1000 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -187,9 +187,9 @@ function SearchContent() {
                     </div>
                   </div>
 
-                  <div className="p-6 md:p-8 flex flex-col gap-3 bg-white relative z-10">
+                  <div className="p-6 md:p-8 flex flex-col gap-3 bg-white relative z-10 flex-1">
                     <div className="flex justify-between items-start gap-4">
-                      <h3 className="text-xl md:text-2xl font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300">
+                      <h3 className="text-xl md:text-2xl font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2 min-h-[3.2rem]">
                         {product.name}
                       </h3>
                       <div className="flex items-center gap-1 bg-primary/20 px-2 py-1 rounded-md shrink-0 mt-1">

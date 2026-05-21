@@ -56,7 +56,7 @@ export default function BouquetsGallery() {
         </motion.p>
       </div>
 
-      <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-8 space-y-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-stretch">
         {bouquets.map((bouquet, index) => (
           <BouquetCard key={bouquet.id} bouquet={bouquet} index={index} />
         ))}
@@ -93,17 +93,16 @@ function BouquetCard({ bouquet, index }: { bouquet: any, index: number }) {
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: (index % 4) * 0.1 }}
       style={{ willChange: "transform, opacity" }}
-      className="break-inside-avoid relative group rounded-[2rem] overflow-hidden bg-white shadow-premium hover:shadow-2xl transition-all duration-700 hover:-translate-y-2 border border-text-main/5"
+      className="relative group rounded-[2rem] overflow-hidden bg-white shadow-premium hover:shadow-2xl transition-all duration-700 hover:-translate-y-2 border border-text-main/5 flex flex-col h-full"
     >
-      <div className="relative w-full overflow-hidden bg-primary/10">
+      <div className="relative w-full aspect-[4/5] overflow-hidden bg-primary/10 shrink-0">
         <Image
           src={bouquet.image}
           alt={bouquet.name}
-          width={600}
-          height={800}
+          fill
           priority={index < 2}
-          className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-1000 group-hover:scale-105"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
         />
         
         {/* Mobile-optimized overlay layout (always visible on touch, hover on desktop) */}
@@ -143,9 +142,9 @@ function BouquetCard({ bouquet, index }: { bouquet: any, index: number }) {
         </div>
       </div>
 
-      <div className="p-6 md:p-8 flex flex-col gap-3 bg-white relative z-10">
+      <div className="p-6 md:p-8 flex flex-col gap-3 bg-white relative z-10 flex-1">
         <div className="flex justify-between items-start gap-4">
-          <h3 className="text-xl md:text-2xl font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300">
+          <h3 className="text-xl md:text-2xl font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2 min-h-[3.2rem]">
             {bouquet.name}
           </h3>
           <div className="flex items-center gap-1 bg-primary/20 px-2 py-1 rounded-md shrink-0 mt-1">

@@ -38,8 +38,8 @@ export default function ProductCard({
   };
 
   return (
-    <div className="group relative">
-      <Link href={href} className="block relative aspect-[4/5] bg-secondary rounded-2xl overflow-hidden mb-4">
+    <div className="group relative flex flex-col h-full">
+      <Link href={href} className="block relative aspect-[4/5] bg-secondary rounded-2xl overflow-hidden mb-4 shrink-0">
         {image ? (
           <Image
             src={image}
@@ -69,8 +69,8 @@ export default function ProductCard({
         </div>
       </Link>
       
-      <div className="flex flex-col items-center text-center">
-        <Link href={href} className="font-serif text-lg hover:text-accent-gold transition-colors mb-2">
+      <div className="flex flex-col items-center text-center flex-1">
+        <Link href={href} className="font-serif text-lg hover:text-accent-gold transition-colors mb-2 line-clamp-2 min-h-[2.8rem]">
           {name}
         </Link>
         <div className="flex items-center gap-3">

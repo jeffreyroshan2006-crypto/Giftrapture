@@ -95,7 +95,7 @@ export default function FeaturedCarousel() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <div className="group relative rounded-3xl overflow-hidden bg-white shadow-premium p-4 md:p-6 transition-transform duration-500 hover:-translate-y-2">
+              <div className="group relative rounded-3xl overflow-hidden bg-white shadow-premium p-4 md:p-6 transition-transform duration-500 hover:-translate-y-2 flex flex-col h-full">
                 {/* Image Container */}
                 <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-6">
                   <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/50 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest font-bold text-text-main">
@@ -121,9 +121,9 @@ export default function FeaturedCarousel() {
                   </motion.button>
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col flex-1">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xl md:text-2xl font-serif text-text-main transition-colors group-hover:text-accent-gold cursor-pointer font-medium">
+                    <span className="text-xl md:text-2xl font-serif text-text-main transition-colors group-hover:text-accent-gold cursor-pointer font-medium line-clamp-2 min-h-[3.2rem]">
                       {item.name}
                     </span>
                     <div className="flex items-center text-accent-gold">
