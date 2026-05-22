@@ -17,7 +17,7 @@ const ALL_PRODUCTS = [
   { id: "bq-1", name: "Velvet Crimson Rose", price: 3499, image: "/images/bouquets/IMG_3893.jpg", tag: "Bestseller", category: "bouquets", relation: "For Her" },
   { id: "bq-2", name: "Ethereal White Lilies", price: 2999, image: "/images/bouquets/IMG_3894.jpg", tag: "Classic", category: "bouquets", relation: "For Parents" },
   { id: "bq-3", name: "Blush Peony Symphony", price: 4200, image: "/images/bouquets/IMG_3895.jpg", tag: "Premium", category: "bouquets", relation: "For Her" },
-  { id: "bq-4", name: "Midnight Orchid Cascade", price: 5499, image: "/images/bouquets/IMG_3897.jpg", tag: "Luxury", category: "bouquets", relation: "For Couples" },
+  { id: "bq-4", name: "Midnight Orchid Cascade", price: 5499, image: "/images/bouquets/IMG_3897.jpg", tag: "Signature", category: "bouquets", relation: "For Couples" },
   { id: "bq-5", name: "Sunset Orange Tulips", price: 2750, image: "/images/bouquets/IMG_3898.jpg", tag: "Seasonal", category: "bouquets", relation: "For Siblings" },
   { id: "bq-6", name: "Golden Sunflower Burst", price: 2299, image: "/images/bouquets/IMG_3926.png", tag: "Vibrant", category: "bouquets", relation: "For Colleagues" },
   { id: "bq-7", name: "Pastel Hydrangea Cloud", price: 3800, image: "/images/bouquets/IMG_3927.png", tag: "Elegant", category: "bouquets", relation: "For Her" },
@@ -32,7 +32,7 @@ const ALL_PRODUCTS = [
 
   // Hampers
   { id: "hm-1", name: "Royal Celebration Hamper", price: 7499, image: "/images/themed-hampers/IMG_3723.jpg", tag: "Premium", category: "hampers", relation: "For Couples" },
-  { id: "hm-2", name: "Gilded Indulgence Box", price: 6999, image: "/images/themed-hampers/IMG_3899.jpg", tag: "Luxury", category: "hampers", relation: "For Colleagues" },
+  { id: "hm-2", name: "Gilded Indulgence Box", price: 6999, image: "/images/themed-hampers/IMG_3899.jpg", tag: "Signature", category: "hampers", relation: "For Colleagues" },
   { id: "hm-3", name: "Velvet Treasure Chest", price: 5499, image: "/images/themed-hampers/IMG_3900.jpg", tag: "Bestseller", category: "hampers", relation: "For Her" },
   { id: "hm-4", name: "Midnight Bliss Hamper", price: 8200, image: "/images/themed-hampers/IMG_3912.jpg", tag: "Signature", category: "hampers", relation: "For Him" },
   { id: "hm-5", name: "Golden Glow Festive Basket", price: 4999, image: "/images/themed-hampers/IMG_3914.jpg", tag: "Festive", category: "hampers", relation: "For Parents" },
@@ -44,14 +44,14 @@ const ALL_PRODUCTS = [
   { id: "hm-11", name: "Gourmet Symphony Trunk", price: 7999, image: "/images/themed-hampers/IMG_3921.png", tag: "Gourmet", category: "hampers", relation: "For Colleagues" },
   { id: "hm-12", name: "Aura of Gold Hamper", price: 6750, image: "/images/themed-hampers/IMG_3922.png", tag: "Limited", category: "hampers", relation: "For Him" },
   { id: "hm-13", name: "Pink Petal Perfection Box", price: 4200, image: "/images/themed-hampers/IMG_3923.png", tag: "Romantic", category: "hampers", relation: "For Her" },
-  { id: "hm-14", name: "Luxury Artisan Casket", price: 8900, image: "/images/themed-hampers/IMG_3929.png", tag: "Custom", category: "hampers", relation: "For Colleagues" },
+  { id: "hm-14", name: "Artisan Casket", price: 8900, image: "/images/themed-hampers/IMG_3929.png", tag: "Custom", category: "hampers", relation: "For Colleagues" },
   { id: "hm-15", name: "Ethereal Treats Tray", price: 3600, image: "/images/themed-hampers/IMG_3938.jpg", tag: "Delight", category: "hampers", relation: "For Siblings" },
   { id: "hm-16", name: "Deluxe Wellness Hamper", price: 5800, image: "/images/themed-hampers/IMG_3940.jpg", tag: "Wellness", category: "hampers", relation: "For Parents" },
 
   // Eid Hampers
   { id: "eh-1", name: "Al-Noor Premium Eid Box", price: 6499, image: "/images/eid-hampers/IMG_3848.png", tag: "Premium", category: "eid-hampers", relation: "For Parents" },
   { id: "eh-2", name: "Hilal Delights Basket", price: 5200, image: "/images/eid-hampers/IMG_3942.png", tag: "Festive", category: "eid-hampers", relation: "For Couples" },
-  { id: "eh-3", name: "Royal Mubarak Trunk", price: 8500, image: "/images/eid-hampers/IMG_3943.png", tag: "Luxury", category: "eid-hampers", relation: "For Parents" },
+  { id: "eh-3", name: "Royal Mubarak Trunk", price: 8500, image: "/images/eid-hampers/IMG_3943.png", tag: "Signature", category: "eid-hampers", relation: "For Parents" },
   { id: "eh-4", name: "Sacred Bloom Platter", price: 4800, image: "/images/eid-hampers/IMG_3944.png", tag: "Elegant", category: "eid-hampers", relation: "For Her" },
   { id: "eh-5", name: "Barakah Abundance Hamper", price: 7299, image: "/images/eid-hampers/IMG_3945.png", tag: "Bestseller", category: "eid-hampers", relation: "For Couples" },
   { id: "eh-6", name: "Zamarud Gold Artisan Tray", price: 3999, image: "/images/eid-hampers/IMG_3946.png", tag: "Handcrafted", category: "eid-hampers", relation: "For Siblings" },
@@ -146,7 +146,7 @@ function ShopContent() {
           <span className="text-accent-gold text-xs tracking-[0.4em] uppercase font-bold mb-4 block">The Collection</span>
           <h1 className="text-5xl font-serif text-text-main italic mb-4">Discovery Shop</h1>
           <p className="text-soft-gray text-base font-light leading-relaxed max-w-xl mx-auto">
-            Refine our handcrafted collection to find the perfect luxurious gesture for your special moments.
+            Refine our handcrafted collection to find the perfect signature gesture for your special moments.
           </p>
         </div>
 
@@ -172,7 +172,7 @@ function ShopContent() {
               <div className="flex flex-col gap-2 font-medium text-sm text-soft-gray">
                 {[
                   { label: "All Masterpieces", value: "all" },
-                  { label: "Luxury Bouquets", value: "bouquets" },
+                  { label: "Signature Bouquets", value: "bouquets" },
                   { label: "Themed Hampers", value: "hampers" },
                   { label: "Eid Hampers", value: "eid-hampers" }
                 ].map((opt) => (

@@ -13,7 +13,7 @@ const items = [
     image: "/images/bouquets/IMG_3926.png",
   },
   {
-    name: "Luxury Silk Trousseau Box",
+    name: "Signature Silk Trousseau Box",
     price: "₹ 5,999",
     tag: "Handcrafted",
     image: "/images/cat-wedding.png",

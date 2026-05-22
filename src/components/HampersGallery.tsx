@@ -9,7 +9,7 @@ import { useCartStore } from "@/store/cartStore";
 
 const hampers = [
   { id: 1, name: "Royal Celebration Hamper", price: "₹ 7,499", image: "/images/themed-hampers/IMG_3723.jpg", tag: "Premium" },
-  { id: 2, name: "Gilded Indulgence Box", price: "₹ 6,999", image: "/images/themed-hampers/IMG_3899.jpg", tag: "Luxury" },
+  { id: 2, name: "Gilded Indulgence Box", price: "₹ 6,999", image: "/images/themed-hampers/IMG_3899.jpg", tag: "Signature" },
   { id: 3, name: "Velvet Treasure Chest", price: "₹ 5,499", image: "/images/themed-hampers/IMG_3900.jpg", tag: "Bestseller" },
   { id: 4, name: "Midnight Bliss Hamper", price: "₹ 8,200", image: "/images/themed-hampers/IMG_3912.jpg", tag: "Signature" },
   { id: 5, name: "Golden Glow Festive Basket", price: "₹ 4,999", image: "/images/themed-hampers/IMG_3914.jpg", tag: "Festive" },
@@ -21,7 +21,7 @@ const hampers = [
   { id: 11, name: "Gourmet Symphony Trunk", price: "₹ 7,999", image: "/images/themed-hampers/IMG_3921.png", tag: "Gourmet" },
   { id: 12, name: "Aura of Gold Hamper", price: "₹ 6,750", image: "/images/themed-hampers/IMG_3922.png", tag: "Limited" },
   { id: 13, name: "Pink Petal Perfection Box", price: "₹ 4,200", image: "/images/themed-hampers/IMG_3923.png", tag: "Romantic" },
-  { id: 14, name: "Luxury Artisan Casket", price: "₹ 8,900", image: "/images/themed-hampers/IMG_3929.png", tag: "Custom" },
+  { id: 14, name: "Artisan Casket", price: "₹ 8,900", image: "/images/themed-hampers/IMG_3929.png", tag: "Custom" },
   { id: 15, name: "Ethereal Treats Tray", price: "₹ 3,600", image: "/images/themed-hampers/IMG_3938.jpg", tag: "Delight" },
   { id: 16, name: "Deluxe Wellness & Bloom Hamper", price: "₹ 5,800", image: "/images/themed-hampers/IMG_3940.jpg", tag: "Wellness" },
 ];

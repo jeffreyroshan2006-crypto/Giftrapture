@@ -1,10 +1,10 @@
 import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Camera, MessageCircle } from "lucide-react";
 
 export const metadata = {
   title: "Contact Us | Giftrapture",
-  description: "Get in touch with Gift Rapture for luxury bouquets, custom hamper curation, and bespoke wedding trousseau services.",
+  description: "Get in touch with Gift Rapture for signature bouquets, custom hamper curation, and bespoke wedding trousseau services.",
 };
 
 export default function ContactPage() {
@@ -78,6 +78,33 @@ export default function ContactPage() {
                 Monday — Saturday: 10:00 AM - 8:00 PM<br />
                 Sunday: By Prior Appointment Only
               </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ=="
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                className="inline-flex items-center gap-3 rounded-full border border-text-main/10 bg-white px-4 py-2 shadow-premium transition-all duration-300 hover:scale-[1.02]"
+              >
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-[#f58529] via-[#dd2a7b] to-[#515bd4] shadow-lg">
+                  <Camera className="w-4 h-4 text-white" />
+                </span>
+                <span className="text-xs uppercase tracking-widest font-bold text-text-main">Instagram</span>
+              </a>
+              <a
+                href="https://wa.me/917200623758"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="WhatsApp"
+                className="inline-flex items-center gap-3 rounded-full border border-text-main/10 bg-white px-4 py-2 shadow-premium transition-all duration-300 hover:scale-[1.02]"
+              >
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[#25D366] shadow-lg">
+                  <MessageCircle className="w-4 h-4 text-white" />
+                </span>
+                <span className="text-xs uppercase tracking-widest font-bold text-text-main">WhatsApp</span>
+              </a>
             </div>
           </div>
 

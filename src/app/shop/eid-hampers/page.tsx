@@ -4,7 +4,7 @@ import EidHampersGallery from "@/components/EidHampersGallery";
 
 export const metadata = {
   title: "Eid Hampers | Giftrapture",
-  description: "Explore our curated collection of luxury Eid gifting hampers.",
+  description: "Explore our curated collection of signature Eid gifting hampers.",
 };
 
 export default function EidHampersPage() {

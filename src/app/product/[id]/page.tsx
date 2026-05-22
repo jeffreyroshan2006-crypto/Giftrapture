@@ -26,7 +26,7 @@ const PRODUCTS_POOL: Record<string, {
     price: 6800,
     image: "/images/themed-hampers/IMG_3723.jpg",
     tag: "Bestseller",
-    description: "Our signature luxury hamper packed in a majestic indigo leather trunk, decorated with dried golden lavender stems. Features top-tier organic dry fruits, custom almond dragees, and an exquisite scented soy candle.",
+    description: "Our signature premium hamper packed in a majestic indigo leather trunk, decorated with dried golden lavender stems. Features top-tier organic dry fruits, custom almond dragees, and an exquisite scented soy candle.",
     inclusions: ["Indigo Leather Trunk with Brass Latch", "Gourmet Roasted Salted Almonds (200g)", "Artisanal White Chocolate Dragees (150g)", "Midnight Lavender Scented Candle", "Handwritten Calligraphy Wish Card"],
     reviews: [
       { author: "Ananya S.", text: "Absolutely stunning presentation. It looked so grand and royal!", rating: 5 },
@@ -39,7 +39,7 @@ const PRODUCTS_POOL: Record<string, {
     price: 4200,
     image: "/images/bouquets/IMG_3895.jpg",
     tag: "Premium",
-    description: "An elegant, hand-tied luxury floral bouquet showcasing premium blush Dutch peonies, miniature pastel pink roses, and fresh eucalyptus foliage, wrapped in heavy waterproof Parisian craft paper.",
+    description: "An elegant, hand-tied premium floral bouquet showcasing premium blush Dutch peonies, miniature pastel pink roses, and fresh eucalyptus foliage, wrapped in heavy waterproof Parisian craft paper.",
     inclusions: ["10 Fresh Imported Blush Peonies", "8 Premium Miniature Pink Roses", "Fresh Eucalyptus Stems", "Parisian Waterproof Wrapping & Silk Ribbon", "Water-pack hydration wrapping"],
     reviews: [
       { author: "Sneha R.", text: "Peonies are incredibly hard to find fresh. These were pristine and smelled beautiful!", rating: 5 }
@@ -50,7 +50,7 @@ const PRODUCTS_POOL: Record<string, {
     name: "Corporate Executive Kit",
     price: 9999,
     image: "/images/themed-hampers/IMG_3899.jpg",
-    tag: "Luxury",
+    tag: "Signature",
     description: "A state-of-the-art corporate gifting case engineered for executive partnerships. Conceived with premium writing tools, insulated thermal cups, gourmet teas, and custom leather accessories.",
     inclusions: ["Sleek Charcoal Wooden Case with Logo Slot", "Insulated Brushed Gold Thermos (500ml)", "Handmade Leather Journal with Pen", "Assorted Kashmiri Saffron Tea Bags (20)", "Single Estate Organic Honey Jar with Dipper"],
     reviews: [
@@ -64,7 +64,7 @@ const PRODUCTS_POOL: Record<string, {
     image: "/images/themed-hampers/IMG_3915.jpg",
     tag: "Wedding Special",
     description: "An opulent wedding trousseau chest made of sheer wood and brass. Beautifully decorated with pastel roses, orchids, and custom net wrapping. The ultimate chest for bridal blessings.",
-    inclusions: ["Opulent Pine Wood Trousseau Trunk", "Pastel Silk Net Draping & Floral Garlands", "Curated Luxury Scented Drawer Sachets", "Custom gold foil greeting board"],
+    inclusions: ["Opulent Pine Wood Trousseau Trunk", "Pastel Silk Net Draping & Floral Garlands", "Curated Signature Scented Drawer Sachets", "Custom gold foil greeting board"],
     reviews: [
       { author: "Rahul P.", text: "Beautifully decorated! It became the centerpiece of our wedding gifts.", rating: 5 }
     ]

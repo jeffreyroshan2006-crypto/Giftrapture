@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 
 export const metadata = {
   title: "About Us | Giftrapture",
-  description: "Learn about the philosophy and craftsmanship behind Gift Rapture's luxury curated gifts.",
+  description: "Learn about the philosophy and craftsmanship behind Gift Rapture's signature curated gifts.",
 };
 
 export default function AboutPage() {
@@ -40,7 +40,7 @@ export default function AboutPage() {
         <div className="space-y-6">
           <h2 className="text-3xl md:text-4xl font-serif italic text-text-main">The Philosophy</h2>
           <p className="text-soft-gray leading-relaxed font-sans text-sm md:text-base">
-            Gift Rapture was born out of a desire to elevate gifting from a routine transaction into a deeply personalized and memorable experience. We believe that true luxury lies in the details—the texture of the handmade box, the fragrance of fresh blooms, the selection of the finest treats, and the precision of the presentation.
+            Gift Rapture was born out of a desire to elevate gifting from a routine transaction into a deeply personalized and memorable experience. We believe that true refinement lies in the details—the texture of the handmade box, the fragrance of fresh blooms, the selection of the finest treats, and the precision of the presentation.
           </p>
           <p className="text-soft-gray leading-relaxed font-sans text-sm md:text-base">
             Every bouquet we craft, every hamper we curate, and every bespoke trunk we pack is a testament to this philosophy. We search globally and source locally to present you with options that stand out and make your recipients feel genuinely cherished.
@@ -53,7 +53,7 @@ export default function AboutPage() {
         <div className="space-y-6 order-2 md:order-1">
           <h2 className="text-3xl md:text-4xl font-serif italic text-text-main">The Craftsmanship</h2>
           <p className="text-soft-gray leading-relaxed font-sans text-sm md:text-base">
-            From our signature leather trunks to reusable wooden boxes and exquisite velvet cases, we make sure that our packaging is just as precious as what lies inside. We collaborate with master artisans, florists, and gourmet curators to select high-grade nuts, fine chocolates, premium teas, and luxury wellness items.
+            From our signature leather trunks to reusable wooden boxes and exquisite velvet cases, we make sure that our packaging is just as precious as what lies inside. We collaborate with master artisans, florists, and gourmet curators to select high-grade nuts, fine chocolates, premium teas, and signature wellness items.
           </p>
           <p className="text-soft-gray leading-relaxed font-sans text-sm md:text-base">
             Whether you are choosing a single bouquet to celebrate an anniversary or seeking hundreds of tailored boxes for corporate partnerships, our team handles each request with the utmost attention, respect, and artistic refinement.

@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/cartStore";
 
 const NavLinks = [
-  { name: "Luxury Bouquets", href: "/shop/bouquets" },
+  { name: "Signature Bouquets", href: "/shop/bouquets" },
   { name: "Themed Hampers", href: "/shop/themed-hampers" },
   { name: "EID Hampers", href: "/shop/eid-hampers" },
   { name: "Corporate Gifting", href: "/services" },

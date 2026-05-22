@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const categories = [
   {
-    title: "Luxury Bouquets",
+    title: "Signature Bouquets",
     tagline: "Eternal Blooms",
     image: "/images/bouquets/IMG_3941.png",
     href: "/shop/bouquets",

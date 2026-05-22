@@ -43,7 +43,7 @@ interface Product {
 }
 
 const CATEGORIES = [
-  { value: "bouquets", label: "Luxury Bouquets", icon: Flower2 },
+  { value: "bouquets", label: "Signature Bouquets", icon: Flower2 },
   { value: "hampers", label: "Themed Hampers", icon: Gift },
   { value: "eid-hampers", label: "Eid Hampers", icon: Package },
 ] as const;
@@ -65,7 +65,7 @@ const CATEGORY_META: Record<
   }
 > = {
   bouquets: {
-    label: "Luxury Bouquets",
+    label: "Signature Bouquets",
     badge: "bg-pink-50 text-pink-700 border-pink-100",
   },
   hampers: {
@@ -305,7 +305,7 @@ function ProductModal({
                 value={tag}
                 onChange={(e) => setTag(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-text-main/10 bg-white text-text-main text-sm focus:outline-none focus:border-accent-gold/50 focus:ring-2 focus:ring-accent-gold/10 transition-all"
-                placeholder="e.g., Bestseller, Premium, Luxury"
+                placeholder="e.g., Bestseller, Premium, Signature"
               />
             </div>
           </div>
@@ -407,7 +407,7 @@ function ProductModal({
               onChange={(e) => setDescription(e.target.value)}
               rows={4}
               className="w-full px-4 py-3 rounded-xl border border-text-main/10 bg-white text-text-main text-sm focus:outline-none focus:border-accent-gold/50 focus:ring-2 focus:ring-accent-gold/10 transition-all resize-none"
-              placeholder="Describe this luxury product..."
+              placeholder="Describe this signature product..."
             />
           </div>
 
@@ -734,7 +734,7 @@ export default function AdminDashboardClient() {
             <div className="h-96 flex flex-col items-center justify-center gap-4">
               <Package className="w-12 h-12 text-soft-gray/20" />
               <p className="text-lg font-serif text-soft-gray">No products found</p>
-              <p className="text-sm text-soft-gray/60">Add your first luxury product to get started</p>
+              <p className="text-sm text-soft-gray/60">Add your first signature product to get started</p>
             </div>
           ) : (
             <div className="overflow-x-auto">

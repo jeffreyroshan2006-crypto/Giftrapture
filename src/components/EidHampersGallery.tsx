@@ -10,7 +10,7 @@ import { useCartStore } from "@/store/cartStore";
 const eidHampers = [
   { id: 1, name: "Al-Noor Premium Eid Box", price: "₹ 6,499", image: "/images/eid-hampers/IMG_3848.png", tag: "Premium" },
   { id: 2, name: "Hilal Delights Basket", price: "₹ 5,200", image: "/images/eid-hampers/IMG_3942.png", tag: "Festive" },
-  { id: 3, name: "Royal Mubarak Trunk", price: "₹ 8,500", image: "/images/eid-hampers/IMG_3943.png", tag: "Luxury" },
+  { id: 3, name: "Royal Mubarak Trunk", price: "₹ 8,500", image: "/images/eid-hampers/IMG_3943.png", tag: "Signature" },
   { id: 4, name: "Sacred Bloom Platter", price: "₹ 4,800", image: "/images/eid-hampers/IMG_3944.png", tag: "Elegant" },
   { id: 5, name: "Barakah Abundance Hamper", price: "₹ 7,299", image: "/images/eid-hampers/IMG_3945.png", tag: "Bestseller" },
   { id: 6, name: "Zamarud Gold Artisan Tray", price: "₹ 3,999", image: "/images/eid-hampers/IMG_3946.png", tag: "Handcrafted" },

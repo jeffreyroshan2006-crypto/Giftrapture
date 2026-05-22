@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, LayoutGrid, ShoppingBag, User } from "lucide-react";
+import { Home, LayoutGrid, ShoppingBag, User, Camera, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -53,6 +53,26 @@ export default function MobileBottomNav() {
             </Link>
           );
         })}
+      </div>
+      <div className="mt-3 flex items-center justify-center gap-3">
+        <a
+          href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ=="
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Instagram"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-[#f58529] via-[#dd2a7b] to-[#515bd4] shadow-lg"
+        >
+          <Camera className="w-4 h-4 text-white" />
+        </a>
+        <a
+          href="https://wa.me/917200623758"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="WhatsApp"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-[#25D366] shadow-lg"
+        >
+          <MessageCircle className="w-4 h-4 text-white" />
+        </a>
       </div>
     </nav>
   );

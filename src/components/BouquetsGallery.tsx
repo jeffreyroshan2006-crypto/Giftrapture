@@ -11,7 +11,7 @@ const bouquets = [
   { id: 1, name: "Velvet Crimson Rose", price: "₹ 3,499", image: "/images/bouquets/IMG_3893.jpg", tag: "Bestseller" },
   { id: 2, name: "Ethereal White Lilies", price: "₹ 2,999", image: "/images/bouquets/IMG_3894.jpg", tag: "Classic" },
   { id: 3, name: "Blush Peony Symphony", price: "₹ 4,200", image: "/images/bouquets/IMG_3895.jpg", tag: "Premium" },
-  { id: 4, name: "Midnight Orchid Cascade", price: "₹ 5,499", image: "/images/bouquets/IMG_3897.jpg", tag: "Luxury" },
+  { id: 4, name: "Midnight Orchid Cascade", price: "₹ 5,499", image: "/images/bouquets/IMG_3897.jpg", tag: "Signature" },
   { id: 5, name: "Sunset Orange Tulips", price: "₹ 2,750", image: "/images/bouquets/IMG_3898.jpg", tag: "Seasonal" },
   { id: 6, name: "Golden Sunflower Burst", price: "₹ 2,299", image: "/images/bouquets/IMG_3926.png", tag: "Vibrant" },
   { id: 7, name: "Pastel Hydrangea Cloud", price: "₹ 3,800", image: "/images/bouquets/IMG_3927.png", tag: "Elegant" },
@@ -45,7 +45,7 @@ export default function BouquetsGallery() {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="text-5xl md:text-7xl lg:text-8xl font-serif text-text-main mb-8 leading-tight tracking-tighter"
         >
-          Luxury <span className="italic font-light">Bouquets</span>
+          Signature <span className="italic font-light">Bouquets</span>
         </motion.h1>
         <motion.p 
           initial={{ opacity: 0, y: 20 }}

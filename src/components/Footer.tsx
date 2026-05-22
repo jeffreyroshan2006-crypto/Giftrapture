@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Camera, Globe, MessageSquare } from "lucide-react";
+import { Camera, MessageCircle } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -23,19 +23,38 @@ export default function Footer() {
                </div>
             </Link>
             <p className="text-soft-gray text-sm md:text-base mb-8 max-w-xs font-sans tracking-tight leading-relaxed">
-              Your premier destination for high-end luxury gifting, artistic bouquets, and bespoke trousseau services.
+              Your premier destination for premium gifting, artistic bouquets, and bespoke trousseau services.
             </p>
-            <div className="flex space-x-6 text-text-main justify-center lg:justify-start w-full">
-              <Link href="#" className="hover:text-accent-gold transition-colors"><Camera className="w-6 h-6" /></Link>
-              <Link href="#" className="hover:text-accent-gold transition-colors"><Globe className="w-6 h-6" /></Link>
-              <Link href="#" className="hover:text-accent-gold transition-colors"><MessageSquare className="w-6 h-6" /></Link>
+            <div className="flex space-x-5 text-text-main justify-center lg:justify-start w-full">
+              <Link
+                href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ=="
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                className="group"
+              >
+                <span className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-tr from-[#f58529] via-[#dd2a7b] to-[#515bd4] shadow-lg transition-transform duration-300 group-hover:scale-110">
+                  <Camera className="w-5 h-5 text-white" />
+                </span>
+              </Link>
+              <Link
+                href="https://wa.me/917200623758"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="WhatsApp"
+                className="group"
+              >
+                <span className="flex items-center justify-center w-11 h-11 rounded-full bg-[#25D366] shadow-lg transition-transform duration-300 group-hover:scale-110">
+                  <MessageCircle className="w-5 h-5 text-white" />
+                </span>
+              </Link>
             </div>
           </div>
 
           <div className="col-span-1 md:col-span-6 lg:col-span-2 flex flex-col items-center md:items-start text-center md:text-left w-full">
             <h4 className="font-serif text-xl font-bold mb-6">Explore</h4>
             <ul className="space-y-4 text-soft-gray text-sm font-medium tracking-tight">
-              <li><Link href="/shop/luxury-bouquets" className="hover:text-text-main transition-colors">Luxury Bouquets</Link></li>
+              <li><Link href="/shop/bouquets" className="hover:text-text-main transition-colors">Signature Bouquets</Link></li>
               <li><Link href="/shop/themed-hampers" className="hover:text-text-main transition-colors">Themed Hampers</Link></li>
               <li><Link href="/shop/eid-hampers" className="hover:text-text-main transition-colors">EID Hampers</Link></li>
               <li><Link href="/shop/custom-box" className="hover:text-text-main transition-colors">Make Your Own Box</Link></li>
@@ -59,7 +78,7 @@ export default function Footer() {
 
           <div className="col-span-1 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
             <h4 className="font-serif text-xl font-bold mb-6 italic">Gifts of Elegance, <span className="font-bold not-italic">Directly to You.</span></h4>
-            <p className="text-soft-gray text-sm mb-6 max-w-xs font-sans tracking-tight">Subscribe for exclusive access to new collections and luxury gifting tips.</p>
+            <p className="text-soft-gray text-sm mb-6 max-w-xs font-sans tracking-tight">Subscribe for exclusive access to new collections and gifting tips.</p>
             <div className="relative w-full max-w-sm">
               <input
                 type="email"
@@ -90,8 +109,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-12 border-t border-text-main/5 flex flex-col md:flex-row items-center justify-between text-[10px] md:text-xs uppercase tracking-[0.2em] text-soft-gray font-bold">
+        <div className="pt-12 border-t border-text-main/5 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] md:text-xs uppercase tracking-[0.2em] text-soft-gray font-bold">
           <p>© {new Date().getFullYear()} Gift Rapture. All rights reserved.</p>
+          <p className="text-center md:text-right">
+            Worldclass site built by Veloce Web Development · <Link href="https://velocenow.com" className="underline decoration-text-main/30 underline-offset-4 hover:text-text-main transition-colors">velocenow.com</Link>
+          </p>
         </div>
       </div>
     </footer>

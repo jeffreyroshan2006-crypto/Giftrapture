@@ -3,11 +3,11 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import BouquetsGallery from "@/components/BouquetsGallery";
 
 export const metadata = {
-  title: "Luxury Bouquets | Giftrapture",
-  description: "Explore our collection of world-class, exquisite luxury bouquets.",
+  title: "Signature Bouquets | Giftrapture",
+  description: "Explore our collection of world-class, exquisite signature bouquets.",
 };
 
-export default function LuxuryBouquetsPage() {
+export default function SignatureBouquetsPage() {
   return (
     <main className="min-h-screen bg-secondary relative overflow-x-hidden">
       <Navbar />

@@ -6,7 +6,7 @@ const supabaseAnonKey =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "dummy-anon-key-for-prerender-evaluation";
 
 // Server-side Supabase client — only import in Server Components (.tsx) or Server Actions.
-export async function getServerClient() {
+export async function getServerClient({ canSetCookies = false }: { canSetCookies?: boolean } = {}) {
   const cookieStore = await cookies();
   return createSupabaseServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
@@ -14,6 +14,7 @@ export async function getServerClient() {
         return cookieStore.getAll();
       },
       setAll(cookiesToSet) {
+        if (!canSetCookies) return;
         cookiesToSet.forEach(({ name, value, options }) => {
           cookieStore.set(name, value, options);
         });

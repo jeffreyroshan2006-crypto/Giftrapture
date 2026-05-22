@@ -8,7 +8,7 @@ import { Check, Plus, Minus, ShoppingBag, Gift } from "lucide-react";
 import Image from "next/image";
 
 const PACKAGING_OPTIONS = [
-  { id: "box-craft", name: "Luxe Craft Cardboard Box", price: 350, description: "Minimalist eco-luxury packaging with signature silk ribbon." },
+  { id: "box-craft", name: "Luxe Craft Cardboard Box", price: 350, description: "Minimalist eco-premium packaging with signature silk ribbon." },
   { id: "box-pine", name: "Premium Pine Wood Trunk", price: 750, description: "Solid, reusable wooden trunk with brass latch for a rustic-royal charm." },
   { id: "box-velvet", name: "Imperial Royal Velvet Chest", price: 1200, description: "Soft, deep velvet casing lined with gold satin sheets." },
   { id: "basket-wicker", name: "Heritage Wicker Basket", price: 480, description: "Handwoven basket finished with satin lining and a custom tag." },

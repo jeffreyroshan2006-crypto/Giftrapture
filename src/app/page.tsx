@@ -170,7 +170,7 @@ export default function Home() {
             {[
               { text: "The presentation was breathtaking. It felt less like a gift and more like an experience.", author: "Aanya S." },
               { text: "We trusted them with our corporate Diwali hampers, and the feedback was incredible.", author: "Rajiv M." },
-              { text: "Perfect trousseau packing! It was elegant, cohesive, and incredibly luxurious.", author: "Sneha V." }
+              { text: "Perfect trousseau packing! It was elegant, cohesive, and incredibly refined.", author: "Sneha V." }
             ].map((review, i) => (
               <div key={i} className="bg-white p-8 rounded-3xl shadow-sm text-center">
                 <p className="text-soft-gray italic mb-6">"{review.text}"</p>

@@ -40,7 +40,7 @@ export default function CartPage() {
                <ShoppingBag className="w-10 h-10 text-accent-gold" />
             </div>
             <h2 className="text-2xl font-serif mb-4 italic">Your bag is empty</h2>
-            <p className="text-sm text-soft-gray mb-10">Start your luxury gifting journey and discover curated moments.</p>
+            <p className="text-sm text-soft-gray mb-10">Start your gifting journey and discover curated moments.</p>
             <Link 
               href="/shop"
               className="flex items-center gap-2 group px-8 py-3 bg-text-main text-white font-bold rounded-full transition-all duration-300 hover:shadow-2xl"

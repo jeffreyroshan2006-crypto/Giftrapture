@@ -18,7 +18,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-primary/20">
            <Image 
             src="/images/hero.png" 
-            alt="Gift Rapture Luxury" 
+            alt="Gift Rapture Signature" 
             fill 
             className="object-cover"
             priority 
@@ -34,7 +34,7 @@ export default function Hero() {
            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-[10px] md:text-xs tracking-[0.3em] font-sans text-white uppercase font-bold mb-8 shadow-2xl">
-             Luxury Gifting Reimagined
+            Signature Gifting Reimagined
           </span>
           <h1 className="text-5xl md:text-8xl font-serif text-white tracking-tighter leading-[0.9] mb-10 drop-shadow-2xl">
             Curated Elegance <br/> <span className="italic font-normal">For Every Occasion</span>

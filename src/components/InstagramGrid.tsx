@@ -56,6 +56,14 @@ export default function InstagramGrid() {
         <p className="text-soft-gray max-w-sm font-sans tracking-tight text-sm font-medium leading-relaxed opacity-80">
           Tag us @GiftRapture to be featured in our gallery of elegant celebrations.
         </p>
+        <a
+          href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ=="
+          target="_blank"
+          rel="noreferrer"
+          className="mt-6 inline-flex items-center gap-2 rounded-full border border-accent-gold/40 px-6 py-3 text-xs uppercase tracking-[0.3em] font-bold text-text-main transition-colors hover:border-accent-gold hover:text-accent-gold"
+        >
+          Visit Instagram
+        </a>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-12 md:grid-rows-2 gap-4 md:gap-6">

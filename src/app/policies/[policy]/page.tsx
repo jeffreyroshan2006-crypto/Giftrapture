@@ -18,7 +18,7 @@ const policies: Record<string, PolicyContent> = {
       {
         title: "1. Premium Packing & Protection",
         paragraphs: [
-          "All Gift Rapture hampers, corporate kits, and luxury bouquets are meticulously secured in double-strength insulated packaging to ensure they survive temperature variations and rough handling during transport.",
+          "All Gift Rapture hampers, corporate kits, and signature bouquets are meticulously secured in double-strength insulated packaging to ensure they survive temperature variations and rough handling during transport.",
           "Our fresh flowers are delivered in specialized water-packs to preserve their freshness for up to 48 hours in transit."
         ]
       },
@@ -79,7 +79,7 @@ const policies: Record<string, PolicyContent> = {
         title: "2. Non-Perishable Custom Hampers",
         paragraphs: [
           "Custom hampers, leather trunks, and wooden boxes are tailored specifically for each customer and are non-refundable.",
-          "For standard boxed gifts that do not contain flowers or fresh items, returns are accepted within 3 days of arrival if the original seals and luxury tags remain completely intact."
+          "For standard boxed gifts that do not contain flowers or fresh items, returns are accepted within 3 days of arrival if the original seals and signature tags remain completely intact."
         ]
       },
       {
@@ -98,7 +98,7 @@ const policies: Record<string, PolicyContent> = {
         title: "1. Service Agreements",
         paragraphs: [
           "By accessing the Gift Rapture site, placing custom orders, or utilizing our WhatsApp checkout, you consent to our terms of curated service and custom-designed policies.",
-          "All luxury branding, product concepts, design assets, and photos displayed on our site are the exclusive intellectual property of Gift Rapture."
+          "All signature branding, product concepts, design assets, and photos displayed on our site are the exclusive intellectual property of Gift Rapture."
         ]
       },
       {
