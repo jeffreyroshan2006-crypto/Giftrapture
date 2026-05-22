@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { ShoppingBag, Star, Heart, Check } from "lucide-react";
+import Link from "next/link";
 import { useCartStore } from "@/store/cartStore";
 
 const hampers = [
@@ -115,11 +116,25 @@ function HamperCard({ hamper, index }: { hamper: any, index: number }) {
           </span>
         </div>
 
-        <button className="absolute top-5 right-5 z-20 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-text-main hover:text-accent-gold hover:scale-110 transition-all duration-300 shadow-sm lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-4 lg:group-hover:translate-y-0">
-          <Heart className="w-5 h-5" />
-        </button>
+        <div className="absolute top-5 right-5 z-20 flex flex-col items-end gap-2">
+          <Link
+            href="/shop/custom-box"
+            className="px-3 py-2 bg-text-main text-white text-[9px] font-bold uppercase tracking-[0.3em] rounded-full shadow-lg"
+          >
+            Customize
+          </Link>
+          <button className="w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-text-main hover:text-accent-gold hover:scale-110 transition-all duration-300 shadow-sm lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-4 lg:group-hover:translate-y-0">
+            <Heart className="w-5 h-5" />
+          </button>
+        </div>
 
-        <div className="absolute bottom-6 left-6 right-6 z-20 flex justify-center lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-8 lg:group-hover:translate-y-0 transition-all duration-500 delay-100">
+        <div className="absolute bottom-6 left-6 right-6 z-20 flex flex-col gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-8 lg:group-hover:translate-y-0 transition-all duration-500 delay-100">
+          <Link
+            href="/shop/custom-box"
+            className="w-full py-3 text-center font-bold rounded-2xl bg-accent-gold/95 text-text-main text-[11px] uppercase tracking-widest shadow-2xl hover:bg-accent-gold transition-all"
+          >
+            Customize This Item
+          </Link>
           <button 
             onClick={handleAdd}
             className={`w-full py-4 font-bold rounded-2xl flex items-center justify-center gap-2 transition-all duration-300 shadow-2xl text-sm uppercase tracking-widest ${

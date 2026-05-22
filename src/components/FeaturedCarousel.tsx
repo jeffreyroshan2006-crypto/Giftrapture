@@ -1,11 +1,9 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { ShoppingBag, Star, ArrowRight, ArrowLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const items = [
   {

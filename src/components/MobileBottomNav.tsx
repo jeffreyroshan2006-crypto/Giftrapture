@@ -17,7 +17,7 @@ export default function MobileBottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/80 backdrop-blur-xl border-t border-text-main/5 pb-5 pt-3 px-6 shadow-2xl safe-area-inset-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-gradient-to-r from-accent-gold/30 via-secondary/90 to-accent-sage/30 backdrop-blur-xl border-t border-text-main/5 pb-5 pt-3 px-6 shadow-2xl safe-area-inset-bottom">
       <div className="flex items-center justify-between max-w-sm mx-auto">
         {Tabs.map((tab) => {
           const isActive = pathname === tab.href;

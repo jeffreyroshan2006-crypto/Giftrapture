@@ -7,7 +7,7 @@
   /* Curated Premium Palette mapped to v4 theme */
   --color-primary: #F8E8E8;
   --color-secondary: #FCFBF9;
-  --color-accent-gold: #E5D5C8;
+  --color-accent-gold: #C9A227;
   --color-accent-sage: #9EB2A0;
   --color-text-main: #2C1E1E;
   --color-soft-gray: #7A7A7A;
@@ -71,7 +71,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #E5D5C8;
+  background: #C9A227;
   border-radius: 10px;
 }
 

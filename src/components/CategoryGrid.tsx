@@ -42,36 +42,25 @@ const categories = [
     href: "/services/corporate",
     className: "col-span-1 md:col-span-12 h-[350px] md:h-[400px]",
   },
+  {
+    title: "Custom Box",
+    tagline: "Build Your Own",
+    image: "/images/themed-hampers/IMG_3912.jpg",
+    href: "/shop/custom-box",
+    className: "col-span-1 md:col-span-7 h-[350px] md:h-[400px]",
+  },
+  {
+    title: "How It Works",
+    tagline: "The 4-Step Journey",
+    image: "/images/cat-occasional.png",
+    href: "/how-it-works",
+    className: "col-span-1 md:col-span-5 h-[350px] md:h-[400px]",
+  },
 ];
 
 export default function CategoryGrid() {
   return (
     <section className="py-24 px-6 max-w-7xl mx-auto overflow-hidden">
-      <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-4">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <span className="text-accent-sage font-sans text-xs uppercase tracking-[0.3em] font-semibold mb-4 block">
-            Collections
-          </span>
-          <h2 className="text-4xl md:text-6xl font-serif text-text-main tracking-tighter leading-tight drop-shadow-sm">
-            Elevating Every <br /> <span className="italic font-normal">Gifting Gesture</span>
-          </h2>
-        </motion.div>
-
-        <motion.p
-          className="text-soft-gray max-w-sm font-sans tracking-tight text-sm font-medium leading-relaxed"
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          Explore our meticulously crafted collections designed to celebrate the most precious moments of your life with unparalleled elegance.
-        </motion.p>
-      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
         {categories.map((category, index) => (

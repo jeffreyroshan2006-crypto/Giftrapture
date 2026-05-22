@@ -4,7 +4,7 @@ import { Camera, Globe, MessageSquare } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="pt-24 pb-32 md:pb-12 px-6 border-t border-text-main/5 bg-white">
+    <footer className="pt-24 pb-32 md:pb-12 px-6 border-t border-text-main/5 bg-gradient-to-br from-white via-secondary to-accent-gold/10">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
           <div className="col-span-1 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
@@ -39,7 +39,10 @@ export default function Footer() {
               <li><Link href="/shop/themed-hampers" className="hover:text-text-main transition-colors">Themed Hampers</Link></li>
               <li><Link href="/shop/eid-hampers" className="hover:text-text-main transition-colors">EID Hampers</Link></li>
               <li><Link href="/shop/custom-box" className="hover:text-text-main transition-colors">Make Your Own Box</Link></li>
-              <li><Link href="/about" className="hover:text-text-main transition-colors">About Us</Link></li>
+              <li><Link href="/our-story" className="hover:text-text-main transition-colors">Our Story</Link></li>
+              <li><Link href="/how-it-works" className="hover:text-text-main transition-colors">How It Works</Link></li>
+              <li><Link href="/faq" className="hover:text-text-main transition-colors">FAQ</Link></li>
+              <li><Link href="/delivery-info" className="hover:text-text-main transition-colors">Delivery Information</Link></li>
               <li><Link href="/blogs" className="hover:text-text-main transition-colors">Blogs</Link></li>
             </ul>
           </div>

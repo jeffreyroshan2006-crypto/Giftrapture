@@ -115,14 +115,13 @@ export default function AdminLoginPage() {
               </label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-soft-gray/70" />
-                <input
-                  type="text"
-                  value={identifier}
-                  onChange={(e) => setIdentifier(e.target.value)}
-                  placeholder="admin@giftrapture.com or +91 72006 23758"
-                  required
-                  className="w-full pl-12 pr-4 py-4 rounded-2xl border border-text-main/10 bg-secondary/50 text-text-main text-sm focus:outline-none focus:border-accent-gold/50 focus:ring-2 focus:ring-accent-gold/10 transition-all placeholder:text-soft-gray/40"
-                />
+                  <input
+                    type="text"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    required
+                    className="w-full pl-12 pr-4 py-4 rounded-2xl border border-text-main/10 bg-secondary/50 text-text-main text-sm focus:outline-none focus:border-accent-gold/50 focus:ring-2 focus:ring-accent-gold/10 transition-all placeholder:text-soft-gray/40"
+                  />
               </div>
             </div>
 

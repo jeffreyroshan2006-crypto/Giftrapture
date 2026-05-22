@@ -76,6 +76,8 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
   const product = useMemo(() => PRODUCTS_POOL[id], [id]);
   const addItem = useCartStore((state) => state.addItem);
   const [successMessage, setSuccessMessage] = useState(false);
+  const [shippingZone, setShippingZone] = useState("chennai");
+  const [shippingSpeed, setShippingSpeed] = useState("standard");
 
   if (!product) {
     notFound();
@@ -92,6 +94,12 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     setSuccessMessage(true);
     setTimeout(() => setSuccessMessage(false), 3000);
   };
+
+  const shippingCost = useMemo(() => {
+    const base = shippingZone === "chennai" ? 150 : 450;
+    const speedFee = shippingSpeed === "express" ? 300 : 0;
+    return base + speedFee;
+  }, [shippingZone, shippingSpeed]);
 
   return (
     <main className="min-h-screen bg-secondary">
@@ -169,6 +177,64 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                   ✓ Successfully added to your bag!
                 </div>
               )}
+            </div>
+
+            <div className="bg-white p-6 rounded-[2rem] border border-text-main/5 shadow-sm space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="font-serif italic text-lg font-bold text-text-main">Shipping Calculator</h3>
+                <Link href="/delivery-info" className="text-[10px] uppercase tracking-widest font-bold text-accent-gold">
+                  View Delivery Info
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold uppercase tracking-widest text-text-main/70">
+                <div className="space-y-2">
+                  <p>Delivery Zone</p>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { id: "chennai", label: "Chennai" },
+                      { id: "pan-india", label: "Pan-India" }
+                    ].map((zone) => (
+                      <button
+                        key={zone.id}
+                        onClick={() => setShippingZone(zone.id)}
+                        className={`px-3 py-2 rounded-full border text-[10px] transition-all ${
+                          shippingZone === zone.id
+                            ? "bg-text-main text-white border-text-main"
+                            : "border-text-main/10 text-soft-gray bg-secondary/20"
+                        }`}
+                      >
+                        {zone.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <p>Speed</p>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { id: "standard", label: "Standard" },
+                      { id: "express", label: "Express" }
+                    ].map((speed) => (
+                      <button
+                        key={speed.id}
+                        onClick={() => setShippingSpeed(speed.id)}
+                        className={`px-3 py-2 rounded-full border text-[10px] transition-all ${
+                          shippingSpeed === speed.id
+                            ? "bg-text-main text-white border-text-main"
+                            : "border-text-main/10 text-soft-gray bg-secondary/20"
+                        }`}
+                      >
+                        {speed.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-text-main/10">
+                <span className="text-xs uppercase tracking-widest text-soft-gray font-bold">Estimated Shipping</span>
+                <span className="text-lg font-serif text-accent-gold font-bold">₹{shippingCost}</span>
+              </div>
+              <p className="text-[11px] text-soft-gray">Chennai same-day options may include a rush fee for select items.</p>
             </div>
 
             {/* Premium Trust Accoutrements */}
