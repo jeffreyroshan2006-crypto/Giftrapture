@@ -109,7 +109,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-12 border-t border-text-main/5 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] md:text-xs uppercase tracking-[0.2em] text-soft-gray font-bold">
+        <div className="pt-12 border-t border-text-main/5 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] md:text-xs uppercase tracking-[0.2em] text-soft-gray font-bold text-center md:text-left">
           <p>© {new Date().getFullYear()} Gift Rapture. All rights reserved.</p>
           <p className="text-center md:text-right">
             Worldclass site built by Veloce Web Development · <Link href="https://velocenow.com" className="underline decoration-text-main/30 underline-offset-4 hover:text-text-main transition-colors">velocenow.com</Link>
