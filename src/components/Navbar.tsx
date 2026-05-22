@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ShoppingBag, Search, Menu, X, User } from "lucide-react";
+import { ShoppingBag, Search, Menu, X, User, Camera, MessageCircle, PhoneCall, MapPin, Clock } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -181,12 +181,43 @@ export default function Navbar() {
                   </motion.div>
                 ))}
               </div>
-              <div className="mt-auto pt-10 border-t border-text-main/10 flex flex-col space-y-4">
-                <p className="text-sm text-soft-gray">Express Delivery Available</p>
-                <div className="flex space-x-4">
-                  <div className="w-8 h-8 rounded-full bg-primary/30" />
-                  <div className="w-8 h-8 rounded-full bg-primary/30" />
-                  <div className="w-8 h-8 rounded-full bg-primary/30" />
+              <div className="mt-auto pt-10 border-t border-text-main/10 space-y-6">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] font-bold text-accent-sage">Concierge</p>
+                  <p className="text-sm text-soft-gray mt-2 flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-accent-gold" />
+                    Mon–Sat · 10:00 AM – 8:00 PM
+                  </p>
+                </div>
+                <div className="space-y-2 text-sm text-soft-gray">
+                  <p className="flex items-center gap-2">
+                    <PhoneCall className="w-4 h-4 text-accent-gold" />
+                    +91 72006 23758
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-accent-gold" />
+                    Chennai, Tamil Nadu
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <a
+                    href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ=="
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Instagram"
+                    className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-tr from-[#f58529] via-[#dd2a7b] to-[#515bd4] shadow-lg"
+                  >
+                    <Camera className="w-5 h-5 text-white" />
+                  </a>
+                  <a
+                    href="https://wa.me/917200623758"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="WhatsApp"
+                    className="flex items-center justify-center w-11 h-11 rounded-full bg-[#25D366] shadow-lg"
+                  >
+                    <MessageCircle className="w-5 h-5 text-white" />
+                  </a>
                 </div>
               </div>
             </motion.div>
