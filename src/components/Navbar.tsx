@@ -13,6 +13,7 @@ const NavLinks = [
   { name: "Themed Hampers", href: "/shop/themed-hampers" },
   { name: "EID Hampers", href: "/shop/eid-hampers" },
   { name: "Corporate Gifting", href: "/services" },
+  { name: "CUSTOM BOX", href: "/shop/custom-box", isPrimary: true },
 ];
 
 export default function Navbar() {
@@ -47,7 +48,9 @@ export default function Navbar() {
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 py-4",
-          scrolled ? "bg-white py-3 shadow-sm" : "bg-white/90 backdrop-blur-md py-4 shadow-sm"
+            scrolled
+              ? "bg-white/95 py-3 shadow-sm"
+              : "bg-white/80 backdrop-blur-md py-4 shadow-sm"
         )}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -69,11 +72,8 @@ export default function Navbar() {
                />
             </div>
             <div className="flex flex-col">
-              <span className="font-serif text-xl md:text-2xl tracking-tighter text-text-main font-bold leading-none transition-all duration-500 group-hover:tracking-normal">
-                GIFT RAPTURE
-              </span>
-              <span className="text-[8px] md:text-[10px] tracking-[0.3em] font-sans text-accent-sage uppercase font-medium mt-1">
-                Curated Elegance
+              <span className="font-serif text-xl md:text-2xl text-text-main font-bold leading-none">
+                GIFTRAPTURE
               </span>
             </div>
           </Link>
@@ -83,10 +83,17 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-text-main/80 hover:text-text-main transition-colors relative group"
+                className={cn(
+                  "text-sm font-medium transition-colors relative group",
+                  link.isPrimary
+                    ? "text-text-main bg-accent-gold/60 border border-accent-gold/50 px-4 py-2 rounded-full shadow-sm hover:bg-accent-gold"
+                    : "text-text-main/80 hover:text-text-main"
+                )}
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent-gold transition-all duration-300 group-hover:w-full" />
+                {!link.isPrimary && (
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent-gold transition-all duration-300 group-hover:w-full" />
+                )}
               </Link>
             ))}
           </nav>

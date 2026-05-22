@@ -1,7 +1,6 @@
 import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import Hero from "@/components/Hero";
-import CategoryGrid from "@/components/CategoryGrid";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
 import InstagramGrid from "@/components/InstagramGrid";
 import ProductCard from "@/components/ProductCard";
@@ -16,9 +15,6 @@ export default function Home() {
 
       {/* Hero Section */}
       <Hero />
-
-      {/* Category Bento Grid */}
-      <CategoryGrid />
 
       {/* Featured Products */}
       <FeaturedCarousel />

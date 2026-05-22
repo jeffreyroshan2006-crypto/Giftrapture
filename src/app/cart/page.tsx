@@ -22,7 +22,7 @@ export default function CartPage() {
     message += `\n*Total Amount:* ₹${getTotal()}\n\nPlease confirm availability and payment details. Thank you!`;
     
     // Replace this with your actual WhatsApp business number (with country code)
-    const phoneNumber = "919999999999"; 
+    const phoneNumber = "917200623758"; 
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     
     window.open(whatsappUrl, '_blank');
