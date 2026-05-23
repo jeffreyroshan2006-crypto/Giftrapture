@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
 export default function LoginPage() {
-  redirect("/profile");
+  // Login page removed — redirect to home
+  redirect("/");
 }

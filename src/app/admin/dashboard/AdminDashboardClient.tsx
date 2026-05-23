@@ -568,11 +568,17 @@ export default function AdminDashboardClient() {
       if (data.id) {
         // Update
         const { error } = await supabaseClient.from("products").update(data).eq("id", data.id);
-        if (error) throw error;
+        if (error) {
+          console.error("Error updating product:", error);
+          throw new Error((error as any)?.message || "Failed to update product");
+        }
       } else {
         // Create
         const { error } = await supabaseClient.from("products").insert([data]);
-        if (error) throw error;
+        if (error) {
+          console.error("Error creating product:", error);
+          throw new Error((error as any)?.message || "Failed to create product");
+        }
       }
       await fetchProducts();
       setModalOpen(false);
@@ -594,7 +600,10 @@ export default function AdminDashboardClient() {
         .from("products")
         .delete()
         .eq("id", deleteProduct.id);
-      if (error) throw error;
+      if (error) {
+        console.error("Error deleting product:", error);
+        throw new Error((error as any)?.message || "Failed to delete product");
+      }
       setDeleteProduct(null);
       await fetchProducts();
     } catch (err: any) {

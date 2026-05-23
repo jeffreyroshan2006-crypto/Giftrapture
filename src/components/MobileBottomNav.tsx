@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, LayoutGrid, ShoppingBag, User } from "lucide-react";
+import { Home, LayoutGrid, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -10,7 +10,6 @@ const Tabs = [
   { icon: Home, label: "Home", href: "/" },
   { icon: LayoutGrid, label: "Explore", href: "/categories" },
   { icon: ShoppingBag, label: "Cart", href: "/cart" },
-  { icon: User, label: "Profile", href: "/profile" },
 ];
 
 export default function MobileBottomNav() {

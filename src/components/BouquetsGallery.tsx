@@ -3,7 +3,7 @@
 import { motion, useScroll } from "framer-motion";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { ShoppingBag, Star, Heart, Check } from "lucide-react";
+import { ShoppingBag, Star, Check } from "lucide-react";
 import Link from "next/link";
 import { useCartStore } from "@/store/cartStore";
 
@@ -122,9 +122,6 @@ function BouquetCard({ bouquet, index }: { bouquet: any, index: number }) {
           >
             Customize
           </Link>
-          <button className="w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-text-main hover:text-accent-gold hover:scale-110 transition-all duration-300 shadow-sm lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-4 lg:group-hover:translate-y-0">
-            <Heart className="w-5 h-5" />
-          </button>
         </div>
 
         <div className="absolute bottom-6 left-6 right-6 z-20 flex flex-col gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-8 lg:group-hover:translate-y-0 transition-all duration-500 delay-100">

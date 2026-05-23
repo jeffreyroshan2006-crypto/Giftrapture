@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, ShoppingBag, Heart, Search, Check } from "lucide-react";
+import { Star, ShoppingBag, Search, Check } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useState, useMemo, useEffect, Suspense } from "react";
 import { supabase } from "@/lib/supabaseClient";
@@ -73,7 +73,11 @@ function SearchContent() {
           .select("*")
           .order("created_at", { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+          console.error("Supabase error fetching search products:", error);
+          console.warn("Supabase fetch failed. Using local fallback dataset.");
+          return;
+        }
         if (data && data.length > 0) {
           const casted = data.map((p: any) => ({
             ...p,
@@ -168,7 +172,7 @@ function SearchContent() {
                         Customize
                       </Link>
                       <button className="w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-text-main hover:text-accent-gold hover:scale-110 transition-all duration-300 shadow-sm lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-4 lg:group-hover:translate-y-0">
-                        <Heart className="w-5 h-5" />
+                          <Check className="w-5 h-5" />
                       </button>
                     </div>
 

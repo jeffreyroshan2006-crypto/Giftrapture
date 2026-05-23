@@ -135,7 +135,17 @@ export default function PortfolioGrid() {
       setLoading(true);
       try {
         const { data, error } = await supabase.from("products").select("*");
-        if (error) throw error;
+        if (error) {
+          console.error("Supabase error fetching portfolio products:", error);
+          console.error("Error details:", {
+            message: (error as any)?.message,
+            code: (error as any)?.code,
+            status: (error as any)?.status,
+          });
+          setProducts([]);
+          setFiltered([]);
+          return;
+        }
         const sorted = (data || []).sort((a: Product, b: Product) => a.name.localeCompare(b.name));
         setProducts(sorted);
         setFiltered(sorted);

@@ -130,9 +130,7 @@ export default function Navbar() {
               </button>
             )}
             
-            <Link href="/login" className="p-2 text-text-main hover:bg-primary/20 rounded-full transition-colors hidden sm:block">
-              <User className="w-5 h-5" />
-            </Link>
+            {/* customer login removed */}
 
             <Link href="/cart" className="p-2 text-text-main hover:bg-primary/20 rounded-full transition-colors relative block">
               <ShoppingBag className="w-5 h-5" />

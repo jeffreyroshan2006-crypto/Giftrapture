@@ -53,7 +53,15 @@ export default function AdminOrdersClient() {
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (fetchError) throw fetchError;
+      if (fetchError) {
+        console.error("Supabase error fetching orders:", fetchError);
+        console.error("Error details:", {
+          message: (fetchError as any)?.message,
+          code: (fetchError as any)?.code,
+          status: (fetchError as any)?.status,
+        });
+        throw new Error((fetchError as any)?.message || "Failed to fetch orders");
+      }
       setOrders(((data as OrderRecord[]) || []).filter(Boolean));
     } catch (err: any) {
       console.error("Fetch orders error:", err);
