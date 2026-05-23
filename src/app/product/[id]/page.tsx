@@ -2,7 +2,7 @@
 
 import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
-import { useState, useMemo } from "react";
+import { useState, useMemo, use } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { ShoppingBag, Star, Heart, ArrowLeft, ShieldCheck, Truck, RefreshCw } from "lucide-react";
 import Image from "next/image";
@@ -71,8 +71,8 @@ const PRODUCTS_POOL: Record<string, {
   }
 };
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const product = useMemo(() => PRODUCTS_POOL[id], [id]);
   const addItem = useCartStore((state) => state.addItem);
   const [successMessage, setSuccessMessage] = useState(false);

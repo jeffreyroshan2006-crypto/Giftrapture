@@ -5,6 +5,7 @@ import FeaturedCarousel from "@/components/FeaturedCarousel";
 import InstagramGrid from "@/components/InstagramGrid";
 import ProductCard from "@/components/ProductCard";
 import PortfolioGrid from "@/components/PortfolioGrid";
+import BrandExcellenceShowcase from "@/components/BrandExcellenceShowcase";
 import { ArrowRight, Mail, Camera, Globe, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -117,11 +118,8 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="relative w-full md:w-[400px] h-[300px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl skew-y-3 md:skew-y-6 transition-transform duration-700 group-hover:skew-y-0 transform-gpu bg-primary/20">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-8">
-                <span className="text-white/60 text-[10px] tracking-widest font-bold uppercase mb-2">Brand Excellence</span>
-                <h3 className="text-2xl font-serif text-white">Curated <br /> Perfection</h3>
-              </div>
+            <div className="relative w-full md:w-[400px] h-[300px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl skew-y-3 md:skew-y-6 transition-transform duration-700 group-hover:skew-y-0 transform-gpu">
+              <BrandExcellenceShowcase />
             </div>
           </div>
         </div>
