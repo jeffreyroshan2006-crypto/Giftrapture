@@ -5,6 +5,7 @@ import FeaturedCarousel from "@/components/FeaturedCarousel";
 import InstagramGrid from "@/components/InstagramGrid";
 import ProductCard from "@/components/ProductCard";
 import PortfolioGrid from "@/components/PortfolioGrid";
+import BespokePreviewBox from "@/components/BespokePreviewBox";
 import { ArrowRight, Mail, Camera, Globe, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -94,10 +95,10 @@ export default function Home() {
 
       {/* Promotional Section */}
       <section className="py-24 px-6 md:px-12">
-        <div className="max-w-7xl mx-auto rounded-[3rem] md:rounded-[4rem] bg-text-main text-white p-8 md:p-20 relative overflow-hidden group shadow-2xl">
+        <div className="max-w-7xl mx-auto rounded-[3rem] md:rounded-[4rem] bg-text-main text-white p-8 md:p-16 lg:p-20 relative overflow-hidden group shadow-2xl">
           <div className="absolute inset-0 bg-gradient-to-br from-accent-gold/20 via-transparent to-accent-sage/20 opacity-40 transition-opacity group-hover:opacity-60" />
 
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 text-center lg:text-left">
             <div className="max-w-2xl">
               <span className="text-accent-gold text-[10px] md:text-xs tracking-[0.3em] font-sans uppercase font-bold mb-6 block">
                 Bespoke Services
@@ -117,7 +118,9 @@ export default function Home() {
               </Link>
             </div>
 
-  
+            <div className="w-full lg:max-w-md shrink-0 flex justify-center">
+              <BespokePreviewBox />
+            </div>
           </div>
         </div>
       </section>

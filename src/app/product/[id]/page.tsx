@@ -2,7 +2,7 @@
 
 import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
-import { useState, useMemo, use } from "react";
+import { useState, useMemo, use, useEffect } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { ShoppingBag, Star, Heart, ArrowLeft, ShieldCheck, Truck, RefreshCw } from "lucide-react";
 import Image from "next/image";
@@ -68,18 +68,158 @@ const PRODUCTS_POOL: Record<string, {
     reviews: [
       { author: "Rahul P.", text: "Beautifully decorated! It became the centerpiece of our wedding gifts.", rating: 5 }
     ]
+  },
+  "bq-6": {
+    id: "bq-6",
+    name: "Classic Ranunculus Bouquet",
+    price: 2499,
+    image: "/images/bouquets/IMG_3926.png",
+    tag: "Best Seller",
+    description: "A breathtaking hand-tied bouquet featuring fresh imported ranunculus, garden roses, and eucalyptus foliage, wrapped in premium Parisian craft paper. Perfect for birthdays, anniversaries, and heartfelt celebrations.",
+    inclusions: ["Fresh Imported Ranunculus Stems", "Premium Garden Roses", "Fresh Eucalyptus Foliage", "Parisian Craft Paper Wrapping & Silk Ribbon", "Handwritten Luxury Note Card"],
+    reviews: [
+      { author: "Priya M.", text: "The ranunculus were incredibly fresh and lasted over a week. Stunning presentation!", rating: 5 },
+      { author: "Arjun K.", text: "Beautiful bouquet, exactly as pictured. My wife loved it.", rating: 5 }
+    ]
+  },
+  "hm-6": {
+    id: "hm-6",
+    name: "Signature Silk Trousseau Box",
+    price: 5999,
+    image: "/images/themed-hampers/IMG_3915.jpg",
+    tag: "Handcrafted",
+    description: "An exquisite silk-lined trousseau box crafted for weddings and bridal gifting. Filled with premium keepsakes, artisanal treats, and a bespoke fragrance collection, wrapped in hand-dyed silk and finished with a wax seal.",
+    inclusions: ["Handcrafted Silk-Lined Wooden Box", "Artisanal Almond & Saffron Brittle (200g)", "Bespoke Luxury Scented Candle", "Hand-Embroidered Silk Pouch with Keepsakes", "Personalised Greeting Card with Wax Seal"],
+    reviews: [
+      { author: "Lakshmi R.", text: "The presentation was absolutely royal! The silk lining made it feel so luxurious.", rating: 5 },
+      { author: "Devika S.", text: "Perfect for my sister's wedding. Every item inside felt curated with love.", rating: 5 }
+    ]
+  },
+  "hm-3": {
+    id: "hm-3",
+    name: "Artisanal Chocolate Hamper",
+    price: 3250,
+    image: "/images/themed-hampers/IMG_3900.jpg",
+    tag: "Indulgent",
+    description: "A decadent hamper for the true chocolate connoisseur, featuring an assortment of single-origin, bean-to-bar chocolates, handmade truffles, and premium cocoa-dipped almonds, presented in a reusable luxury keepsake box.",
+    inclusions: ["Reusable Luxury Wooden Keepsake Box", "Single-Origin Dark Chocolate Bar (70%)", "Handmade Hazelnut Truffles (12 pcs)", "Premium Cocoa-Dipped Almonds (150g)", "Artisan Hot Cocoa Mix with Whisk"],
+    reviews: [
+      { author: "Rohan T.", text: "Best chocolate hamper I've ever gifted. The single-origin bar was exceptional.", rating: 5 },
+      { author: "Ananya P.", text: "Looks so premium and tastes even better. Will definitely reorder.", rating: 5 }
+    ]
+  },
+  "bq-3": {
+    id: "bq-3",
+    name: "Premium Peony Arrangement",
+    price: 4799,
+    image: "/images/bouquets/IMG_3893.jpg",
+    tag: "Limited Edition",
+    description: "An opulent arrangement of the finest imported Dutch peonies, hand-selected at peak bloom, paired with soft blush roses and cascading greenery. A rare and luxurious floral gift for the most discerning recipient.",
+    inclusions: ["12 Fresh Imported Dutch Peonies", "8 Premium Blush Roses", "Seasonal Eucalyptus & Dusty Miller", "Elegant Vase-Ready Wrapping", "Care Guide & Hydration Sachet"],
+    reviews: [
+      { author: "Meera J.", text: "Peonies are my favourite and these were absolutely perfect. Full, fluffy, and incredibly fragrant.", rating: 5 },
+      { author: "Kunal S.", text: "Worth every rupee. The arrangement looked like it came straight from a luxury florist in London.", rating: 5 }
+    ]
   }
 };
 
+interface ProductDetail {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  tag: string;
+  description: string;
+  inclusions: string[];
+  reviews: { author: string; text: string; rating: number }[];
+}
+
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const product = useMemo(() => PRODUCTS_POOL[id], [id]);
+  const poolProduct = useMemo(() => PRODUCTS_POOL[id], [id]);
+  const [product, setProduct] = useState<ProductDetail | null>(poolProduct || null);
+  const [loading, setLoading] = useState(!poolProduct);
+  const [fetchError, setFetchError] = useState(false);
+
   const addItem = useCartStore((state) => state.addItem);
   const [successMessage, setSuccessMessage] = useState(false);
   const [shippingZone, setShippingZone] = useState("chennai");
   const [shippingSpeed, setShippingSpeed] = useState("standard");
 
-  if (!product) {
+  useEffect(() => {
+    if (poolProduct) {
+      setProduct(poolProduct);
+      setLoading(false);
+      return;
+    }
+
+    async function fetchDbProduct() {
+      setLoading(true);
+      try {
+        const { supabase } = await import("@/lib/supabaseClient");
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .ilike("slug", `${id}%`)
+          .maybeSingle();
+
+        if (error) {
+          console.error("Error fetching product from Supabase:", error);
+          setFetchError(true);
+        } else if (!data) {
+          // Product not found in Supabase — notFound() will serve the 404 page
+          setFetchError(true);
+        } else {
+          // Fallbacks for luxury metadata if not fully specified in simple database rows
+          const dbProduct = {
+            id: data.id,
+            name: data.name,
+            price: Number(data.price),
+            image: data.image,
+            tag: data.tag || "Premium",
+            description: data.description || "An exquisite selection curated by GIFTRAPTURE to bring elegance, luxury, and curated joy to your special gifting moments.",
+            inclusions: Array.isArray(data.inclusions) 
+              ? data.inclusions 
+              : (typeof data.inclusions === "string" ? JSON.parse(data.inclusions) : ["Premium gift wrapping", "Signature Giftrapture satin ribbon", "Handwritten luxury note card"]),
+            reviews: Array.isArray(data.reviews)
+              ? data.reviews
+              : [
+                  { author: "Verified Patron", text: "Stunning presentation, top-notch quality, and incredibly fast delivery. Will order again!", rating: 5 }
+                ]
+          };
+          setProduct(dbProduct);
+        }
+      } catch (err) {
+        console.error("Failed to load product from DB:", err);
+        setFetchError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchDbProduct();
+  }, [id, poolProduct]);
+
+  const shippingCost = useMemo(() => {
+    const base = shippingZone === "chennai" ? 150 : 450;
+    const speedFee = shippingSpeed === "express" ? 300 : 0;
+    return base + speedFee;
+  }, [shippingZone, shippingSpeed]);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-secondary flex items-center justify-center">
+        <Navbar />
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 border-4 border-accent-gold border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-soft-gray font-serif italic text-lg">Curating your selection...</p>
+        </div>
+        <MobileBottomNav />
+      </main>
+    );
+  }
+
+  if (fetchError || !product) {
     notFound();
   }
 
@@ -94,12 +234,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     setSuccessMessage(true);
     setTimeout(() => setSuccessMessage(false), 3000);
   };
-
-  const shippingCost = useMemo(() => {
-    const base = shippingZone === "chennai" ? 150 : 450;
-    const speedFee = shippingSpeed === "express" ? 300 : 0;
-    return base + speedFee;
-  }, [shippingZone, shippingSpeed]);
 
   return (
     <main className="min-h-screen bg-secondary">

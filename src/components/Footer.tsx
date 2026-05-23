@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Camera, MessageCircle } from "lucide-react";
+import { InstagramLink, WhatsAppLink } from "./SocialLinks";
 
 export default function Footer() {
   return (
@@ -26,28 +26,8 @@ export default function Footer() {
               Your premier destination for premium gifting, artistic bouquets, and bespoke trousseau services.
             </p>
             <div className="flex space-x-5 text-text-main justify-center lg:justify-start w-full">
-              <Link
-                href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ=="
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Instagram"
-                className="group"
-              >
-                <span className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-tr from-[#f58529] via-[#dd2a7b] to-[#515bd4] shadow-lg transition-transform duration-300 group-hover:scale-110">
-                  <Camera className="w-5 h-5 text-white" />
-                </span>
-              </Link>
-              <Link
-                href="https://wa.me/917200623758"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="WhatsApp"
-                className="group"
-              >
-                <span className="flex items-center justify-center w-11 h-11 rounded-full bg-[#25D366] shadow-lg transition-transform duration-300 group-hover:scale-110">
-                  <MessageCircle className="w-5 h-5 text-white" />
-                </span>
-              </Link>
+              <InstagramLink href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ==" />
+              <WhatsAppLink href="https://wa.me/917200623758" />
             </div>
           </div>
 

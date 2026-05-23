@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ShoppingBag, Search, Menu, X, User, Camera, MessageCircle, PhoneCall, MapPin, Clock } from "lucide-react";
+import { ShoppingBag, Search, Menu, X, User, PhoneCall, MapPin, Clock } from "lucide-react";
 import Image from "next/image";
+import { InstagramLink, WhatsAppLink } from "./SocialLinks";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/cartStore";
@@ -206,24 +207,8 @@ export default function Navbar() {
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <a
-                    href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ=="
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Instagram"
-                    className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-tr from-[#f58529] via-[#dd2a7b] to-[#515bd4] shadow-lg"
-                  >
-                    <Camera className="w-5 h-5 text-white" />
-                  </a>
-                  <a
-                    href="https://wa.me/917200623758"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="WhatsApp"
-                    className="flex items-center justify-center w-11 h-11 rounded-full bg-[#25D366] shadow-lg"
-                  >
-                    <MessageCircle className="w-5 h-5 text-white" />
-                  </a>
+                  <InstagramLink href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ==" />
+                  <WhatsAppLink href="https://wa.me/917200623758" />
                 </div>
               </div>
             </motion.div>

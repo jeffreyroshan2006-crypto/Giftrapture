@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
-import { Mail, Phone, MapPin, Send, Camera, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { InstagramIcon, WhatsAppIcon } from "@/components/SocialLinks";
 
 export const metadata = {
   title: "Contact Us | GIFTRAPTURE",
@@ -86,24 +87,26 @@ export default function ContactPage() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Instagram"
-                className="inline-flex items-center gap-3 rounded-full border border-text-main/10 bg-white px-4 py-2 shadow-premium transition-all duration-300 hover:scale-[1.02]"
+                className="group inline-flex items-center gap-3 rounded-full border border-text-main/5 bg-white px-5 py-2.5 shadow-premium transition-all duration-500 hover:scale-[1.05] hover:-translate-y-0.5 hover:shadow-lg hover:border-text-main/10"
               >
-                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-[#f58529] via-[#dd2a7b] to-[#515bd4] shadow-lg">
-                  <Camera className="w-4 h-4 text-white" />
+                <span className="flex items-center justify-center w-10 h-10 rounded-full border border-text-main/10 bg-white text-text-main group-hover:text-white transition-all duration-500 overflow-hidden relative shadow-sm group-hover:shadow-[0_8px_20px_rgba(221,42,123,0.3)]">
+                  <span className="absolute inset-0 bg-gradient-to-tr from-[#f58529] via-[#dd2a7b] to-[#515bd4] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <InstagramIcon className="w-4.5 h-4.5 relative z-10 transition-transform duration-500 group-hover:rotate-[12deg]" />
                 </span>
-                <span className="text-xs uppercase tracking-widest font-bold text-text-main">Instagram</span>
+                <span className="text-xs uppercase tracking-widest font-bold text-text-main transition-colors duration-300 group-hover:text-accent-gold">Instagram</span>
               </a>
               <a
                 href="https://wa.me/917200623758"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="WhatsApp"
-                className="inline-flex items-center gap-3 rounded-full border border-text-main/10 bg-white px-4 py-2 shadow-premium transition-all duration-300 hover:scale-[1.02]"
+                className="group inline-flex items-center gap-3 rounded-full border border-text-main/5 bg-white px-5 py-2.5 shadow-premium transition-all duration-500 hover:scale-[1.05] hover:-translate-y-0.5 hover:shadow-lg hover:border-text-main/10"
               >
-                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[#25D366] shadow-lg">
-                  <MessageCircle className="w-4 h-4 text-white" />
+                <span className="flex items-center justify-center w-10 h-10 rounded-full border border-text-main/10 bg-white text-text-main group-hover:text-white transition-all duration-500 overflow-hidden relative shadow-sm group-hover:shadow-[0_8px_20px_rgba(37,211,102,0.3)]">
+                  <span className="absolute inset-0 bg-gradient-to-tr from-[#075e54] to-[#25d366] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <WhatsAppIcon className="w-4.5 h-4.5 relative z-10 transition-transform duration-500 group-hover:rotate-[12deg]" />
                 </span>
-                <span className="text-xs uppercase tracking-widest font-bold text-text-main">WhatsApp</span>
+                <span className="text-xs uppercase tracking-widest font-bold text-text-main transition-colors duration-300 group-hover:text-accent-sage">WhatsApp</span>
               </a>
             </div>
           </div>

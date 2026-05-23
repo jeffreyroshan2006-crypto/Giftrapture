@@ -3,6 +3,7 @@
 import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { ShoppingBag, ArrowRight, Trash2, Plus, Minus } from "lucide-react";
+import { WhatsAppIcon } from "@/components/SocialLinks";
 import Link from "next/link";
 import Image from "next/image";
 import { useMemo, useState } from "react";
@@ -191,9 +192,10 @@ export default function CartPage() {
                 <button
                   onClick={handleWhatsAppCheckout}
                   disabled={isSubmitting}
-                  className="w-full py-4 bg-[#25D366] text-white font-bold rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full py-4 bg-gradient-to-r from-[#075e54] to-[#25d366] text-white font-bold rounded-full transition-all duration-300 shadow-lg hover:shadow-[0_8px_25px_rgba(37,211,102,0.4)] hover:scale-[1.02] flex items-center justify-center gap-2.5 disabled:opacity-60 disabled:cursor-not-allowed group cursor-pointer"
                 >
-                  {isSubmitting ? "Preparing WhatsApp..." : "Checkout via WhatsApp"}
+                  <WhatsAppIcon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                  <span>{isSubmitting ? "Preparing WhatsApp..." : "Checkout via WhatsApp"}</span>
                 </button>
                 <p className="text-[10px] text-center text-soft-gray mt-4 tracking-widest uppercase font-bold">
                   Secure checkout & personalized service
