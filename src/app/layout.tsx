@@ -4,7 +4,7 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Gift Rapture | Signature Gifting & Trousseau Packing",
+  title: "GIFTRAPTURE | Signature Gifting & Trousseau Packing",
   description: "Curated Elegance for Every Occasion. Signature Bouquets, Themed Hampers, Wedding Trousseau, Occasional Hampers, Corporate Gifting.",
   keywords: "signature gifting, bouquets, hampers, trousseau packing, corporate gifting",
 };

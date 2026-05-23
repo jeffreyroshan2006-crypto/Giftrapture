@@ -2,8 +2,8 @@ import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 
 export const metadata = {
-  title: "FAQ | Giftrapture",
-  description: "Answers to common questions about Gift Rapture products, ordering, payments, and delivery.",
+  title: "FAQ | GIFTRAPTURE",
+  description: "Answers to common questions about GIFTRAPTURE products, ordering, payments, and delivery.",
 };
 
 const FAQ_SECTIONS = [

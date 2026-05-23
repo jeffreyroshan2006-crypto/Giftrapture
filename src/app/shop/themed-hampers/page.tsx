@@ -3,7 +3,7 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import HampersGallery from "@/components/HampersGallery";
 
 export const metadata = {
-  title: "Themed Hampers | Giftrapture",
+  title: "Themed Hampers | GIFTRAPTURE",
   description: "Explore our collection of world-class, premium themed hampers.",
 };
 

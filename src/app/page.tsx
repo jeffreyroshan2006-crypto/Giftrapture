@@ -151,7 +151,7 @@ export default function Home() {
                 href={`/shop?relation=${encodeURIComponent(relation)}`}
                 className="group flex flex-col items-center gap-4"
               >
-                <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 overflow-hidden border border-transparent group-hover:border-accent-gold/40">
+                <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 overflow-hidden border border-accent-gold">
                   <span className="font-serif italic text-lg text-text-main">{relation.split(' ')[1]}</span>
                 </div>
                 <span className="text-sm font-bold text-text-main">{relation}</span>

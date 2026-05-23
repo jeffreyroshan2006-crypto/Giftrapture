@@ -3,8 +3,8 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import { CheckCircle, Gift, Sparkles, Truck } from "lucide-react";
 
 export const metadata = {
-  title: "How It Works | Giftrapture",
-  description: "Explore the four-step gifting journey with Gift Rapture.",
+  title: "How It Works | GIFTRAPTURE",
+  description: "Explore the four-step gifting journey with GIFTRAPTURE.",
 };
 
 const STEPS = [

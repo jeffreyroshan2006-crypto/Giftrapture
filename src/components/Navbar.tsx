@@ -23,9 +23,13 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const cartItemsCount = useCartStore((state) => state.items.reduce((acc, item) => acc + item.quantity, 0));
   const [mounted, setMounted] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    if (typeof window !== "undefined") {
+      setIsAdmin(window.location.pathname.startsWith("/admin"));
+    }
   }, []);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -65,7 +69,7 @@ export default function Navbar() {
             <div className="relative w-10 md:w-12 h-10 md:h-12 transition-transform duration-500 group-hover:scale-110">
                <Image 
                  src="/images/logo.png" 
-                 alt="Gift Rapture" 
+                 alt="GIFTRAPTURE" 
                  fill 
                  className="object-contain" 
                  priority 
@@ -78,7 +82,8 @@ export default function Navbar() {
             </div>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-10">
+           {!isAdmin && (
+             <nav className="hidden md:flex items-center space-x-10">
             {NavLinks.map((link) => (
               <Link
                 key={link.name}
@@ -96,9 +101,11 @@ export default function Navbar() {
                 )}
               </Link>
             ))}
-          </nav>
+             </nav>
+           )}
 
-          <div className="flex items-center space-x-2 md:space-x-5">
+           {!isAdmin && (
+             <div className="flex items-center space-x-2 md:space-x-5">
             {searchOpen ? (
               <form onSubmit={handleSearch} className="relative hidden sm:block">
                 <input
@@ -135,7 +142,8 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
-          </div>
+             </div>
+           )}
         </div>
       </header>
 
@@ -158,7 +166,7 @@ export default function Navbar() {
               className="fixed top-0 left-0 bottom-0 w-[80%] max-w-sm bg-secondary z-[70] shadow-2xl p-8 flex flex-col"
             >
               <div className="flex justify-between items-center mb-12">
-                <span className="font-serif text-xl font-bold">GIFT RAPTURE</span>
+                <span className="font-serif text-xl font-bold">GIFTRAPTURE</span>
                 <button onClick={() => setMobileMenuOpen(false)}>
                   <X className="w-6 h-6" />
                 </button>

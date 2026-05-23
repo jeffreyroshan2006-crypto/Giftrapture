@@ -102,7 +102,7 @@ export default function AdminLoginPage() {
               <span className="italic">Admin</span> Portal
             </h1>
             <p className="text-soft-gray text-sm font-sans font-light">
-              Secure access for Gift Rapture curators
+              Secure access for GIFTRAPTURE curators
             </p>
           </div>
 
@@ -179,7 +179,7 @@ export default function AdminLoginPage() {
           {/* Footer */}
           <div className="mt-8 pt-6 border-t border-text-main/5 text-center">
             <p className="text-xs text-soft-gray font-light">
-              Gift Rapture Administration Portal
+              GIFTRAPTURE Administration Portal
             </p>
             <p className="text-[10px] text-soft-gray/50 mt-1">
               Protected by Supabase Auth &middot; Encrypted Connection

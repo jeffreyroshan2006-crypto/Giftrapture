@@ -2,8 +2,8 @@ import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 
 export const metadata = {
-  title: "Delivery Information | Giftrapture",
-  description: "View delivery zones, shipping costs, and express options for Gift Rapture orders.",
+  title: "Delivery Information | GIFTRAPTURE",
+  description: "View delivery zones, shipping costs, and express options for GIFTRAPTURE orders.",
 };
 
 const ZONES = [

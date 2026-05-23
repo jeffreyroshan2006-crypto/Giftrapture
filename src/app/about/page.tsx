@@ -5,8 +5,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export const metadata = {
-  title: "About Us | Giftrapture",
-  description: "Learn about the philosophy and craftsmanship behind Gift Rapture's signature curated gifts.",
+  title: "About Us | GIFTRAPTURE",
+  description: "Learn about the philosophy and craftsmanship behind GIFTRAPTURE's signature curated gifts.",
 };
 
 export default function AboutPage() {
@@ -40,7 +40,7 @@ export default function AboutPage() {
         <div className="space-y-6">
           <h2 className="text-3xl md:text-4xl font-serif italic text-text-main">The Philosophy</h2>
           <p className="text-soft-gray leading-relaxed font-sans text-sm md:text-base">
-            Gift Rapture was born out of a desire to elevate gifting from a routine transaction into a deeply personalized and memorable experience. We believe that true refinement lies in the details—the texture of the handmade box, the fragrance of fresh blooms, the selection of the finest treats, and the precision of the presentation.
+            GIFTRAPTURE was born out of a desire to elevate gifting from a routine transaction into a deeply personalized and memorable experience. We believe that true refinement lies in the details—the texture of the handmade box, the fragrance of fresh blooms, the selection of the finest treats, and the precision of the presentation.
           </p>
           <p className="text-soft-gray leading-relaxed font-sans text-sm md:text-base">
             Every bouquet we craft, every hamper we curate, and every bespoke trunk we pack is a testament to this philosophy. We search globally and source locally to present you with options that stand out and make your recipients feel genuinely cherished.

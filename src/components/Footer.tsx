@@ -12,13 +12,13 @@ export default function Footer() {
                <div className="relative w-12 h-12 transition-transform duration-500 group-hover:scale-110">
                   <Image 
                     src="/images/logo.png" 
-                    alt="Gift Rapture" 
+                    alt="GIFTRAPTURE" 
                     fill 
                     className="object-contain"
                   />
                </div>
                <div className="flex flex-col text-center lg:text-left">
-                  <span className="font-serif text-2xl tracking-tighter font-bold text-text-main">GIFT RAPTURE</span>
+                  <span className="font-serif text-2xl tracking-tighter font-bold text-text-main">GIFTRAPTURE</span>
                   <p className="text-[10px] tracking-[0.2em] font-sans text-accent-sage uppercase font-medium mt-1">Curated Elegance</p>
                </div>
             </Link>
@@ -110,7 +110,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-12 border-t border-text-main/5 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] md:text-xs uppercase tracking-[0.2em] text-soft-gray font-bold text-center md:text-left">
-          <p>© {new Date().getFullYear()} Gift Rapture. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} GIFTRAPTURE. All rights reserved.</p>
           <p className="text-center md:text-right">
             Worldclass site built by Veloce Web Development · <Link href="https://velocenow.com" className="underline decoration-text-main/30 underline-offset-4 hover:text-text-main transition-colors">velocenow.com</Link>
           </p>

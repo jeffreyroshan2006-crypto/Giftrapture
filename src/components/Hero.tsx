@@ -18,7 +18,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-primary/20">
            <Image 
             src="/images/hero.png" 
-            alt="Gift Rapture Signature" 
+            alt="GIFTRAPTURE Signature" 
             fill 
             className="object-cover"
             priority 

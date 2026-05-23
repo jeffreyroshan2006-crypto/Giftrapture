@@ -5,27 +5,82 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import { ShoppingBag, ArrowRight, Trash2, Plus, Minus } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useMemo, useState } from "react";
 import { useCartStore } from "@/store/cartStore";
+import { getSupabaseClient } from "@/lib/supabaseBrowserClient";
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotal } = useCartStore();
+  const [address, setAddress] = useState("");
+  const [addressError, setAddressError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleWhatsAppCheckout = () => {
+  const itemSummary = useMemo(
+    () =>
+      items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image,
+      })),
+    [items]
+  );
+
+  const handleWhatsAppCheckout = async () => {
+    const trimmedAddress = address.trim();
+    if (!trimmedAddress) {
+      setAddressError("Please enter a delivery address before continuing.");
+      return;
+    }
+
+    setAddressError("");
+    setIsSubmitting(true);
     // Generate text for WhatsApp
     const orderNumber = Math.floor(Math.random() * 1000000);
-    let message = `Hello Gift Rapture! 👋\nI'd like to place an order (Ref: #${orderNumber}).\n\n*Order Details:*\n`;
+    let message = `Hello GIFTRAPTURE!\nI'd like to place an order (Ref: #${orderNumber}).\n\n*Order Details:*\n`;
     
-    items.forEach((item, index) => {
+    itemSummary.forEach((item, index) => {
       message += `${index + 1}. ${item.name}\n   Qty: ${item.quantity} x ₹${item.price} = ₹${item.quantity * item.price}\n`;
     });
     
-    message += `\n*Total Amount:* ₹${getTotal()}\n\nPlease confirm availability and payment details. Thank you!`;
+    message += `\n*Total Amount:* ₹${getTotal()}\n\n*Delivery Address:*\n${trimmedAddress}\n\nPlease confirm availability and payment details. Thank you!`;
     
     // Replace this with your actual WhatsApp business number (with country code)
     const phoneNumber = "917200623758"; 
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     
-    window.open(whatsappUrl, '_blank');
+    let shouldOpenWhatsApp = true;
+    try {
+      const supabaseClient = getSupabaseClient();
+      const { error } = await supabaseClient.from("orders").insert([
+        {
+          order_number: orderNumber.toString(),
+          address: trimmedAddress,
+          total_amount: getTotal(),
+          status: "whatsapp_pending",
+          items: itemSummary,
+        },
+      ]);
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        shouldOpenWhatsApp = false;
+        setAddressError("We couldn't save your order details. Please try again in a moment.");
+      }
+    } catch (err) {
+      console.error("Order save failed:", err);
+      shouldOpenWhatsApp = false;
+      setAddressError("We couldn't save your order details. Please try again in a moment.");
+    } finally {
+      setIsSubmitting(false);
+      if (shouldOpenWhatsApp) {
+        const opened = window.open(whatsappUrl, "_blank");
+        if (!opened) {
+          window.location.href = whatsappUrl;
+        }
+      }
+    }
   };
 
   return (
@@ -113,11 +168,32 @@ export default function CartPage() {
                   <span className="font-bold">Total</span>
                   <span className="text-2xl font-serif text-accent-gold font-bold">₹{getTotal()}</span>
                 </div>
-                <button 
+                <div className="mb-6">
+                  <label className="text-xs uppercase tracking-widest font-bold text-text-main/60 mb-2 block">
+                    Delivery Address
+                  </label>
+                  <textarea
+                    value={address}
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                      if (addressError) {
+                        setAddressError("");
+                      }
+                    }}
+                    rows={3}
+                    placeholder="Enter full delivery address"
+                    className="w-full px-4 py-3 rounded-2xl border border-text-main/10 bg-secondary/30 text-sm focus:outline-none focus:border-accent-gold transition-all resize-none"
+                  />
+                  {addressError && (
+                    <p className="mt-2 text-xs text-red-500 font-semibold">{addressError}</p>
+                  )}
+                </div>
+                <button
                   onClick={handleWhatsAppCheckout}
-                  className="w-full py-4 bg-[#25D366] text-white font-bold rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                  className="w-full py-4 bg-[#25D366] text-white font-bold rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Checkout via WhatsApp
+                  {isSubmitting ? "Preparing WhatsApp..." : "Checkout via WhatsApp"}
                 </button>
                 <p className="text-[10px] text-center text-soft-gray mt-4 tracking-widest uppercase font-bold">
                   Secure checkout & personalized service

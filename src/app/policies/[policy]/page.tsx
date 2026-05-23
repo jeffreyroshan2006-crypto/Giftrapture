@@ -18,7 +18,7 @@ const policies: Record<string, PolicyContent> = {
       {
         title: "1. Premium Packing & Protection",
         paragraphs: [
-          "All Gift Rapture hampers, corporate kits, and signature bouquets are meticulously secured in double-strength insulated packaging to ensure they survive temperature variations and rough handling during transport.",
+          "All GIFTRAPTURE hampers, corporate kits, and signature bouquets are meticulously secured in double-strength insulated packaging to ensure they survive temperature variations and rough handling during transport.",
           "Our fresh flowers are delivered in specialized water-packs to preserve their freshness for up to 48 hours in transit."
         ]
       },
@@ -97,8 +97,8 @@ const policies: Record<string, PolicyContent> = {
       {
         title: "1. Service Agreements",
         paragraphs: [
-          "By accessing the Gift Rapture site, placing custom orders, or utilizing our WhatsApp checkout, you consent to our terms of curated service and custom-designed policies.",
-          "All signature branding, product concepts, design assets, and photos displayed on our site are the exclusive intellectual property of Gift Rapture."
+          "By accessing the GIFTRAPTURE site, placing custom orders, or utilizing our WhatsApp checkout, you consent to our terms of curated service and custom-designed policies.",
+          "All signature branding, product concepts, design assets, and photos displayed on our site are the exclusive intellectual property of GIFTRAPTURE."
         ]
       },
       {

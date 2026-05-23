@@ -3,7 +3,7 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import EidHampersGallery from "@/components/EidHampersGallery";
 
 export const metadata = {
-  title: "Eid Hampers | Giftrapture",
+  title: "Eid Hampers | GIFTRAPTURE",
   description: "Explore our curated collection of signature Eid gifting hampers.",
 };
 

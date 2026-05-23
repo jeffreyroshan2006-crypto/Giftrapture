@@ -10,7 +10,7 @@ export default function ProfilePage() {
         <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mb-10 animate-pulse shadow-xl border border-white/20">
            <User className="w-10 h-10 text-accent-gold" />
         </div>
-        <h1 className="text-4xl font-serif mb-6 italic italic">Welcome to Gift Rapture</h1>
+        <h1 className="text-4xl font-serif mb-6 italic italic">Welcome to GIFTRAPTURE</h1>
         <p className="text-sm text-soft-gray mb-12 italic">Login or create an account to manage your gifting selections and view previous orders.</p>
         
         <div className="w-full space-y-4">

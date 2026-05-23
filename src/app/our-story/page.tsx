@@ -3,8 +3,8 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import Image from "next/image";
 
 export const metadata = {
-  title: "Our Story | Giftrapture",
-  description: "Meet the founder and discover Gift Rapture's mission, values, and premium craftsmanship.",
+  title: "Our Story | GIFTRAPTURE",
+  description: "Meet the founder and discover GIFTRAPTURE's mission, values, and premium craftsmanship.",
 };
 
 const VALUES = [
@@ -51,7 +51,7 @@ export default function OurStoryPage() {
           Crafted by <span className="italic font-light">Emotion</span>, Elevated by Design
         </h1>
         <p className="text-soft-gray text-lg md:text-xl font-sans font-light leading-relaxed max-w-3xl mx-auto">
-          Gift Rapture was founded by Aanya Rao, a former premium stylist, with a mission to turn gifting into an unforgettable ritual. Every box is built to express emotion, prestige, and intention.
+          GIFTRAPTURE was founded by Aanya Rao, a former premium stylist, with a mission to turn gifting into an unforgettable ritual. Every box is built to express emotion, prestige, and intention.
         </p>
       </section>
 
@@ -67,7 +67,7 @@ export default function OurStoryPage() {
         <div className="space-y-6">
           <h2 className="text-3xl md:text-4xl font-serif italic text-text-main">The Founder</h2>
           <p className="text-soft-gray leading-relaxed font-sans text-sm md:text-base">
-            Aanya envisioned a gifting studio that blends artisanal craftsmanship with white-glove hospitality. Her work spans fashion, floral design, and event styling, which now shapes the Gift Rapture signature aesthetic.
+            Aanya envisioned a gifting studio that blends artisanal craftsmanship with white-glove hospitality. Her work spans fashion, floral design, and event styling, which now shapes the GIFTRAPTURE signature aesthetic.
           </p>
           <p className="text-soft-gray leading-relaxed font-sans text-sm md:text-base">
             Our studio team hand-curates every product to match the tone of the occasion, with the goal of making the recipient feel deeply celebrated.

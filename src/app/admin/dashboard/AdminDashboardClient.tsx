@@ -649,21 +649,27 @@ export default function AdminDashboardClient() {
             </div>
             <div>
               <h1 className="text-lg font-serif text-text-main font-bold leading-tight">Admin Portal</h1>
-              <p className="text-[10px] text-soft-gray uppercase tracking-widest">Gift Rapture Curator</p>
+              <p className="text-[10px] text-soft-gray uppercase tracking-widest">GIFTRAPTURE Curator</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="hidden md:inline text-xs text-soft-gray bg-secondary/50 px-3 py-1.5 rounded-full">
-              Admin
-            </span>
-            <button
-              onClick={handleLogout}
-              className="p-2.5 hover:bg-red-50 rounded-xl transition-colors group"
-              title="Logout"
-            >
-              <LogOut className="w-5 h-5 text-text-main/60 group-hover:text-red-500 transition-colors" />
-            </button>
-          </div>
+            <div className="flex items-center gap-3">
+              <span className="hidden md:inline text-xs text-soft-gray bg-secondary/50 px-3 py-1.5 rounded-full">
+                Admin
+              </span>
+              <a
+                href="/admin/orders"
+                className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full border border-text-main/10 text-xs uppercase tracking-widest font-bold text-text-main/70 hover:text-text-main hover:border-accent-gold/40 transition-colors"
+              >
+                Orders
+              </a>
+              <button
+                onClick={handleLogout}
+                className="p-2.5 hover:bg-red-50 rounded-xl transition-colors group"
+                title="Logout"
+              >
+                <LogOut className="w-5 h-5 text-text-main/60 group-hover:text-red-500 transition-colors" />
+              </button>
+            </div>
         </div>
       </nav>
 

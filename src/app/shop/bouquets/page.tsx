@@ -3,7 +3,7 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import BouquetsGallery from "@/components/BouquetsGallery";
 
 export const metadata = {
-  title: "Signature Bouquets | Giftrapture",
+  title: "Signature Bouquets | GIFTRAPTURE",
   description: "Explore our collection of world-class, exquisite signature bouquets.",
 };
 

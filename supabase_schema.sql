@@ -28,7 +28,26 @@ CREATE POLICY "Allow public read access" ON public.products
 CREATE POLICY "Allow admin all access" ON public.products
   FOR ALL TO authenticated USING (true);
 
--- 5. Seed the initial 37 luxury bouquets, themed hampers, and Eid hampers
+-- 5. Create orders table (auto-captures address & items before WhatsApp redirect)
+CREATE TABLE IF NOT EXISTS public.orders (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  order_number TEXT NOT NULL,
+  address TEXT NOT NULL,
+  total_amount NUMERIC NOT NULL,
+  status TEXT NOT NULL DEFAULT 'whatsapp_pending',
+  items JSONB NOT NULL DEFAULT '[]'::jsonb,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 6. Enable Row Level Security (RLS) for orders
+ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
+
+-- 7. Allow anyone to insert/read their own orders (public),
+--    and authenticated (admins) can see all orders.
+CREATE POLICY "Allow public insert and select" ON public.orders
+  FOR ALL TO public USING (true) WITH CHECK (true);
+
+-- 8. Seed the initial 37 luxury bouquets, themed hampers, and Eid hampers
 INSERT INTO public.products (id, name, price, image, tag, category, relation) VALUES
   -- Bouquets
   ('bq-1', 'Velvet Crimson Rose', 3499, '/images/bouquets/IMG_3893.jpg', 'Bestseller', 'bouquets', 'For Her'),

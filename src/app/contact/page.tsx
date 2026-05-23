@@ -3,8 +3,8 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import { Mail, Phone, MapPin, Send, Camera, MessageCircle } from "lucide-react";
 
 export const metadata = {
-  title: "Contact Us | Giftrapture",
-  description: "Get in touch with Gift Rapture for signature bouquets, custom hamper curation, and bespoke wedding trousseau services.",
+  title: "Contact Us | GIFTRAPTURE",
+  description: "Get in touch with GIFTRAPTURE for signature bouquets, custom hamper curation, and bespoke wedding trousseau services.",
 };
 
 export default function ContactPage() {
@@ -38,7 +38,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-bold text-text-main mb-1">Our Location</h3>
                   <p className="text-soft-gray text-sm leading-relaxed">
-                    Gift Rapture Studio,<br />
+                    GIFTRAPTURE Studio,<br />
                     102, Khader Nawaz Khan Road, Nungambakkam,<br />
                     Chennai - 600006, Tamil Nadu, India
                   </p>
