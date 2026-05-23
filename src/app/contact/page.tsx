@@ -2,6 +2,8 @@ import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { InstagramIcon, WhatsAppIcon } from "@/components/SocialLinks";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export const metadata = {
   title: "Contact Us | GIFTRAPTURE",
@@ -74,11 +76,17 @@ export default function ContactPage() {
             </div>
 
             <div className="p-8 bg-primary/20 rounded-[2rem] border border-accent-gold/20">
-              <h3 className="font-serif italic text-lg text-text-main mb-2">Bespoke Concierge hours</h3>
-              <p className="text-xs text-soft-gray leading-relaxed uppercase tracking-wider font-bold">
-                Monday — Saturday: 10:00 AM - 8:00 PM<br />
-                Sunday: By Prior Appointment Only
+              <h3 className="font-serif italic text-lg text-text-main mb-2">Learn More About Us</h3>
+              <p className="text-xs text-soft-gray leading-relaxed mb-4">
+                Discover the story, philosophy, and craftsmanship behind every GIFTRAPTURE piece.
               </p>
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 text-xs font-bold text-text-main uppercase tracking-widest hover:text-accent-gold transition-colors border border-text-main/10 px-6 py-3 rounded-full bg-white hover:border-accent-gold"
+              >
+                About Us
+                <ArrowRight className="w-3 h-3" />
+              </Link>
             </div>
 
             <div className="flex flex-wrap items-center gap-4">

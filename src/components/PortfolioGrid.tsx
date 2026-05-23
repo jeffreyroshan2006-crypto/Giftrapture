@@ -183,12 +183,12 @@ export default function PortfolioGrid() {
     <section className="py-24 px-6 max-w-7xl mx-auto" id="portfolio">
       {/* Header */}
       <div className="text-center mb-16">
-        <span className="text-accent-gold text-[10px] tracking-[0.3em] font-sans uppercase font-bold mb-4 block">
-          Our Collection
-        </span>
-        <h2 className="text-4xl md:text-5xl font-serif tracking-tighter italic mb-6">
-          Shop the <span className="font-bold not-italic">Portfolio</span>
-        </h2>
+          <span className="text-accent-gold text-[10px] tracking-[0.3em] font-sans uppercase font-bold mb-4 block">
+            Most Loved
+          </span>
+          <h2 className="text-4xl md:text-5xl font-serif tracking-tighter italic mb-6">
+            <span className="font-bold not-italic">Bestsellers</span>
+          </h2>
         <p className="text-soft-gray max-w-lg mx-auto text-sm md:text-base leading-relaxed">
           Every piece in our collection is curated with intention. Explore our signature bouquets, themed hampers, and festive Eid selections.
         </p>
@@ -213,7 +213,7 @@ export default function PortfolioGrid() {
 
       {/* Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="rounded-3xl bg-white/50 animate-pulse aspect-[3/4]">
               <div className="aspect-[3/4] bg-secondary/50 rounded-t-3xl" />
@@ -231,7 +231,7 @@ export default function PortfolioGrid() {
               <p className="text-soft-gray text-lg">No products found in this category.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {filtered.map((product, index) => (
                 <ProductItem key={product.id} product={product} index={index} />
               ))}
@@ -244,7 +244,7 @@ export default function PortfolioGrid() {
       <div className="mt-16 text-center">
         <Link
           href="/shop"
-          className="inline-flex items-center gap-2 group px-8 py-3.5 bg-text-main text-white font-bold rounded-full transition-all duration-300 hover:bg-accent-gold hover:text-text-main hover:shadow-2xl text-sm"
+          className="inline-flex items-center gap-2 group px-8 py-3.5 border border-text-main/10 bg-white text-text-main font-bold rounded-full transition-all duration-300 hover:bg-text-main hover:text-white hover:shadow-2xl text-sm"
         >
           Explore Full Collection
           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

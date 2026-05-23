@@ -2,13 +2,10 @@ import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import Hero from "@/components/Hero";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
-import InstagramGrid from "@/components/InstagramGrid";
-import ProductCard from "@/components/ProductCard";
 import PortfolioGrid from "@/components/PortfolioGrid";
 import BespokePreviewBox from "@/components/BespokePreviewBox";
-import { ArrowRight, Mail, Camera, Globe, MessageSquare } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function Home() {
   return (
@@ -21,56 +18,8 @@ export default function Home() {
       {/* Featured Products */}
       <FeaturedCarousel />
 
-      {/* Bestsellers Section */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="text-accent-gold text-[10px] tracking-[0.3em] font-sans uppercase font-bold mb-4 block">Most Loved</span>
-          <h2 className="text-4xl md:text-5xl font-serif tracking-tighter italic">Bestsellers</h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <ProductCard
-            id="bs-1"
-            name="The Royal Azure Box"
-            regularPrice={7500}
-            salePrice={6800}
-            discountPercentage={9}
-            image="/images/themed-hampers/IMG_3723.jpg"
-            href="/product/royal-azure"
-          />
-          <ProductCard
-            id="bs-2"
-            name="Blush Peony Symphony"
-            regularPrice={4200}
-            image="/images/bouquets/IMG_3895.jpg"
-            href="/product/blush-peony"
-          />
-          <ProductCard
-            id="bs-3"
-            name="Corporate Executive Kit"
-            regularPrice={12000}
-            salePrice={9999}
-            discountPercentage={16}
-            image="/images/themed-hampers/IMG_3899.jpg"
-            href="/product/corporate-kit"
-          />
-          <ProductCard
-            id="bs-4"
-            name="Classic Trousseau Trunk"
-            regularPrice={15000}
-            image="/images/themed-hampers/IMG_3915.jpg"
-            href="/product/trousseau-trunk"
-          />
-        </div>
-        <div className="mt-16 text-center">
-          <Link
-            href="/shop"
-            className="inline-flex items-center gap-2 group px-8 py-3 border border-text-main text-text-main font-bold rounded-full transition-all duration-300 hover:bg-text-main hover:text-white"
-          >
-            View Entire Collection
-            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </div>
-      </section>
+      {/* Bestsellers Portfolio Grid */}
+      <PortfolioGrid />
 
       {/* Make Your Own Box Promo */}
       <section className="py-12 px-6 max-w-7xl mx-auto">
@@ -87,41 +36,6 @@ export default function Home() {
             Start Building
             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
           </Link>
-        </div>
-      </section>
-
-      {/* Portfolio Section - All Products Display */}
-      <PortfolioGrid />
-
-      {/* Promotional Section */}
-      <section className="py-24 px-6 md:px-12">
-        <div className="max-w-7xl mx-auto rounded-[3rem] md:rounded-[4rem] bg-text-main text-white p-8 md:p-16 lg:p-20 relative overflow-hidden group shadow-2xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-accent-gold/20 via-transparent to-accent-sage/20 opacity-40 transition-opacity group-hover:opacity-60" />
-
-          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 text-center lg:text-left">
-            <div className="max-w-2xl">
-              <span className="text-accent-gold text-[10px] md:text-xs tracking-[0.3em] font-sans uppercase font-bold mb-6 block">
-                Bespoke Services
-              </span>
-              <h2 className="text-4xl md:text-6xl font-serif tracking-tighter mb-8 italic font-normal leading-tight">
-                Crafting <span className="font-bold cursor-default">Extraordinary</span> Memories <br /> for Corporates & Weddings.
-              </h2>
-              <p className="text-white/60 text-sm md:text-lg mb-10 max-w-xl font-sans tracking-tight leading-relaxed">
-                From customized branding for corporate events to exquisite trousseau packing for your big day, we bring your vision to life with precision and grace.
-              </p>
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2 group px-8 py-4 bg-white text-text-main font-bold rounded-full transition-all duration-300 hover:shadow-2xl hover:scale-105"
-              >
-                Inquire for Custom Orders
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-
-            <div className="w-full lg:max-w-md shrink-0 flex justify-center">
-              <BespokePreviewBox />
-            </div>
-          </div>
         </div>
       </section>
 
@@ -146,17 +60,37 @@ export default function Home() {
         {/* Shop by Relations */}
         <div>
           <h3 className="text-3xl font-serif text-center mb-12 italic">Shop by Relation</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {['For Her', 'For Him', 'For Parents', 'For Siblings', 'For Colleagues', 'For Couples'].map((relation) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+            {[
+              { label: 'For Her', icon: '💎', color: 'from-accent-gold/20 to-accent-gold/5', border: 'border-accent-gold/30' },
+              { label: 'For Him', icon: '👔', color: 'from-slate-300/20 to-slate-300/5', border: 'border-slate-400/30' },
+              { label: 'For Parents', icon: '👨👩👧', color: 'from-accent-sage/20 to-accent-sage/5', border: 'border-accent-sage/30' },
+              { label: 'For Siblings', icon: '🤝', color: 'from-blue-200/20 to-blue-200/5', border: 'border-blue-300/30' },
+              { label: 'For Colleagues', icon: '💼', color: 'from-amber-100/20 to-amber-100/5', border: 'border-amber-200/30' },
+              { label: 'For Couples', icon: '❤️', color: 'from-rose-200/20 to-rose-200/5', border: 'border-rose-300/30' }
+            ].map((relation) => (
               <Link 
-                key={relation} 
-                href={`/shop?relation=${encodeURIComponent(relation)}`}
-                className="group flex flex-col items-center gap-4"
+                key={relation.label} 
+                href={`/shop?relation=${encodeURIComponent(relation.label)}`}
+                className="group relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-br from-white/80 to-white/40 border border-text-main/5 p-4 md:p-6 text-center hover:shadow-premium hover:-translate-y-1 transition-all duration-500 hover:border-text-main/10"
               >
-                <div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 overflow-hidden border border-accent-gold">
-                  <span className="font-serif italic text-lg text-text-main">{relation.split(' ')[1]}</span>
+                {/* Decorative background circle */}
+                <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br ${relation.color} opacity-50 group-hover:scale-150 transition-transform duration-700`} />
+                
+                <div className={`relative z-10 w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-br ${relation.color} ${relation.border} border flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 text-xl`}>
+                  {relation.icon}
                 </div>
-                <span className="text-sm font-bold text-text-main">{relation}</span>
+                <span className="relative z-10 text-sm md:text-base font-bold text-text-main group-hover:text-accent-gold transition-colors duration-300">
+                  {relation.label}
+                </span>
+                <div className="mt-2 relative z-10">
+                  <span className="text-xs text-soft-gray group-hover:text-accent-gold transition-colors duration-300 inline-flex items-center gap-1">
+                    Explore 
+                    <svg className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
@@ -182,9 +116,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Social Proof */}
-      <InstagramGrid />
 
       <MobileBottomNav />
     </main>

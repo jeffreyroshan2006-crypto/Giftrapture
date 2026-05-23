@@ -189,14 +189,16 @@ export default function CartPage() {
                     <p className="mt-2 text-xs text-red-500 font-semibold">{addressError}</p>
                   )}
                 </div>
-                <button
-                  onClick={handleWhatsAppCheckout}
-                  disabled={isSubmitting}
-                  className="w-full py-4 bg-gradient-to-r from-[#075e54] to-[#25d366] text-white font-bold rounded-full transition-all duration-300 shadow-lg hover:shadow-[0_8px_25px_rgba(37,211,102,0.4)] hover:scale-[1.02] flex items-center justify-center gap-2.5 disabled:opacity-60 disabled:cursor-not-allowed group cursor-pointer"
-                >
-                  <WhatsAppIcon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
-                  <span>{isSubmitting ? "Preparing WhatsApp..." : "Checkout via WhatsApp"}</span>
-                </button>
+                  <button
+                    onClick={handleWhatsAppCheckout}
+                    disabled={isSubmitting}
+                    className="w-full py-4 bg-gradient-to-r from-[#075e54] to-[#25d366] text-white font-bold rounded-full transition-all duration-300 shadow-lg hover:shadow-[0_8px_25px_rgba(37,211,102,0.4)] hover:scale-[1.02] flex items-center justify-center gap-2.5 disabled:opacity-60 disabled:cursor-not-allowed group cursor-pointer"
+                  >
+                    <span className="flex items-center justify-center">
+                      <WhatsAppIcon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                    </span>
+                    <span className="flex items-center">{isSubmitting ? "Preparing WhatsApp..." : "Checkout via WhatsApp"}</span>
+                  </button>
                 <p className="text-[10px] text-center text-soft-gray mt-4 tracking-widest uppercase font-bold">
                   Secure checkout & personalized service
                 </p>

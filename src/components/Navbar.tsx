@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ShoppingBag, Search, Menu, X, User, PhoneCall, MapPin, Clock } from "lucide-react";
+import { ShoppingBag, Search, Menu, X, User, PhoneCall, MapPin, Clock, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { InstagramLink, WhatsAppLink } from "./SocialLinks";
 import { motion, AnimatePresence } from "framer-motion";
@@ -188,29 +188,35 @@ export default function Navbar() {
                   </motion.div>
                 ))}
               </div>
-              <div className="mt-auto pt-10 border-t border-text-main/10 space-y-6">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.3em] font-bold text-accent-sage">Concierge</p>
-                  <p className="text-sm text-soft-gray mt-2 flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-accent-gold" />
-                    Mon–Sat · 10:00 AM – 8:00 PM
-                  </p>
-                </div>
-                <div className="space-y-2 text-sm text-soft-gray">
-                  <p className="flex items-center gap-2">
-                    <PhoneCall className="w-4 h-4 text-accent-gold" />
-                    +91 72006 23758
-                  </p>
-                  <p className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-accent-gold" />
-                    Chennai, Tamil Nadu
-                  </p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <InstagramLink href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ==" />
-                  <WhatsAppLink href="https://wa.me/917200623758" />
-                </div>
-              </div>
+               <div className="mt-auto pt-10 border-t border-text-main/10 space-y-6">
+                 <div>
+                   <p className="text-xs uppercase tracking-[0.3em] font-bold text-accent-sage">Our Story</p>
+                   <p className="text-sm text-soft-gray mt-2 leading-relaxed">
+                     Discover the heart and soul behind GIFTRAPTURE.
+                   </p>
+                   <Link
+                     href="/about"
+                     className="inline-flex items-center gap-2 mt-3 text-xs font-bold text-text-main uppercase tracking-widest hover:text-accent-gold transition-colors"
+                   >
+                     Learn More
+                     <ArrowRight className="w-3 h-3" />
+                   </Link>
+                 </div>
+                 <div className="space-y-2 text-sm text-soft-gray">
+                   <p className="flex items-center gap-2">
+                     <PhoneCall className="w-4 h-4 text-accent-gold" />
+                     +91 72006 23758
+                   </p>
+                   <p className="flex items-center gap-2">
+                     <MapPin className="w-4 h-4 text-accent-gold" />
+                     Chennai, Tamil Nadu
+                   </p>
+                 </div>
+                 <div className="flex items-center gap-3">
+                   <InstagramLink href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ==" />
+                   <WhatsAppLink href="https://wa.me/917200623758" />
+                 </div>
+               </div>
             </motion.div>
           </>
         )}

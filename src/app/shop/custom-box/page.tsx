@@ -16,14 +16,14 @@ const PACKAGING_OPTIONS = [
 ];
 
 const CATALOG_ITEMS = [
-  { id: "fill-almonds", name: "Gourmet Roasted Almonds (200g)", price: 450, category: "Gourmet" },
-  { id: "fill-chocs", name: "Artisanal Dark Hazelnut Chocolates", price: 650, category: "Gourmet" },
-  { id: "fill-candle", name: "Scented Lavender Soy Wax Candle", price: 399, category: "Wellness" },
-  { id: "fill-tea", name: "Exotic Kashmiri Saffron Tea (50g)", price: 800, category: "Gourmet" },
-  { id: "fill-roses", name: "Red Velvet Rose Arrangement", price: 1200, category: "Floral" },
-  { id: "fill-perfume", name: "Handcrafted Sandalwood Perfume (50ml)", price: 1800, category: "Wellness" },
-  { id: "fill-cookie", name: "Butter Pistachio Cookies (250g)", price: 520, category: "Gourmet" },
-  { id: "fill-diffuser", name: "Bergamot Reed Diffuser", price: 950, category: "Wellness" }
+  { id: "fill-almonds", name: "Gourmet Roasted Almonds (200g)", price: 450, category: "Gourmet", image: "/images/themed-hampers/IMG_3918.png" },
+  { id: "fill-chocs", name: "Artisanal Dark Hazelnut Chocolates", price: 650, category: "Gourmet", image: "/images/themed-hampers/IMG_3900.jpg" },
+  { id: "fill-candle", name: "Scented Lavender Soy Wax Candle", price: 399, category: "Wellness", image: "/images/themed-hampers/IMG_3940.jpg" },
+  { id: "fill-tea", name: "Exotic Kashmiri Saffron Tea (50g)", price: 800, category: "Gourmet", image: "/images/themed-hampers/IMG_3921.png" },
+  { id: "fill-roses", name: "Red Velvet Rose Arrangement", price: 1200, category: "Floral", image: "/images/bouquets/IMG_3893.jpg" },
+  { id: "fill-perfume", name: "Handcrafted Sandalwood Perfume (50ml)", price: 1800, category: "Wellness", image: "/images/themed-hampers/IMG_3929.png" },
+  { id: "fill-cookie", name: "Butter Pistachio Cookies (250g)", price: 520, category: "Gourmet", image: "/images/themed-hampers/IMG_3918.png" },
+  { id: "fill-diffuser", name: "Bergamot Reed Diffuser", price: 950, category: "Wellness", image: "/images/themed-hampers/IMG_3940.jpg" }
 ];
 
 const PERSONALIZATION_OPTIONS = [
@@ -176,51 +176,60 @@ export default function CustomBoxPage() {
               <span className="text-[10px] tracking-widest font-bold text-accent-gold uppercase mb-2 block">Step 02</span>
               <h2 className="text-2xl font-serif text-text-main mb-6 italic">Choose Items From the Catalog</h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {CATALOG_ITEMS.map((filler) => {
-                  const qty = selectedCatalogItems[filler.id] || 0;
-                  return (
-                    <div
-                      key={filler.id}
-                      className="p-5 rounded-3xl border border-text-main/10 flex items-center justify-between gap-4 bg-secondary/10 hover:shadow-sm transition-all"
-                    >
-                      <div>
-                        <span className="text-[9px] uppercase tracking-wider font-bold text-accent-sage block mb-1">{filler.category}</span>
-                        <h3 className="font-bold text-sm text-text-main mb-1">{filler.name}</h3>
-                        <p className="text-sm font-bold text-accent-gold">₹{filler.price}</p>
-                      </div>
-
-                      <div className="flex items-center gap-3 bg-white p-1 rounded-full border border-text-main/10">
-                        {qty > 0 ? (
-                          <>
-                            <button
-                              onClick={() => toggleCatalogItem(filler.id, "remove")}
-                              className="w-8 h-8 rounded-full bg-secondary hover:bg-text-main hover:text-white flex items-center justify-center transition-colors text-text-main"
-                            >
-                              <Minus className="w-4 h-4" />
-                            </button>
-                            <span className="text-sm font-bold w-4 text-center">{qty}</span>
-                            <button
-                              onClick={() => toggleCatalogItem(filler.id, "add")}
-                              className="w-8 h-8 rounded-full bg-secondary hover:bg-text-main hover:text-white flex items-center justify-center transition-colors text-text-main"
-                            >
-                              <Plus className="w-4 h-4" />
-                            </button>
-                          </>
-                        ) : (
-                          <button
-                            onClick={() => toggleCatalogItem(filler.id, "add")}
-                            className="px-4 py-2 bg-text-main text-white text-xs font-bold rounded-full hover:bg-accent-gold hover:text-text-main transition-colors uppercase tracking-widest flex items-center gap-1.5"
-                          >
-                            <Plus className="w-3.5 h-3.5" />
-                            Add
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+               <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                 {CATALOG_ITEMS.map((filler) => {
+                   const qty = selectedCatalogItems[filler.id] || 0;
+                   return (
+                     <div
+                       key={filler.id}
+                       className="p-5 rounded-3xl border border-text-main/10 bg-white hover:shadow-sm transition-all group flex flex-col"
+                     >
+                       <div className="aspect-[4/5] rounded-2xl overflow-hidden mb-4 relative bg-primary/10">
+                         <Image
+                           src={filler.image}
+                           alt={filler.name}
+                           fill
+                           className="object-cover transition-transform duration-500 group-hover:scale-110"
+                         />
+                       </div>
+                       <div className="flex items-start justify-between gap-4 mt-auto">
+                         <div className="flex-1">
+                           <span className="text-[9px] uppercase tracking-wider font-bold text-accent-sage block mb-1">{filler.category}</span>
+                           <h3 className="font-bold text-sm text-text-main mb-1 line-clamp-2">{filler.name}</h3>
+                           <p className="text-sm font-bold text-accent-gold">₹{filler.price}</p>
+                         </div>
+                         <div className="flex items-center gap-2 bg-white p-1 rounded-full border border-text-main/10 self-start">
+                           {qty > 0 ? (
+                             <>
+                               <button
+                                 onClick={() => toggleCatalogItem(filler.id, "remove")}
+                                 className="w-8 h-8 rounded-full bg-secondary hover:bg-text-main hover:text-white flex items-center justify-center transition-colors text-text-main"
+                               >
+                                 <Minus className="w-4 h-4" />
+                               </button>
+                               <span className="text-sm font-bold w-4 text-center">{qty}</span>
+                               <button
+                                 onClick={() => toggleCatalogItem(filler.id, "add")}
+                                 className="w-8 h-8 rounded-full bg-secondary hover:bg-text-main hover:text-white flex items-center justify-center transition-colors text-text-main"
+                               >
+                                 <Plus className="w-4 h-4" />
+                               </button>
+                             </>
+                           ) : (
+                             <button
+                               onClick={() => toggleCatalogItem(filler.id, "add")}
+                               className="px-4 py-2 bg-text-main text-white text-xs font-bold rounded-full hover:bg-accent-gold hover:text-text-main transition-colors uppercase tracking-widest flex items-center gap-1.5"
+                             >
+                               <Plus className="w-3.5 h-3.5" />
+                               Add
+                             </button>
+                           )}
+                         </div>
+                       </div>
+                     </div>
+                   );
+                 })}
+               </div>
             </div>
 
             {/* Step 3: Personalization */}
