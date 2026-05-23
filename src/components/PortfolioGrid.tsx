@@ -8,6 +8,19 @@ import { supabase } from "@/lib/supabaseClient";
 import { useCartStore } from "@/store/cartStore";
 import { ShoppingBag, Star, Eye, ArrowRight } from "lucide-react";
 
+const FALLBACK_PORTFOLIO: Product[] = [
+  { id: "bq-1", name: "Velvet Crimson Rose", price: 3499, image: "/images/bouquets/IMG_3893.jpg", tag: "Bestseller", category: "bouquets", relation: "For Her" },
+  { id: "bq-2", name: "Ethereal White Lilies", price: 2999, image: "/images/bouquets/IMG_3894.jpg", tag: "Classic", category: "bouquets", relation: "For Parents" },
+  { id: "bq-3", name: "Blush Peony Symphony", price: 4200, image: "/images/bouquets/IMG_3895.jpg", tag: "Premium", category: "bouquets", relation: "For Her" },
+  { id: "bq-6", name: "Classic Ranunculus Bouquet", price: 2499, image: "/images/bouquets/IMG_3926.png", tag: "Best Seller", category: "bouquets", relation: "For Colleagues" },
+  { id: "bq-7", name: "Pastel Hydrangea Cloud", price: 3800, image: "/images/bouquets/IMG_3927.png", tag: "Elegant", category: "bouquets", relation: "For Her" },
+  { id: "hm-1", name: "Royal Celebration Hamper", price: 7499, image: "/images/themed-hampers/IMG_3723.jpg", tag: "Premium", category: "hampers", relation: "For Couples" },
+  { id: "hm-3", name: "Artisanal Chocolate Hamper", price: 3250, image: "/images/themed-hampers/IMG_3900.jpg", tag: "Bestseller", category: "hampers", relation: "For Her" },
+  { id: "hm-6", name: "Signature Silk Trousseau Box", price: 5999, image: "/images/themed-hampers/IMG_3915.jpg", tag: "Handcrafted", category: "hampers", relation: "For Parents" },
+  { id: "eh-1", name: "Al-Noor Premium Eid Box", price: 6499, image: "/images/eid-hampers/IMG_3848.png", tag: "Premium", category: "eid-hampers", relation: "For Parents" },
+  { id: "eh-3", name: "Royal Mubarak Trunk", price: 8500, image: "/images/eid-hampers/IMG_3943.png", tag: "Signature", category: "eid-hampers", relation: "For Parents" },
+];
+
 interface Product {
   id: string;
   name: string;

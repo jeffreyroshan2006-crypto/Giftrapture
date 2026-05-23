@@ -87,7 +87,6 @@ export default function BespokePreviewBox() {
             }
           });
 
-          // Fallback to static if any category ended up empty
           const finalProducts = {
             bouquets: categorized.bouquets.length > 0 ? categorized.bouquets.slice(0, 2) : FALLBACK_PRODUCTS.bouquets,
             hampers: categorized.hampers.length > 0 ? categorized.hampers.slice(0, 2) : FALLBACK_PRODUCTS.hampers,
@@ -109,89 +108,122 @@ export default function BespokePreviewBox() {
 
   const activeItems = products[activeTab] || [];
 
+  // All products for mobile image-only strip
+  const allMobileProducts = [
+    ...FALLBACK_PRODUCTS.bouquets,
+    ...FALLBACK_PRODUCTS.hampers,
+    ...FALLBACK_PRODUCTS["eid-hampers"],
+    ...FALLBACK_PRODUCTS.corporate
+  ].slice(0, 8);
+
   return (
     <div className="bg-white/10 backdrop-blur-xl border border-white/15 rounded-[2.5rem] p-6 shadow-2xl w-full max-w-md relative overflow-hidden group/box">
       {/* Glow Effect */}
       <div className="absolute -right-16 -top-16 w-36 h-36 bg-accent-gold/20 rounded-full blur-2xl group-hover/box:bg-accent-gold/30 transition-all duration-700" />
       
-      <div className="flex items-center gap-2 mb-6">
-        <Sparkles className="w-4 h-4 text-accent-gold animate-pulse" />
-        <span className="text-xs uppercase tracking-[0.2em] font-bold text-accent-gold">Collection Preview</span>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex bg-black/20 p-1 rounded-full mb-6 border border-white/5 relative z-10">
-        {TABS.map((tab) => {
-          const isActive = activeTab === tab.key;
-          return (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              className="flex-1 py-2 text-center text-xs font-bold uppercase tracking-wider transition-all duration-300 relative rounded-full cursor-pointer text-white/70 hover:text-white"
+      {/* Mobile: Minimalist Image Grid — No Tabs, No Text, Just Images */}
+      <div className="sm:hidden">
+        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide -mx-2 px-2 snap-x snap-mandatory">
+          {allMobileProducts.map((product) => (
+            <Link
+              key={product.id}
+              href={`/product/${product.id}`}
+              className="snap-start shrink-0 block"
             >
-              <span className="relative z-10">{tab.label}</span>
-              {isActive && (
-                <motion.div
-                  layoutId="active-preview-tab"
-                  className="absolute inset-0 bg-white/10 backdrop-blur-md border border-white/10 rounded-full"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-white/5 border border-white/10 transition-transform duration-300 active:scale-95">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
                 />
-              )}
-            </button>
-          );
-        })}
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
 
-      {/* Product List */}
-      <div className="space-y-4 relative min-h-[180px] z-10">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="space-y-4"
-          >
-            {activeItems.map((product) => (
-              <Link
-                key={product.id}
-                href={`/product/${product.id}`}
-                className="flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 p-3 rounded-2xl transition-all duration-300 group/item hover:scale-[1.02] active:scale-[0.99] block"
+      {/* Desktop: Full Layout with Title, Tabs, and Product List */}
+      <div className="hidden sm:block">
+        <div className="flex items-center gap-2 mb-6">
+          <Sparkles className="w-4 h-4 text-accent-gold animate-pulse" />
+          <span className="text-xs uppercase tracking-[0.2em] font-bold text-accent-gold">Collection Preview</span>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex bg-black/20 p-1 rounded-full mb-6 border border-white/5 relative z-10 overflow-x-auto scrollbar-hide -mx-1 px-1">
+          {TABS.map((tab) => {
+            const isActive = activeTab === tab.key;
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className="flex-shrink-0 flex-1 py-2 text-center text-xs font-bold uppercase tracking-wider transition-all duration-300 relative rounded-full cursor-pointer text-white/70 hover:text-white min-w-[60px]"
               >
-                {/* Product Image */}
-                <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-white/5 shrink-0 border border-white/10">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover/item:scale-110"
+                <span className="relative z-10 whitespace-nowrap">{tab.label}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="active-preview-tab"
+                    className="absolute inset-0 bg-white/10 backdrop-blur-md border border-white/10 rounded-full"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
-                </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
 
-                {/* Product Metadata */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="px-2 py-0.5 bg-accent-gold/20 text-accent-gold rounded-full text-[9px] uppercase tracking-wider font-extrabold">
-                      {product.tag}
-                    </span>
+        {/* Product List */}
+        <div className="space-y-4 relative min-h-[180px] z-10">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-4"
+            >
+              {activeItems.map((product) => (
+                <Link
+                  key={product.id}
+                  href={`/product/${product.id}`}
+                  className="flex items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 p-3 rounded-2xl transition-all duration-300 group/item hover:scale-[1.02] active:scale-[0.99] block"
+                >
+                  {/* Product Image */}
+                  <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-white/5 shrink-0 border border-white/10">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover/item:scale-110"
+                    />
                   </div>
-                  <h4 className="font-serif text-sm text-white font-medium truncate group-hover/item:text-accent-gold transition-colors">
-                    {product.name}
-                  </h4>
-                  <p className="font-sans text-xs text-white/60 mt-0.5">
-                    ₹{product.price.toLocaleString("en-IN")}
-                  </p>
-                </div>
 
-                {/* Navigate Indicator */}
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/50 group-hover/item:bg-white group-hover/item:text-text-main transition-all shrink-0">
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover/item:translate-x-0.5" />
-                </div>
-              </Link>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+                  {/* Product Metadata */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="px-2 py-0.5 bg-accent-gold/20 text-accent-gold rounded-full text-[9px] uppercase tracking-wider font-extrabold">
+                        {product.tag}
+                      </span>
+                    </div>
+                    <h4 className="font-serif text-sm text-white font-medium truncate group-hover/item:text-accent-gold transition-colors">
+                      {product.name}
+                    </h4>
+                    <p className="font-sans text-xs text-white/60 mt-0.5">
+                      {product.price.toLocaleString("en-IN")}
+                    </p>
+                  </div>
+
+                  {/* Navigate Indicator */}
+                  <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/50 group-hover/item:bg-white group-hover/item:text-text-main transition-all shrink-0">
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover/item:translate-x-0.5" />
+                  </div>
+                </Link>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
