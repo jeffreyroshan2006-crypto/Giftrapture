@@ -14,6 +14,7 @@ interface Item {
   price: number;
   tag: string;
   image: string;
+  images?: string[];
   category?: string;
 }
 
