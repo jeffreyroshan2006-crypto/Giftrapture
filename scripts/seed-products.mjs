@@ -101,9 +101,11 @@ const rows = ALL_PRODUCTS.map((product) => ({
   name: product.name,
   price: product.price,
   image: product.image,
+  images: [], // Start with empty images array, will be populated through admin
   tag: product.tag || null,
   category: product.category,
   relation: product.relation,
+  relations: [product.relation], // Initialize with the single relation
   description: "",
   inclusions: [],
 }));

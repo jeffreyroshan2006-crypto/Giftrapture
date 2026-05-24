@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, Star } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 
 interface ProductCardProps {
@@ -10,7 +10,8 @@ interface ProductCardProps {
   name: string;
   regularPrice: number;
   salePrice?: number;
-  image: string;
+  images: string[];
+  relations: string[];
   href: string;
   discountPercentage?: number;
 }
@@ -20,7 +21,8 @@ export default function ProductCard({
   name,
   regularPrice,
   salePrice,
-  image,
+  images,
+  relations,
   href,
   discountPercentage,
 }: ProductCardProps) {
@@ -32,71 +34,60 @@ export default function ProductCard({
       id,
       name,
       price: salePrice || regularPrice,
-      image,
+      image: images[0] || "/images/placeholder.jpg",
       quantity: 1,
     });
   };
 
   return (
-    <div className="group relative flex flex-col h-full">
-      <div className="relative aspect-[4/5] bg-secondary rounded-2xl overflow-hidden mb-4 shrink-0">
-        <Link href={href} className="absolute inset-0 z-0 block">
-          {image ? (
-            <Image
-              src={image}
-              alt={name}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-primary/20">
-              <ShoppingBag className="w-12 h-12 text-accent-gold/40" />
-            </div>
-          )}
-          <span className="sr-only">{name}</span>
+    <div className="group relative rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 border border-text-main/5 flex flex-col h-full">
+      {/* Image */}
+      <div className="relative aspect-[3/4] overflow-hidden bg-primary/10 shrink-0">
+        <Link href={href} className="block w-full h-full">
+          <Image
+            src={images[0] || "/images/placeholder.jpg"}
+            alt={name}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
         </Link>
-
-        <div className="absolute top-4 right-4 z-10">
-          <span className="px-4 py-2 bg-text-main text-white text-[9px] font-bold uppercase tracking-[0.3em] rounded-full shadow-lg">
-            Customize This Item
-          </span>
-        </div>
         
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
+        {/* Tag */}
         {discountPercentage && (
-          <div className="absolute top-4 left-4 bg-accent-gold text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full z-10">
-            -{discountPercentage}%
+          <div className="absolute top-2 left-2 z-20">
+            <span className="px-2 py-1 bg-red-500 text-white text-[8px] font-bold uppercase tracking-widest rounded-full">
+              -{discountPercentage}%
+            </span>
           </div>
         )}
-        
-        <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-20 space-y-2">
-          <Link
-            href="/shop/custom-box"
-            className="block text-center w-full bg-accent-gold/90 text-text-main font-bold py-3 rounded-xl hover:bg-accent-gold transition-colors text-xs uppercase tracking-widest"
-          >
-            Customize This Item
-          </Link>
+
+        {/* Quick Add Button */}
+        <div className="absolute bottom-2 left-2 right-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
             onClick={handleAddToCart}
-            className="w-full bg-white/90 backdrop-blur text-text-main font-bold py-3 rounded-xl hover:bg-text-main hover:text-white transition-colors"
+            className="w-full py-2 bg-white text-text-main font-bold rounded-lg shadow-md hover:bg-accent-gold transition-all duration-300 flex items-center justify-center gap-1 text-[10px] uppercase tracking-widest"
           >
-            Add to Cart
+            <ShoppingBag className="w-3 h-3" />
+            Quick Add
           </button>
         </div>
       </div>
-      
-      <div className="flex flex-col items-center text-center flex-1">
-        <Link href={href} className="font-serif text-lg hover:text-accent-gold transition-colors mb-2 line-clamp-2 min-h-[2.8rem]">
-          {name}
-        </Link>
-        <div className="flex items-center gap-3">
-          {salePrice ? (
-            <>
-              <span className="text-soft-gray line-through text-sm">₹{regularPrice}</span>
-              <span className="text-text-main font-bold">₹{salePrice}</span>
-            </>
-          ) : (
-            <span className="text-text-main font-bold">₹{regularPrice}</span>
-          )}
+
+      {/* Product Info */}
+      <div className="p-3 flex flex-col flex-1">
+        <h3 className="text-sm font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2">
+          <Link href={href}>{name}</Link>
+        </h3>
+        <div className="flex items-center justify-between mt-auto">
+          <span className="text-sm font-bold text-accent-gold">
+            ₹{salePrice || regularPrice}
+          </span>
+          <div className="flex items-center gap-1">
+            <Star className="w-3 h-3 fill-accent-gold text-accent-gold" />
+            <span className="text-[10px] font-bold text-soft-gray">5.0</span>
+          </div>
         </div>
       </div>
     </div>

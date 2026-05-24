@@ -25,6 +25,8 @@ import {
   Filter,
 } from "lucide-react";
 import { getSupabaseClient } from "@/lib/supabaseBrowserClient";
+import MultiImageUpload from "@/components/MultiImageUpload";
+import MultiSelect from "@/components/MultiSelect";
 
 // Types based on DB schema
 interface Product {
@@ -33,9 +35,11 @@ interface Product {
   name: string;
   price: number;
   image: string;
+  images: string[];
   tag: string;
   category: "bouquets" | "hampers" | "eid-hampers";
   relation: string;
+  relations: string[];
   description: string;
   inclusions: string[];
   created_at: string;
@@ -48,7 +52,7 @@ const CATEGORIES = [
   { value: "eid-hampers", label: "Eid Hampers", icon: Package },
 ] as const;
 
-const RELATIONS = [
+const ALL_RELATIONS = [
   "For Her",
   "For Him",
   "For Parents",
@@ -127,17 +131,14 @@ function ProductModal({
   const [name, setName] = useState(product?.name || "");
   const [slug, setSlug] = useState(product?.slug || "");
   const [price, setPrice] = useState(product?.price?.toString() || "");
-  const [image, setImage] = useState(product?.image || "");
   const [tag, setTag] = useState(product?.tag || "");
   const [category, setCategory] = useState<typeof CATEGORIES[number]["value"]>(
     product?.category || "bouquets"
   );
-  const [relation, setRelation] = useState(product?.relation || "For Her");
   const [description, setDescription] = useState(product?.description || "");
   const [inclusions, setInclusions] = useState<string[]>(
     product?.inclusions?.length ? product.inclusions : [""]
   );
-  const [dragActive, setDragActive] = useState(false);
 
   const handleInclusionChange = (index: number, value: string) => {
     const newInclusions = [...inclusions];
@@ -159,6 +160,9 @@ function ProductModal({
       .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
 
+  const [images, setImages] = useState<string[]>(product?.images ? [product.image, ...product.images.filter((img: string) => img !== product.image)] : []);
+  const [relations, setRelations] = useState<string[]>(product?.relations || [product?.relation || "For Her"]);
+
   const handleNameChange = (value: string) => {
     setName(value);
     if (!product?.slug) {
@@ -169,66 +173,22 @@ function ProductModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const finalSlug = product?.slug || slug || generateSlug(name);
+    const mainImage = images[0] || "/images/placeholder.jpg";
+    
     onSave({
       ...(product ? { id: product.id } : {}),
       name: name.trim(),
       slug: finalSlug,
       price: parseInt(price) || 0,
-      image: image.trim() || "/images/placeholder.jpg",
+      image: mainImage,
+      images: images,
       tag: tag.trim(),
       category,
-      relation,
+      relation: relations[0] || "For Couples", // Keep old field for backward compatibility
+      relations: relations,
       description: description.trim(),
       inclusions: inclusions.filter((i) => i.trim() !== ""),
     });
-  };
-
-  // Drag-Drop for image
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
-  };
-
-  const handleDrop = async (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      await handleImageUpload(e.dataTransfer.files[0]);
-    }
-  };
-
-  const handleImageUpload = async (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      alert("Please upload an image file");
-      return;
-    }
-    try {
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = `product-images/${fileName}`;
-      const supabaseClient = getSupabaseClient();
-
-      const { error } = await supabaseClient.storage.from("products").upload(filePath, file, {
-        cacheControl: "3600",
-        upsert: false,
-      });
-
-      if (error) {
-        alert("Upload failed: " + error.message);
-        return;
-      }
-
-      const { data } = supabaseClient.storage.from("products").getPublicUrl(filePath);
-      setImage(data.publicUrl);
-    } catch (err: any) {
-      alert("Upload error: " + err.message);
-    }
   };
 
   return (
@@ -329,75 +289,22 @@ function ProductModal({
                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-soft-gray pointer-events-none" />
               </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-text-main/60 uppercase tracking-widest">Relation</label>
-              <div className="relative">
-                <select
-                  value={relation}
-                  onChange={(e) => setRelation(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-text-main/10 bg-white text-text-main text-sm focus:outline-none focus:border-accent-gold/50 focus:ring-2 focus:ring-accent-gold/10 transition-all appearance-none cursor-pointer"
-                >
-                  {RELATIONS.map((rel) => (
-                    <option key={rel} value={rel}>
-                      {rel}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-soft-gray pointer-events-none" />
-              </div>
-            </div>
+            <MultiSelect
+              options={[...ALL_RELATIONS]}
+              selected={relations}
+              onChange={setRelations}
+              label="Relations"
+              placeholder="Select relations..."
+            />
           </div>
 
-          {/* Image Upload */}
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-text-main/60 uppercase tracking-widest">Product Image</label>
-            <div
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
-              onDrop={handleDrop}
-              className={`relative border-2 border-dashed rounded-2xl p-6 text-center transition-all ${
-                dragActive
-                  ? "border-accent-gold bg-accent-gold/5"
-                  : "border-text-main/10 bg-white"
-              }`}
-            >
-              {image ? (
-                <div className="relative w-full h-48 rounded-xl overflow-hidden">
-                  <Image src={image} alt="Preview" fill className="object-cover" />
-                  <button
-                    type="button"
-                    onClick={() => setImage("")}
-                    className="absolute top-2 right-2 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center shadow-sm hover:bg-red-50 transition-colors"
-                  >
-                    <X className="w-4 h-4 text-red-500" />
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <ImageIcon className="w-12 h-12 text-soft-gray/30 mx-auto" />
-                  <div className="text-sm text-soft-gray">
-                    <span className="text-accent-gold font-bold">Click to upload</span> or drag and drop
-                  </div>
-                  <p className="text-xs text-soft-gray/50">SVG, PNG, JPG or WebP (Max 5MB)</p>
-                </div>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0])}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              />
-            </div>
-            {image && (
-              <input
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                className="w-full px-4 py-2 mt-2 rounded-xl border border-text-main/10 bg-white text-text-main text-xs font-mono focus:outline-none focus:border-accent-gold/50 transition-all"
-                placeholder="Or enter image URL"
-              />
-            )}
-          </div>
+          {/* Multi Image Upload */}
+          <MultiImageUpload
+            images={images}
+            onChange={setImages}
+            maxImages={8}
+            singleImage={false}
+          />
 
           {/* Description */}
           <div className="space-y-2">
@@ -623,11 +530,12 @@ export default function AdminDashboardClient() {
   // Filter products
   const filteredProducts = products.filter((product) => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
+    const productRelations = product.relations ? product.relations.join(" ") : (product.relation || "");
     const searchText = [
       product.name,
       product.slug,
       product.tag || "",
-      product.relation || "",
+      productRelations,
       getCategoryMeta(product.category).label,
     ]
       .join(" ")

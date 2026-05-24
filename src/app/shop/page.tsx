@@ -11,10 +11,22 @@ import { useState, useMemo, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabaseClient";
 
-// Combined Product Pool for shop listing
-const ALL_PRODUCTS = [
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  images?: string[];
+  relations?: string[];
+  relation?: string;
+  tag?: string;
+  category: "bouquets" | "hampers" | "eid-hampers";
+}
+
+// Combined Product Pool for shop listing with backward compatibility
+const ALL_PRODUCTS: Product[] = [
   // Bouquets
-  { id: "bq-1", name: "Velvet Crimson Rose", price: 3499, image: "/images/bouquets/IMG_3893.jpg", tag: "Bestseller", category: "bouquets", relation: "For Her" },
+  { id: "bq-1", name: "Velvet Crimson Rose", price: 3499, image: "/images/bouquets/IMG_3893.jpg", images: [], relations: ["For Her"], relation: "For Her", tag: "Bestseller", category: "bouquets" },
   { id: "bq-2", name: "Ethereal White Lilies", price: 2999, image: "/images/bouquets/IMG_3894.jpg", tag: "Classic", category: "bouquets", relation: "For Parents" },
   { id: "bq-3", name: "Blush Peony Symphony", price: 4200, image: "/images/bouquets/IMG_3895.jpg", tag: "Premium", category: "bouquets", relation: "For Her" },
   { id: "bq-4", name: "Midnight Orchid Cascade", price: 5499, image: "/images/bouquets/IMG_3897.jpg", tag: "Signature", category: "bouquets", relation: "For Couples" },
@@ -66,7 +78,7 @@ function ShopContent() {
   const [activePriceRange, setActivePriceRange] = useState<string>("all");
   const [activeRelation, setActiveRelation] = useState<string>("all");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [products, setProducts] = useState(ALL_PRODUCTS);
+  const [products, setProducts] = useState<Product[]>(ALL_PRODUCTS);
   const [addedItems, setAddedItems] = useState<Record<string, boolean>>({});
 
   // Load products from Supabase
@@ -86,7 +98,9 @@ function ShopContent() {
         if (data && data.length > 0) {
           const casted = data.map((p: any) => ({
             ...p,
-            price: Number(p.price)
+            price: Number(p.price),
+            images: p.images || [p.image || "/images/placeholder.jpg"],
+            relations: p.relations || [p.relation || "For Couples"]
           }));
           setProducts(casted);
         }
@@ -97,8 +111,9 @@ function ShopContent() {
     fetchProducts();
   }, []);
 
-  const handleQuickAdd = (productId: string, product: any) => {
-    addItem({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
+  const handleQuickAdd = (productId: string, product: Product) => {
+    const productImage = product.images && product.images.length > 0 ? product.images[0] : product.image;
+    addItem({ id: product.id, name: product.name, price: product.price, image: productImage, quantity: 1 });
     setAddedItems(prev => ({ ...prev, [productId]: true }));
     setTimeout(() => {
       setAddedItems(prev => ({ ...prev, [productId]: false }));
@@ -113,13 +128,20 @@ function ShopContent() {
     if (urlRelation) setActiveRelation(urlRelation);
   }, [searchParams]);
 
+  // Helper to check if product matches relation filter
+  const matchesRelation = (product: Product, relation: string) => {
+    if (relation === "all") return true;
+    const productRelations = product.relations || [product.relation].filter(Boolean) as string[];
+    return productRelations.includes(relation);
+  };
+
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       // Category Filter
       if (activeCategory !== "all" && product.category !== activeCategory) return false;
 
-      // Relation Filter
-      if (activeRelation !== "all" && product.relation !== activeRelation) return false;
+      // Relation Filter - check if any of the product's relations match
+      if (!matchesRelation(product, activeRelation)) return false;
 
       // Price Range Filter
       if (activePriceRange !== "all") {
@@ -259,60 +281,45 @@ function ShopContent() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-8 items-stretch">
+              <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6 items-stretch">
                 {filteredProducts.map((product) => (
                   <div
                     key={product.id}
-                    className="relative group rounded-[2rem] overflow-hidden bg-white shadow-premium hover:shadow-2xl transition-all duration-700 hover:-translate-y-2 border border-text-main/5 flex flex-col h-full"
+                    className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 border border-text-main/5 flex flex-col h-full"
                   >
-                    <div className="relative w-full aspect-[4/5] bg-primary/10 overflow-hidden shrink-0">
+                    <div className="relative w-full aspect-[3/4] overflow-hidden bg-primary/10 shrink-0">
                       <Image
-                        src={product.image}
+                        src={(product.images && product.images.length > 0) ? product.images[0] : product.image || "/images/placeholder.jpg"}
                         alt={product.name}
                         fill
-                        className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-700" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       
-                      <div className="absolute top-5 left-5 z-20">
-                        <span className="px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest font-bold text-text-main shadow-sm">
+                      <div className="absolute top-2 left-2 z-20">
+                        <span className="px-2 py-1 bg-white/90 backdrop-blur-md rounded-full text-[8px] uppercase tracking-widest font-bold text-text-main shadow-sm">
                           {product.tag}
                         </span>
                       </div>
 
-                      <div className="absolute top-5 right-5 z-20 flex flex-col items-end gap-2">
-                        <Link
-                          href="/shop/custom-box"
-                          className="px-3 py-2 bg-text-main text-white text-[9px] font-bold uppercase tracking-[0.3em] rounded-full shadow-lg"
-                        >
-                          Customize
-                        </Link>
-                      </div>
-
-                      <div className="absolute bottom-6 left-6 right-6 z-20 flex flex-col gap-2 lg:opacity-0 lg:group-hover:opacity-100 lg:transform lg:translate-y-8 lg:group-hover:translate-y-0 transition-all duration-500 delay-100">
-                        <Link
-                          href="/shop/custom-box"
-                          className="w-full py-3 text-center font-bold rounded-2xl bg-accent-gold/95 text-text-main text-[11px] uppercase tracking-widest shadow-2xl hover:bg-accent-gold transition-all"
-                        >
-                          Customize This Item
-                        </Link>
+                      {/* Quick Add Button - Always visible on mobile, hover on desktop */}
+                      <div className="absolute bottom-2 left-2 right-2 z-20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                         <button
                           onClick={() => handleQuickAdd(product.id, product)}
-                          className={`w-full py-4 font-bold rounded-2xl flex items-center justify-center gap-2 transition-all duration-300 shadow-2xl text-sm uppercase tracking-widest ${
+                          className={`w-full py-2 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[10px] uppercase tracking-widest ${
                             addedItems[product.id]
-                              ? "bg-accent-sage text-white scale-95"
-                              : "bg-white text-text-main hover:bg-text-main hover:text-white"
+                              ? "bg-accent-sage text-white"
+                              : "bg-white text-text-main hover:bg-accent-gold"
                           }`}
                         >
                           {addedItems[product.id] ? (
                             <>
-                              <Check className="w-4 h-4" />
+                              <Check className="w-3 h-3" />
                               Added
                             </>
                           ) : (
                             <>
-                              <ShoppingBag className="w-4 h-4" />
+                              <ShoppingBag className="w-3 h-3" />
                               Quick Add
                             </>
                           )}
@@ -320,19 +327,19 @@ function ShopContent() {
                       </div>
                     </div>
 
-                    <div className="p-6 md:p-8 flex flex-col gap-3 bg-white relative z-10 flex-1">
-                      <div className="flex justify-between items-start gap-4">
-                        <h3 className="text-xl md:text-2xl font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2 min-h-[3.2rem]">
-                          {product.name}
-                        </h3>
-                        <div className="flex items-center gap-1 bg-primary/20 px-2 py-1 rounded-md shrink-0 mt-1">
+                    <div className="p-3 flex flex-col gap-2 bg-white relative z-10 flex-1">
+                      <h3 className="text-sm font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2">
+                        {product.name}
+                      </h3>
+                      <div className="flex items-center justify-between mt-auto">
+                        <span className="text-sm font-bold text-accent-gold">
+                          ₹{product.price.toLocaleString("en-IN")}
+                        </span>
+                        <div className="flex items-center gap-1">
                           <Star className="w-3 h-3 fill-accent-gold text-accent-gold" />
-                          <span className="text-xs font-bold text-text-main">5.0</span>
+                          <span className="text-[10px] font-bold text-soft-gray">5.0</span>
                         </div>
                       </div>
-                      <p className="text-lg font-sans text-soft-gray font-medium tracking-tight">
-                        ₹{product.price.toLocaleString("en-IN")}
-                      </p>
                     </div>
                   </div>
                 ))}

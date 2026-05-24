@@ -26,6 +26,8 @@ interface Product {
   name: string;
   price: number;
   image: string;
+  images?: string[];
+  relations?: string[];
   tag: string | null;
   category: string;
   relation: string;
@@ -33,94 +35,77 @@ interface Product {
 
 function ProductItem({ product, index }: { product: Product; index: number }) {
   const { addItem } = useCartStore();
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    const productImage = (product.images && product.images.length > 0)
+      ? product.images[0]
+      : product.image || "/images/placeholder.jpg";
     addItem({
       id: product.id,
       name: product.name,
       price: product.price,
-      image: product.image,
+      image: productImage,
       quantity: 1,
     });
   };
-
-  const categorySlug =
-    product.category === "bouquets"
-      ? "bouquets"
-      : product.category === "hampers"
-      ? "themed-hampers"
-      : product.category === "eid-hampers"
-      ? "eid-hampers"
-      : "shop";
 
   const href = `/product/${product.id}`;
 
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      initial={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: (index % 4) * 0.1 }}
       className="group"
     >
       <Link href={href} className="block">
-        <div className="relative rounded-3xl overflow-hidden bg-white shadow-premium hover:shadow-2xl transition-shadow duration-500 h-full flex flex-col">
+        <div className="relative rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 border border-text-main/5 flex flex-col h-full">
           {/* Image */}
-          <div className="relative aspect-[3/4] overflow-hidden">
+          <div className="relative aspect-[3/4] overflow-hidden bg-primary/10 shrink-0">
             <Image
-              src={product.image}
+              src={(product.images && product.images.length > 0) ? product.images[0] : product.image || "/images/placeholder.jpg"}
               alt={product.name}
               fill
-              className="object-cover transition-transform duration-1000 group-hover:scale-110"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {/* Tag */}
             {product.tag && (
-              <div className="absolute top-4 left-4 z-20">
-                <span className="px-3 py-1.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest font-bold text-text-main shadow-sm">
+              <div className="absolute top-2 left-2 z-20">
+                <span className="px-2 py-1 bg-white/90 backdrop-blur-md rounded-full text-[8px] uppercase tracking-widest font-bold text-text-main shadow-sm">
                   {product.tag}
                 </span>
               </div>
             )}
 
-            {/* Hover Overlay Actions */}
-            <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 z-20">
+            {/* Quick Add Button - Always visible on mobile, hover on desktop */}
+            <div className="absolute bottom-2 left-2 right-2 z-20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
               <button
                 onClick={handleAddToCart}
-                className="flex items-center gap-2 px-6 py-3 bg-white text-text-main font-bold rounded-full shadow-2xl hover:bg-accent-gold transition-colors text-sm"
+                className="w-full py-2 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[10px] uppercase tracking-widest bg-white text-text-main hover:bg-accent-gold"
               >
-                <ShoppingBag className="w-4 h-4" />
-                Add to Cart
+                <ShoppingBag className="w-3 h-3" />
+                Quick Add
               </button>
-            </div>
-
-            {/* Price Badge */}
-            <div className="absolute bottom-4 right-4 z-20">
-              <span className="px-4 py-2 bg-text-main text-white rounded-full text-sm font-bold shadow-lg">
-                ₹{product.price.toLocaleString("en-IN")}
-              </span>
             </div>
           </div>
 
-          {/* Info */}
-          <div className="p-5 flex flex-col flex-1">
-            <div className="flex items-start justify-between gap-3 mb-2">
-              <h3 className="font-serif text-base text-text-main group-hover:text-accent-gold transition-colors line-clamp-2 leading-snug">
-                {product.name}
-              </h3>
-            </div>
-            <div className="flex items-center justify-between mt-auto pt-3 border-t border-text-main/5">
-              <span className="text-[10px] uppercase tracking-widest font-bold text-soft-gray">
-                {product.category.replace("hampers", "Hampers").replace("bouquets", "Bouquets").replace("eid-", "Eid ")}
+          {/* Product Info */}
+          <div className="p-3 flex flex-col flex-1">
+            <h3 className="text-sm font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2">
+              {product.name}
+            </h3>
+            <div className="flex items-center justify-between mt-auto">
+              <span className="text-sm font-bold text-accent-gold">
+                ₹{product.price.toLocaleString("en-IN")}
               </span>
-              <div className="flex items-center gap-1 text-accent-gold">
-                <Star className="w-3 h-3 fill-accent-gold" />
-                <span className="text-[10px] font-bold">4.8</span>
+              <div className="flex items-center gap-1">
+                <Star className="w-3 h-3 fill-accent-gold text-accent-gold" />
+                <span className="text-[10px] font-bold text-soft-gray">4.8</span>
               </div>
             </div>
           </div>

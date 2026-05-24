@@ -1,165 +1,157 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingBag, Star, ArrowRight, ArrowLeft } from "lucide-react";
+import { ShoppingBag, Star } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
+import { useState } from "react";
 
-const items = [
+interface Item {
+  id: string;
+  name: string;
+  price: number;
+  tag: string;
+  images: string[];
+  category?: string;
+}
+
+const items: Item[] = [
   {
     id: "bq-6",
     name: "Classic Ranunculus Bouquet",
-    price: "₹ 2,499",
+    price: 2499,
     tag: "Best Seller",
-    image: "/images/bouquets/IMG_3926.png",
+    images: ["/images/bouquets/IMG_3926.png"],
   },
   {
     id: "hm-6",
     name: "Signature Silk Trousseau Box",
-    price: "₹ 5,999",
+    price: 5999,
     tag: "Handcrafted",
-    image: "/images/themed-hampers/IMG_3915.jpg",
+    images: ["/images/themed-hampers/IMG_3915.jpg"],
   },
   {
     id: "hm-3",
     name: "Artisanal Chocolate Hamper",
-    price: "₹ 3,250",
+    price: 3250,
     tag: "Indulgent",
-    image: "/images/themed-hampers/IMG_3900.jpg",
+    images: ["/images/themed-hampers/IMG_3900.jpg"],
   },
   {
     id: "bq-3",
     name: "Premium Peony Arrangement",
-    price: "₹ 4,799",
+    price: 4799,
     tag: "Limited Edition",
-    image: "/images/bouquets/IMG_3893.jpg",
+    images: ["/images/bouquets/IMG_3893.jpg"],
+  },
+  {
+    id: "hm-1",
+    name: "Royal Celebration Hamper",
+    price: 7499,
+    tag: "Premium",
+    images: ["/images/themed-hampers/IMG_3723.jpg"],
+  },
+  {
+    id: "bq-1",
+    name: "Velvet Crimson Rose",
+    price: 3499,
+    tag: "Bestseller",
+    images: ["/images/bouquets/IMG_3893.jpg"],
   },
 ];
 
 export default function FeaturedCarousel() {
-  const scrollRef = useRef<HTMLDivElement>(null);
   const { addItem } = useCartStore();
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [addedItems, setAddedItems] = useState<Record<string, boolean>>({});
 
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    }
-  };
-
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    }
-  };
-
-  const handleQuickAdd = (e: React.MouseEvent, item: any) => {
+  const handleQuickAdd = (e: React.MouseEvent, item: Item) => {
     e.preventDefault();
     e.stopPropagation();
     
-    const priceNumber = parseInt(item.price.replace(/[^\d]/g, ""), 10);
     addItem({
       id: item.id,
       name: item.name,
-      price: priceNumber,
-      image: item.image,
+      price: item.price,
+      image: item.images[0] || "/images/placeholder.jpg",
       quantity: 1
     });
 
-    setSuccessMsg(`Added ${item.name} to bag!`);
-    setTimeout(() => setSuccessMsg(null), 3000);
+    setAddedItems(prev => ({ ...prev, [item.id]: true }));
+    setTimeout(() => {
+      setAddedItems(prev => ({ ...prev, [item.id]: false }));
+    }, 2000);
   };
 
   return (
-    <section className="py-24 bg-primary/10 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16 px-2">
-          <div>
-            <span className="text-accent-sage font-sans text-xs uppercase tracking-[0.3em] font-semibold mb-4 block">
-              Curated for You
-            </span>
-            <h2 className="text-4xl md:text-5xl font-serif text-text-main tracking-tighter shadow-sm">
-              Most Loved <span className="italic font-normal">Creations</span>
-            </h2>
-          </div>
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={scrollLeft}
-              className="w-12 h-12 rounded-full border border-text-main/10 flex items-center justify-center text-text-main hover:bg-white hover:shadow-xl transition-all active:scale-95 cursor-pointer"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={scrollRight}
-              className="w-12 h-12 rounded-full border border-text-main/10 flex items-center justify-center text-text-main hover:bg-white hover:shadow-xl transition-all active:scale-95 cursor-pointer"
-            >
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
+    <section className="py-16 md:py-24 bg-primary/10 overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <span className="text-accent-sage font-sans text-xs uppercase tracking-[0.3em] font-semibold mb-4 block">
+            Curated for You
+          </span>
+          <h2 className="text-3xl md:text-5xl font-serif text-text-main tracking-tighter">
+            Most Loved <span className="italic font-normal">Creations</span>
+          </h2>
         </div>
 
-        {/* Global mini success toast */}
-        <AnimatePresence>
-          {successMsg && (
-            <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-text-main text-white px-6 py-3 rounded-full text-xs uppercase tracking-widest font-bold shadow-2xl flex items-center gap-2 border border-white/10 animate-fade-in-up">
-              <ShoppingBag className="w-3.5 h-3.5 text-accent-gold" />
-              <span>{successMsg}</span>
-            </div>
-          )}
-        </AnimatePresence>
-
-        <div
-          ref={scrollRef}
-          className="flex space-x-4 md:space-x-8 overflow-x-auto pb-10 scrollbar-hide snap-x snap-mandatory px-2"
-        >
+        {/* Products Grid - Responsive layout */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
           {items.map((item, index) => (
             <div
-              key={item.name}
-              className="min-w-[260px] sm:min-w-[300px] md:min-w-[340px] snap-start"
+              key={item.id}
+              className="group relative rounded-2xl overflow-hidden bg-white shadow-premium hover:shadow-xl transition-all duration-500 hover:-translate-y-1 flex flex-col h-full"
             >
-              <Link href={`/product/${item.id}`} className="group relative rounded-3xl overflow-hidden bg-white shadow-premium p-4 md:p-6 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full cursor-pointer hover:shadow-2xl">
-                {/* Image Container */}
-                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-6">
-                  <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/70 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest font-bold text-text-main">
-                    {item.tag}
-                  </span>
+              {/* Image Container */}
+              <div className="relative aspect-[3/4] overflow-hidden">
+                <span className="absolute top-3 left-3 z-20 px-2 py-1 bg-white/90 backdrop-blur-md rounded-full text-[9px] md:text-[10px] uppercase tracking-widest font-bold text-text-main shadow-sm">
+                  {item.tag}
+                </span>
 
+                <Link href={`/product/${item.id}`} className="block w-full h-full">
                   <Image
-                    src={item.image}
+                    src={item.images[0] || "/images/placeholder.jpg"}
                     alt={item.name}
                     fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
+                </Link>
 
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                  {/* Quick Add Overlay - Responsive */}
-                  <button
-                    onClick={(e) => handleQuickAdd(e, item)}
-                    className="absolute bottom-4 left-4 right-4 py-3 bg-white/90 backdrop-blur-md text-text-main font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 text-xs md:text-sm md:opacity-0 md:translate-y-12 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition-all duration-500 z-30 hover:bg-accent-gold transition-colors"
-                  >
-                    <ShoppingBag className="w-4 h-4" />
-                    Quick Add
-                  </button>
-                </div>
+                {/* Quick Add Button - Mobile always visible, desktop on hover */}
+                <button
+                  onClick={(e) => handleQuickAdd(e, item)}
+                  className={`absolute bottom-3 left-3 right-3 py-2 md:py-3 bg-white/95 backdrop-blur-md text-text-main font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 text-[10px] md:text-xs transition-all duration-500 z-30 hover:bg-accent-gold hover:text-text-main ${
+                    addedItems[item.id]
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-100 translate-y-0 md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0"
+                  }`}
+                >
+                  <ShoppingBag className="w-3 h-3 md:w-4 md:h-4" />
+                  {addedItems[item.id] ? "Added" : "Quick Add"}
+                </button>
+              </div>
 
-                <div className="flex flex-col flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xl md:text-2xl font-serif text-text-main transition-colors group-hover:text-accent-gold font-medium line-clamp-2 min-h-[3.2rem]">
+              {/* Product Info */}
+              <div className="p-3 md:p-4 flex flex-col flex-1 bg-white">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <h3 className="text-sm md:text-base font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors line-clamp-2 flex-1">
+                    <Link href={`/product/${item.id}`} className="hover:underline">
                       {item.name}
-                    </span>
-                    <div className="flex items-center text-accent-gold shrink-0">
-                      <Star className="w-3 h-3 fill-accent-gold" />
-                      <span className="text-[10px] ml-1 font-bold">4.9</span>
-                    </div>
+                    </Link>
+                  </h3>
+                  <div className="flex items-center gap-1 shrink-0 mt-0.5">
+                    <Star className="w-3 h-3 fill-accent-gold text-accent-gold" />
+                    <span className="text-[10px] md:text-xs font-bold text-text-main">4.9</span>
                   </div>
-                  <span className="text-lg md:text-xl font-sans text-text-main/70 font-bold tracking-tight mt-auto">
-                    {item.price}
-                  </span>
                 </div>
-              </Link>
+                <p className="text-sm md:text-base font-sans text-text-main/70 font-bold tracking-tight mt-auto">
+                  ₹{item.price.toLocaleString("en-IN")}
+                </p>
+              </div>
             </div>
           ))}
         </div>

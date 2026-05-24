@@ -60,7 +60,9 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <button
-            className="md:hidden p-2 text-text-main hover:bg-primary/20 rounded-full transition-colors"
+            type="button"
+            aria-label="Open menu"
+            className="md:hidden p-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-text-main hover:bg-primary/20 rounded-full transition-colors active:scale-95 touch-manipulation"
             onClick={() => setMobileMenuOpen(true)}
           >
             <Menu className="w-6 h-6" />

@@ -10,10 +10,12 @@ CREATE TABLE IF NOT EXISTS public.products (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   price NUMERIC NOT NULL,
-  image TEXT NOT NULL,
+  image TEXT DEFAULT '/images/placeholder.jpg' NOT NULL,
+  images JSONB DEFAULT '[]'::jsonb,
   tag TEXT,
   category TEXT NOT NULL,
   relation TEXT DEFAULT 'For Couples',
+  relations JSONB DEFAULT '[]'::jsonb,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

@@ -8,6 +8,7 @@ import { ShoppingBag, Star, Heart, ArrowLeft, ShieldCheck, Truck, RefreshCw } fr
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ImageGallery from "@/components/ImageGallery";
 
 // Dynamic Product Details Pool
 const PRODUCTS_POOL: Record<string, {
@@ -526,6 +527,8 @@ interface ProductDetail {
   name: string;
   price: number;
   image: string;
+  images?: string[];
+  relations?: string[];
   tag: string;
   description: string;
   inclusions: string[];
@@ -574,6 +577,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             name: data.name,
             price: Number(data.price),
             image: data.image,
+            images: data.images || [],
+            relations: data.relations || [data.relation || "For Couples"],
             tag: data.tag || "Premium",
             description: data.description || "An exquisite selection curated by GIFTRAPTURE to bring elegance, luxury, and curated joy to your special gifting moments.",
             inclusions: Array.isArray(data.inclusions) 
@@ -649,20 +654,17 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           {/* Product Image Column */}
           <div className="lg:col-span-6">
-            <div className="aspect-[4/5] w-full bg-primary/10 rounded-[3rem] overflow-hidden relative shadow-premium border border-text-main/5">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-              <div className="absolute top-6 left-6">
+            <div className="relative aspect-[4/5] w-full bg-primary/10 rounded-[3rem] overflow-hidden shadow-premium border border-text-main/5">
+              <div className="absolute top-6 left-6 z-10">
                 <span className="px-5 py-2.5 bg-white/95 backdrop-blur-md rounded-full text-xs uppercase tracking-widest font-bold text-text-main shadow-md">
                   {product.tag}
                 </span>
               </div>
+              <ImageGallery
+                images={product.images || [product.image || "/images/placeholder.jpg"]}
+                alt={product.name}
+                className="w-full h-full"
+              />
             </div>
           </div>
 

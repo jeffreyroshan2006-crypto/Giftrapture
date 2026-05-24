@@ -11,25 +11,27 @@ interface ProductPreview {
   name: string;
   price: number;
   image: string;
+  images?: string[];
+  relations?: string[];
   tag: string;
 }
 
 const FALLBACK_PRODUCTS: Record<string, ProductPreview[]> = {
   bouquets: [
-    { id: "bq-3", name: "Blush Peony Symphony", price: 4200, image: "/images/bouquets/IMG_3895.jpg", tag: "Premium" },
-    { id: "bq-1", name: "Velvet Crimson Rose", price: 3499, image: "/images/bouquets/IMG_3893.jpg", tag: "Bestseller" }
+    { id: "bq-3", name: "Blush Peony Symphony", price: 4200, image: "/images/bouquets/IMG_3895.jpg", images: [], tag: "Premium" },
+    { id: "bq-1", name: "Velvet Crimson Rose", price: 3499, image: "/images/bouquets/IMG_3893.jpg", images: [], tag: "Bestseller" }
   ],
   hampers: [
-    { id: "hm-1", name: "Royal Celebration Hamper", price: 7499, image: "/images/themed-hampers/IMG_3723.jpg", tag: "Premium" },
-    { id: "hm-3", name: "Velvet Treasure Chest", price: 5499, image: "/images/themed-hampers/IMG_3900.jpg", tag: "Bestseller" }
+    { id: "hm-1", name: "Royal Celebration Hamper", price: 7499, image: "/images/themed-hampers/IMG_3723.jpg", images: [], tag: "Premium" },
+    { id: "hm-3", name: "Velvet Treasure Chest", price: 5499, image: "/images/themed-hampers/IMG_3900.jpg", images: [], tag: "Bestseller" }
   ],
   "eid-hampers": [
-    { id: "eh-1", name: "Al-Noor Premium Eid Box", price: 6499, image: "/images/eid-hampers/IMG_3848.png", tag: "Premium" },
-    { id: "eh-3", name: "Royal Mubarak Trunk", price: 8500, image: "/images/eid-hampers/IMG_3943.png", tag: "Luxury" }
+    { id: "eh-1", name: "Al-Noor Premium Eid Box", price: 6499, image: "/images/eid-hampers/IMG_3848.png", images: [], tag: "Premium" },
+    { id: "eh-3", name: "Royal Mubarak Trunk", price: 8500, image: "/images/eid-hampers/IMG_3943.png", images: [], tag: "Luxury" }
   ],
   corporate: [
-    { id: "bs-3", name: "Corporate Executive Kit", price: 9999, image: "/images/themed-hampers/IMG_3899.jpg", tag: "Signature" },
-    { id: "hm-2", name: "Gilded Indulgence Box", price: 6999, image: "/images/themed-hampers/IMG_3899.jpg", tag: "Luxury" }
+    { id: "bs-3", name: "Corporate Executive Kit", price: 9999, image: "/images/themed-hampers/IMG_3899.jpg", images: [], tag: "Signature" },
+    { id: "hm-2", name: "Gilded Indulgence Box", price: 6999, image: "/images/themed-hampers/IMG_3899.jpg", images: [], tag: "Luxury" }
   ]
 };
 
@@ -132,7 +134,7 @@ export default function BespokePreviewBox() {
             >
               <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-white/5 border border-white/10 transition-transform duration-300 active:scale-95">
                 <Image
-                  src={product.image}
+                  src={(product.images && product.images.length > 0) ? product.images[0] : product.image || "/images/placeholder.jpg"}
                   alt={product.name}
                   fill
                   className="object-cover"
@@ -193,7 +195,7 @@ export default function BespokePreviewBox() {
                   {/* Product Image */}
                   <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-white/5 shrink-0 border border-white/10">
                     <Image
-                      src={product.image}
+                      src={(product.images && product.images.length > 0) ? product.images[0] : product.image || "/images/placeholder.jpg"}
                       alt={product.name}
                       fill
                       className="object-cover transition-transform duration-700 group-hover/item:scale-110"
