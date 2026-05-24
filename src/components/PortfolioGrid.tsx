@@ -35,6 +35,8 @@ interface Product {
 
 function ProductItem({ product, index }: { product: Product; index: number }) {
   const { addItem } = useCartStore();
+  const [isAdded, setIsAdded] = useState(false);
+  const isAddedRef = useRef(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -49,6 +51,14 @@ function ProductItem({ product, index }: { product: Product; index: number }) {
       image: productImage,
       quantity: 1,
     });
+    
+    isAddedRef.current = true;
+    setIsAdded(true);
+
+    setTimeout(() => {
+      isAddedRef.current = false;
+      setIsAdded(false);
+    }, 2500);
   };
 
   const href = `/product/${product.id}`;
@@ -63,14 +73,42 @@ function ProductItem({ product, index }: { product: Product; index: number }) {
     >
       <Link href={href} className="block">
         <div className="relative rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 border border-text-main/5 flex flex-col h-full">
-          {/* Image */}
+          {/* Image Carousel */}
           <div className="relative aspect-[3/4] overflow-hidden bg-primary/10 shrink-0">
-            <Image
-              src={(product.images && product.images.length > 0) ? product.images[0] : product.image || "/images/placeholder.jpg"}
-              alt={product.name}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
+            <div className="relative w-full h-full">
+              <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full h-full scroll-smooth">
+                {(product.images && product.images.length > 0) ? (
+                  product.images.map((img, idx) => (
+                    <div key={idx} className="min-w-full h-full relative snap-start shrink-0">
+                      <Image
+                        src={img}
+                        alt={`${product.name} - Image ${idx + 1}`}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div className="min-w-full h-full relative snap-start shrink-0">
+                    <Image
+                      src={product.image || "/images/placeholder.jpg"}
+                      alt={product.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                )}
+              </div>
+              
+              {/* Dot Indicators */}
+              {(product.images && product.images.length > 1) && (
+                <div className="absolute bottom-14 left-0 right-0 flex justify-center gap-1.5 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {product.images.map((_, idx) => (
+                    <div key={idx} className="w-1.5 h-1.5 rounded-full bg-white/70 shadow-sm" />
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {/* Tag */}
@@ -86,10 +124,25 @@ function ProductItem({ product, index }: { product: Product; index: number }) {
             <div className="absolute bottom-2 left-2 right-2 z-20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
               <button
                 onClick={handleAddToCart}
-                className="w-full py-2 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[10px] uppercase tracking-widest bg-white text-text-main hover:bg-accent-gold"
+                className={`w-full py-2 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[10px] uppercase tracking-widest ${
+                  isAdded
+                    ? "bg-accent-sage text-white scale-105"
+                    : "bg-white text-text-main hover:bg-accent-gold"
+                }`}
               >
-                <ShoppingBag className="w-3 h-3" />
-                Quick Add
+                {isAdded ? (
+                  <>
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Added
+                  </>
+                ) : (
+                  <>
+                    <ShoppingBag className="w-3 h-3" />
+                    Quick Add
+                  </>
+                )}
               </button>
             </div>
           </div>

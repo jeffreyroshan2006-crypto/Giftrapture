@@ -13,6 +13,7 @@ import { supabase } from "@/lib/supabaseClient";
 
 interface Product {
   id: string;
+  slug?: string;
   name: string;
   price: number;
   image: string;
@@ -97,10 +98,15 @@ function ShopContent() {
         }
         if (data && data.length > 0) {
           const casted = data.map((p: any) => ({
-            ...p,
+            id: p.id,
+            slug: p.slug,
+            name: p.name,
             price: Number(p.price),
+            image: p.image,
             images: p.images || [p.image || "/images/placeholder.jpg"],
-            relations: p.relations || [p.relation || "For Couples"]
+            relations: p.relations || [p.relation || "For Couples"],
+            tag: p.tag,
+            category: p.category,
           }));
           setProducts(casted);
         }
@@ -282,12 +288,14 @@ function ShopContent() {
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6 items-stretch">
-                {filteredProducts.map((product) => (
+                {filteredProducts.map((product) => {
+                  const productHref = `/product/${product.slug || product.id}`;
+                  return (
                   <div
                     key={product.id}
                     className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 border border-text-main/5 flex flex-col h-full"
                   >
-                    <div className="relative w-full aspect-[3/4] overflow-hidden bg-primary/10 shrink-0">
+                    <Link href={productHref} className="relative w-full aspect-[3/4] overflow-hidden bg-primary/10 shrink-0 block">
                       <Image
                         src={(product.images && product.images.length > 0) ? product.images[0] : product.image || "/images/placeholder.jpg"}
                         alt={product.name}
@@ -301,35 +309,41 @@ function ShopContent() {
                           {product.tag}
                         </span>
                       </div>
+                    </Link>
 
-                      {/* Quick Add Button - Always visible on mobile, hover on desktop */}
-                      <div className="absolute bottom-2 left-2 right-2 z-20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
-                        <button
-                          onClick={() => handleQuickAdd(product.id, product)}
-                          className={`w-full py-2 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[10px] uppercase tracking-widest ${
-                            addedItems[product.id]
-                              ? "bg-accent-sage text-white"
-                              : "bg-white text-text-main hover:bg-accent-gold"
-                          }`}
-                        >
-                          {addedItems[product.id] ? (
-                            <>
-                              <Check className="w-3 h-3" />
-                              Added
-                            </>
-                          ) : (
-                            <>
-                              <ShoppingBag className="w-3 h-3" />
-                              Quick Add
-                            </>
-                          )}
-                        </button>
-                      </div>
+                    {/* Quick Add Button - Always visible on mobile, hover on desktop */}
+                    <div className="absolute bottom-[80px] left-2 right-2 z-20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleQuickAdd(product.id, product);
+                        }}
+                        className={`w-full py-2 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[10px] uppercase tracking-widest ${
+                          addedItems[product.id]
+                            ? "bg-accent-sage text-white"
+                            : "bg-white text-text-main hover:bg-accent-gold"
+                        }`}
+                      >
+                        {addedItems[product.id] ? (
+                          <>
+                            <Check className="w-3 h-3" />
+                            Added
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingBag className="w-3 h-3" />
+                            Quick Add
+                          </>
+                        )}
+                      </button>
                     </div>
 
                     <div className="p-3 flex flex-col gap-2 bg-white relative z-10 flex-1">
                       <h3 className="text-sm font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2">
-                        {product.name}
+                        <Link href={productHref} className="hover:underline block">
+                          {product.name}
+                        </Link>
                       </h3>
                       <div className="flex items-center justify-between mt-auto">
                         <span className="text-sm font-bold text-accent-gold">
@@ -342,7 +356,8 @@ function ShopContent() {
                       </div>
                     </div>
                   </div>
-                ))}
+                );
+                })}
               </div>
             )}
           </div>

@@ -558,11 +558,24 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       setLoading(true);
       try {
         const { supabase } = await import("@/lib/supabaseClient");
-        const { data, error } = await supabase
+
+        // 1. Try lookup by slug first (how DB products are linked)
+        let { data, error } = await supabase
           .from("products")
           .select("*")
-          .eq("id", id)
+          .eq("slug", id)
           .maybeSingle();
+
+        // 2. Fall back to UUID lookup if slug didn't match
+        if (!data && !error) {
+          const result = await supabase
+            .from("products")
+            .select("*")
+            .eq("id", id)
+            .maybeSingle();
+          data = result.data;
+          error = result.error;
+        }
 
         if (error) {
           console.error("Error fetching product from Supabase:", error);
@@ -571,18 +584,43 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           // Product not found in Supabase — notFound() will serve the 404 page
           setFetchError(true);
         } else {
+          // Parse images - Supabase JSONB returns parsed arrays, but fallback to string parse
+          let parsedImages: string[] = [];
+          if (Array.isArray(data.images) && data.images.length > 0) {
+            parsedImages = data.images as string[];
+          } else if (typeof data.images === "string") {
+            try { parsedImages = JSON.parse(data.images); } catch {}
+          }
+          // Always ensure the main image is included
+          if (parsedImages.length === 0 && data.image) {
+            parsedImages = [data.image];
+          } else if (data.image && !parsedImages.includes(data.image)) {
+            parsedImages = [data.image, ...parsedImages];
+          }
+
+          // Parse relations similarly
+          let parsedRelations: string[] = [];
+          if (Array.isArray(data.relations) && data.relations.length > 0) {
+            parsedRelations = data.relations as string[];
+          } else if (typeof data.relations === "string") {
+            try { parsedRelations = JSON.parse(data.relations); } catch {}
+          }
+          if (parsedRelations.length === 0) {
+            parsedRelations = [data.relation || "For Couples"];
+          }
+
           // Fallbacks for luxury metadata if not fully specified in simple database rows
           const dbProduct = {
             id: data.id,
             name: data.name,
             price: Number(data.price),
             image: data.image,
-            images: data.images || [],
-            relations: data.relations || [data.relation || "For Couples"],
+            images: parsedImages,
+            relations: parsedRelations,
             tag: data.tag || "Premium",
             description: data.description || "An exquisite selection curated by GIFTRAPTURE to bring elegance, luxury, and curated joy to your special gifting moments.",
-            inclusions: Array.isArray(data.inclusions) 
-              ? data.inclusions 
+            inclusions: Array.isArray(data.inclusions)
+              ? data.inclusions
               : (typeof data.inclusions === "string" ? JSON.parse(data.inclusions) : ["Premium gift wrapping", "Signature Giftrapture satin ribbon", "Handwritten luxury note card"]),
             reviews: Array.isArray(data.reviews)
               ? data.reviews
@@ -652,18 +690,17 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          {/* Product Image Column */}
           <div className="lg:col-span-6">
-            <div className="relative aspect-[4/5] w-full bg-primary/10 rounded-[3rem] overflow-hidden shadow-premium border border-text-main/5">
-              <div className="absolute top-6 left-6 z-10">
-                <span className="px-5 py-2.5 bg-white/95 backdrop-blur-md rounded-full text-xs uppercase tracking-widest font-bold text-text-main shadow-md">
+            <div className="relative">
+              <div className="absolute top-4 left-4 z-30">
+                <span className="px-4 py-2 bg-white/95 backdrop-blur-md rounded-full text-xs uppercase tracking-widest font-bold text-text-main shadow-md">
                   {product.tag}
                 </span>
               </div>
               <ImageGallery
-                images={product.images || [product.image || "/images/placeholder.jpg"]}
+                images={product.images && product.images.length > 0 ? product.images : [product.image || "/images/placeholder.jpg"]}
                 alt={product.name}
-                className="w-full h-full"
+                className="w-full"
               />
             </div>
           </div>

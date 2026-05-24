@@ -43,14 +43,40 @@ export default function ProductCard({
     <div className="group relative rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 border border-text-main/5 flex flex-col h-full">
       {/* Image */}
       <div className="relative aspect-[3/4] overflow-hidden bg-primary/10 shrink-0">
-        <Link href={href} className="block w-full h-full">
-          <Image
-            src={images[0] || "/images/placeholder.jpg"}
-            alt={name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        </Link>
+        <div className="relative w-full h-full">
+          <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full h-full scroll-smooth">
+            {images.length > 0 ? (
+              images.map((img, idx) => (
+                <Link key={idx} href={href} className="min-w-full h-full relative snap-start shrink-0 block">
+                  <Image
+                    src={img}
+                    alt={`${name} - Image ${idx + 1}`}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </Link>
+              ))
+            ) : (
+              <Link href={href} className="min-w-full h-full relative snap-start shrink-0 block">
+                <Image
+                  src="/images/placeholder.jpg"
+                  alt={name}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </Link>
+            )}
+          </div>
+          
+          {/* Dot Indicators */}
+          {images.length > 1 && (
+            <div className="absolute bottom-14 left-0 right-0 flex justify-center gap-1.5 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {images.map((_, idx) => (
+                <div key={idx} className="w-1.5 h-1.5 rounded-full bg-white/70 shadow-sm" />
+              ))}
+            </div>
+          )}
+        </div>
         
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         

@@ -486,7 +486,7 @@ export default function AdminDashboardClient() {
 
       // Filter payload data to only send columns that actually exist in the DB schema
       const payload: any = {};
-      const coreFields = ["name", "slug", "price", "image", "tag", "category", "relation", "description", "inclusions"];
+      const coreFields = ["name", "slug", "price", "image", "images", "tag", "category", "relation", "relations", "description", "inclusions"];
       const fieldsToFilter = allowedFields.length > 0 ? allowedFields : coreFields;
 
       Object.keys(data).forEach((key) => {
@@ -506,9 +506,7 @@ export default function AdminDashboardClient() {
         // Create
         // If the database has an 'id' column but we didn't specify one, generate a unique ID
         if (!payload.id && (allowedFields.length === 0 || allowedFields.includes("id"))) {
-          const prefix = data.category === "bouquets" ? "bq-" : data.category === "hampers" ? "hm-" : "eh-";
-          const randomSuffix = Math.random().toString(36).substring(2, 8);
-          payload.id = `${prefix}${Date.now().toString().slice(-6)}-${randomSuffix}`;
+          payload.id = crypto.randomUUID();
         }
         
         const { error } = await supabaseClient.from("products").insert([payload]);
