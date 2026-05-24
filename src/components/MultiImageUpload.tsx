@@ -154,7 +154,7 @@ export default function MultiImageUpload({
               <button
                 type="button"
                 onClick={() => removeImage(index)}
-                className="absolute top-2 right-2 w-6 h-6 bg-white/80 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50"
+                className="absolute top-2 right-2 z-10 w-6 h-6 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-md hover:bg-red-50 hover:scale-110 transition-all"
               >
                 <X className="w-3 h-3 text-red-500" />
               </button>
