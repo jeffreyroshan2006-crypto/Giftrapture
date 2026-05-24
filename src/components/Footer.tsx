@@ -19,7 +19,6 @@ export default function Footer() {
                </div>
                <div className="flex flex-col text-center lg:text-left">
                   <span className="font-serif text-2xl tracking-tighter font-bold text-text-main">GIFTRAPTURE</span>
-                  <p className="text-[10px] tracking-[0.2em] font-sans text-accent-sage uppercase font-medium mt-1">Curated Elegance</p>
                </div>
             </Link>
             <p className="text-soft-gray text-sm md:text-base mb-8 max-w-xs font-sans tracking-tight leading-relaxed">

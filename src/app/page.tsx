@@ -6,6 +6,7 @@ import PortfolioGrid from "@/components/PortfolioGrid";
 import BespokePreviewBox from "@/components/BespokePreviewBox";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -62,35 +63,27 @@ export default function Home() {
           <h3 className="text-3xl font-serif text-center mb-12 italic">Shop by Relation</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
             {[
-              { label: 'For Her', icon: '💎', color: 'from-accent-gold/20 to-accent-gold/5', border: 'border-accent-gold/30' },
-              { label: 'For Him', icon: '👔', color: 'from-slate-300/20 to-slate-300/5', border: 'border-slate-400/30' },
-              { label: 'For Parents', icon: '👨👩👧', color: 'from-accent-sage/20 to-accent-sage/5', border: 'border-accent-sage/30' },
-              { label: 'For Siblings', icon: '🤝', color: 'from-blue-200/20 to-blue-200/5', border: 'border-blue-300/30' },
-              { label: 'For Colleagues', icon: '💼', color: 'from-amber-100/20 to-amber-100/5', border: 'border-amber-200/30' },
-              { label: 'For Couples', icon: '❤️', color: 'from-rose-200/20 to-rose-200/5', border: 'border-rose-300/30' }
+              { label: 'For Her' },
+              { label: 'For Him' },
+              { label: 'For Parents' },
+              { label: 'For Siblings' },
+              { label: 'For Colleagues' },
+              { label: 'For Couples' }
             ].map((relation) => (
               <Link 
                 key={relation.label} 
                 href={`/shop?relation=${encodeURIComponent(relation.label)}`}
-                className="group relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-br from-white/80 to-white/40 border border-text-main/5 p-4 md:p-6 text-center hover:shadow-premium hover:-translate-y-1 transition-all duration-500 hover:border-text-main/10"
+                className="group relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-br from-accent-gold to-[#B38F1E] text-white p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-center min-h-[120px] border border-accent-gold/20"
               >
-                {/* Decorative background circle */}
-                <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br ${relation.color} opacity-50 group-hover:scale-150 transition-transform duration-700`} />
-                
-                <div className={`relative z-10 w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-br ${relation.color} ${relation.border} border flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 text-xl`}>
-                  {relation.icon}
-                </div>
-                <span className="relative z-10 text-sm md:text-base font-bold text-text-main group-hover:text-accent-gold transition-colors duration-300">
+                <span className="font-serif text-base md:text-lg font-bold tracking-wide">
                   {relation.label}
                 </span>
-                <div className="mt-2 relative z-10">
-                  <span className="text-xs text-soft-gray group-hover:text-accent-gold transition-colors duration-300 inline-flex items-center gap-1">
-                    Explore 
-                    <svg className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </div>
+                <span className="text-[10px] tracking-[0.2em] font-sans text-white/80 uppercase font-semibold mt-2 group-hover:text-white transition-colors duration-300 inline-flex items-center gap-1">
+                  Explore
+                  <svg className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
               </Link>
             ))}
           </div>

@@ -472,16 +472,46 @@ export default function AdminDashboardClient() {
     setSaving(true);
     try {
       const supabaseClient = getSupabaseClient();
+      
+      // Dynamically inspect existing columns from the DB products table to prevent "Could not find column" errors
+      let allowedFields: string[] = [];
+      try {
+        const { data: sampleData } = await supabaseClient.from("products").select("*").limit(1);
+        if (sampleData && sampleData.length > 0) {
+          allowedFields = Object.keys(sampleData[0]);
+        }
+      } catch (e) {
+        console.error("Error inspecting database columns:", e);
+      }
+
+      // Filter payload data to only send columns that actually exist in the DB schema
+      const payload: any = {};
+      const coreFields = ["name", "slug", "price", "image", "tag", "category", "relation", "description", "inclusions"];
+      const fieldsToFilter = allowedFields.length > 0 ? allowedFields : coreFields;
+
+      Object.keys(data).forEach((key) => {
+        if (fieldsToFilter.includes(key)) {
+          payload[key] = data[key];
+        }
+      });
+
       if (data.id) {
         // Update
-        const { error } = await supabaseClient.from("products").update(data).eq("id", data.id);
+        const { error } = await supabaseClient.from("products").update(payload).eq("id", data.id);
         if (error) {
           console.error("Error updating product:", error);
           throw new Error((error as any)?.message || "Failed to update product");
         }
       } else {
         // Create
-        const { error } = await supabaseClient.from("products").insert([data]);
+        // If the database has an 'id' column but we didn't specify one, generate a unique ID
+        if (!payload.id && (allowedFields.length === 0 || allowedFields.includes("id"))) {
+          const prefix = data.category === "bouquets" ? "bq-" : data.category === "hampers" ? "hm-" : "eh-";
+          const randomSuffix = Math.random().toString(36).substring(2, 8);
+          payload.id = `${prefix}${Date.now().toString().slice(-6)}-${randomSuffix}`;
+        }
+        
+        const { error } = await supabaseClient.from("products").insert([payload]);
         if (error) {
           console.error("Error creating product:", error);
           throw new Error((error as any)?.message || "Failed to create product");
