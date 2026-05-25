@@ -6,7 +6,7 @@
 
   /* Curated Premium Palette mapped to v4 theme */
   --color-primary: #F8E8E8;
-  --color-secondary: #FCFBF9;
+  --color-secondary: #FFF8E7;
   --color-accent-gold: #C9A227;
   --color-accent-sage: #9EB2A0;
   --color-text-main: #2C1E1E;
@@ -14,7 +14,7 @@
 }
 
 :root {
-  --background: #FCFBF9;
+  --background: #FFF8E7;
   --foreground: #2C1E1E;
 }
 
