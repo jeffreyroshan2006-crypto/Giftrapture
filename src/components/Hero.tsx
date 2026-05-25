@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Gift, ShoppingBag as ShoppingBagIcon } from "lucide-react";
+import { Gift, ShoppingBag as ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -12,64 +12,38 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden bg-secondary">
-      {/* Mobile Hero Background (abstract gradient on mobile instead of image) */}
-      <div className="absolute inset-0 z-0 md:hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#2C1E1E] via-[#3a2a2a] to-[#5a3b3b]" />
-        <div className="absolute inset-0 opacity-30 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-accent-gold/20 via-transparent to-transparent" />
-      </div>
-
-      {/* Immersive Background Container */}
-      <motion.div style={{ y, opacity }} className="absolute inset-0 z-0 hidden md:block">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-secondary z-10" />
-        <div className="absolute inset-0 bg-primary/20">
+      {/* Immersive Background Container for all screens */}
+      <motion.div style={{ y, opacity }} className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-secondary/90 z-10" />
+        <div className="absolute inset-0">
            <Image 
             src="/images/hero.png" 
             alt="GIFTRAPTURE Signature" 
             fill 
             className="object-cover"
             priority 
+            quality={100}
           />
         </div>
       </motion.div>
 
       {/* Content Overlay */}
-      <div className="relative z-20 text-center px-6 max-w-4xl mx-auto py-20">
+      <div className="relative z-20 text-center px-6 max-w-4xl mx-auto py-20 w-full">
         <motion.div
            initial={{ opacity: 0, y: 30 }}
            animate={{ opacity: 1, y: 0 }}
            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+           className="flex flex-col items-center"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-[10px] md:text-xs tracking-[0.3em] font-sans text-white uppercase font-bold mb-8 shadow-2xl md:hidden">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-[10px] md:text-xs tracking-[0.3em] font-sans text-white uppercase font-bold mb-8 shadow-2xl">
             Signature Gifting Reimagined
           </span>
           <h1 className="text-5xl md:text-8xl font-serif text-white tracking-tighter leading-[0.9] mb-10 drop-shadow-2xl">
             Curated Elegance <br/> <span className="italic font-normal">For Every Occasion</span>
           </h1>
-          <p className="text-sm md:text-lg text-white/90 font-sans max-w-xl mx-auto mb-12 leading-relaxed drop-shadow-lg tracking-tight font-medium hidden md:block">
-             Discover a world where every gift tells a story. From bespoke bouquets to artisanal themed hampers, we create moments that resonate forever.
-          </p>
 
-          {/* Desktop Buttons - always visible */}
-          <div className="hidden md:flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <Link 
-               href="/shop"
-               className="group relative px-10 py-5 bg-accent-gold text-text-main font-bold rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(229,213,200,0.4)] transform hover:-translate-y-1 active:scale-95 text-base w-full sm:w-auto"
-            >
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                 Explore Collection
-                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </span>
-            </Link>
-            <Link 
-               href="/services"
-               className="px-10 py-5 bg-white/10 backdrop-blur-md border border-white/30 text-white font-bold rounded-full overflow-hidden transition-all duration-300 hover:bg-white/20 transform hover:-translate-y-1 text-base w-full sm:w-auto"
-            >
-               Trousseau & Corporate
-            </Link>
-          </div>
-
-          {/* Mobile Quick Action Buttons */}
-          <div className="flex flex-col space-y-4 md:hidden mt-8">
+          {/* Action Buttons */}
+          <div className="flex flex-col space-y-4 mt-8 w-full max-w-sm mx-auto">
             <Link 
               href="/shop/custom-box"
               className="group flex items-center justify-center gap-3 px-6 py-4 bg-accent-gold text-text-main font-bold rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(229,213,200,0.4)] active:scale-95 text-base shadow-xl border border-accent-gold/50"
@@ -87,16 +61,6 @@ export default function Hero() {
           </div>
         </motion.div>
       </div>
-
-      {/* ScrollIndicator */}
-      <motion.div 
-        animate={{ y: [0, 8, 0] }} 
-        transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 md:flex flex-col items-center opacity-60 hidden"
-      >
-        <span className="text-[10px] uppercase tracking-widest text-white mb-3 font-bold">Scroll</span>
-        <div className="w-[1px] h-16 bg-gradient-to-b from-white to-transparent" />
-      </motion.div>
     </section>
   );
 }
