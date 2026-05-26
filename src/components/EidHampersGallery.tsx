@@ -2,23 +2,75 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRef, useState } from "react";
-import { ShoppingBag, Star, Check } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { ShoppingBag, Check } from "lucide-react";
 import Link from "next/link";
 import { useCartStore } from "@/store/cartStore";
+import { supabase } from "@/lib/supabaseClient";
 
-const eidHampers = [
-  { id: 1, name: "Al-Noor Premium Eid Box", price: "₹ 6,499", image: "/images/eid-hampers/IMG_3848.png", tag: "Premium" },
-  { id: 2, name: "Hilal Delights Basket", price: "₹ 5,200", image: "/images/eid-hampers/IMG_3942.png", tag: "Festive" },
-  { id: 3, name: "Royal Mubarak Trunk", price: "₹ 8,500", image: "/images/eid-hampers/IMG_3943.png", tag: "Signature" },
-  { id: 4, name: "Sacred Bloom Platter", price: "₹ 4,800", image: "/images/eid-hampers/IMG_3944.png", tag: "Elegant" },
-  { id: 5, name: "Barakah Abundance Hamper", price: "₹ 7,299", image: "/images/eid-hampers/IMG_3945.png", tag: "Bestseller" },
-  { id: 6, name: "Zamarud Gold Artisan Tray", price: "₹ 3,999", image: "/images/eid-hampers/IMG_3946.png", tag: "Handcrafted" },
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  strike_price?: number;
+  image: string;
+  tag?: string;
+  category: string;
+}
+
+const FALLBACK_PRODUCTS: Product[] = [
+  { id: "eh-1", name: "Al-Noor Premium Eid Box", price: 6499, strike_price: 7799, image: "/images/eid-hampers/IMG_3848.png", tag: "Premium", category: "eid-hampers" },
+  { id: "eh-3", name: "Royal Mubarak Trunk", price: 8500, strike_price: 10299, image: "/images/eid-hampers/IMG_3943.png", tag: "Signature", category: "eid-hampers" },
+  { id: "eh-2", name: "Hilal Delights Basket", price: 5200, strike_price: 6299, image: "/images/eid-hampers/IMG_3942.png", tag: "Festive", category: "eid-hampers" },
+  { id: "eh-5", name: "Barakah Abundance Hamper", price: 7299, strike_price: 8799, image: "/images/eid-hampers/IMG_3945.png", tag: "Bestseller", category: "eid-hampers" },
+  { id: "eh-4", name: "Sacred Bloom Platter", price: 4800, strike_price: 5799, image: "/images/eid-hampers/IMG_3944.png", tag: "Elegant", category: "eid-hampers" },
 ];
 
 export default function EidHampersGallery() {
   const containerRef = useRef(null);
-  
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .eq("category", "eid-hampers")
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          console.error("Error fetching Eid hampers:", error);
+          setProducts(FALLBACK_PRODUCTS);
+          return;
+        }
+
+        if (data && data.length > 0) {
+          const mapped: Product[] = data.map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            price: Number(p.price),
+            strike_price: p.strike_price ? Number(p.strike_price) : undefined,
+            image: p.image || "/images/placeholder.jpg",
+            tag: p.tag || "Premium",
+            category: p.category,
+          }));
+          setProducts(mapped);
+        } else {
+          setProducts(FALLBACK_PRODUCTS);
+        }
+      } catch (err) {
+        console.error("Failed to fetch Eid hampers:", err);
+        setProducts(FALLBACK_PRODUCTS);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
   return (
     <div ref={containerRef} className="py-32 px-6 md:px-12 max-w-[1600px] mx-auto min-h-screen">
       <div className="mb-24 text-center max-w-4xl mx-auto pt-10">
@@ -49,15 +101,27 @@ export default function EidHampersGallery() {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 items-stretch">
-        {eidHampers.map((hamper, index) => (
-          <EidHamperCard key={hamper.id} hamper={hamper} index={index} />
-        ))}
+        {loading ? (
+          Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="relative group rounded-xl overflow-hidden bg-white shadow-sm animate-pulse">
+              <div className="aspect-[3/4] bg-primary/10" />
+              <div className="p-3 space-y-2">
+                <div className="h-4 bg-secondary/50 rounded w-3/4" />
+                <div className="h-3 bg-secondary/50 rounded w-1/2" />
+              </div>
+            </div>
+          ))
+        ) : (
+          products.map((product, index) => (
+            <EidHamperCard key={product.id} product={product} index={index} />
+          ))
+        )}
       </div>
     </div>
   );
 }
 
-function EidHamperCard({ hamper, index }: { hamper: any, index: number }) {
+function EidHamperCard({ product, index }: { product: Product; index: number }) {
   const addItem = useCartStore((state) => state.addItem);
   const [added, setAdded] = useState(false);
 
@@ -65,12 +129,11 @@ function EidHamperCard({ hamper, index }: { hamper: any, index: number }) {
     e.preventDefault();
     e.stopPropagation();
     
-    const numericPrice = parseInt(hamper.price.replace(/[^\d]/g, ""), 10);
     addItem({
-      id: `eh-${hamper.id}`,
-      name: hamper.name,
-      price: numericPrice,
-      image: hamper.image,
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
       quantity: 1
     });
 
@@ -89,8 +152,8 @@ function EidHamperCard({ hamper, index }: { hamper: any, index: number }) {
     >
       <div className="relative w-full aspect-[3/4] overflow-hidden bg-primary/10 shrink-0">
         <Image
-          src={hamper.image}
-          alt={hamper.name}
+          src={product.image}
+          alt={product.name}
           fill
           priority={index < 4}
           className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -100,11 +163,13 @@ function EidHamperCard({ hamper, index }: { hamper: any, index: number }) {
         {/* Mobile-optimized overlay layout */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         
-        <div className="absolute top-2 left-2 z-20">
-          <span className="px-2 py-1 bg-white/90 backdrop-blur-md rounded-full text-[8px] uppercase tracking-widest font-bold text-text-main shadow-sm">
-            {hamper.tag}
-          </span>
-        </div>
+        {product.tag && (
+          <div className="absolute top-2 left-2 z-20">
+            <span className="px-2 py-1 bg-white/90 backdrop-blur-md rounded-full text-[8px] uppercase tracking-widest font-bold text-text-main shadow-sm">
+              {product.tag}
+            </span>
+          </div>
+        )}
 
         {/* Quick Add - Always visible on mobile, hover on desktop */}
         <div className="absolute bottom-2 left-2 right-2 z-20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
@@ -133,15 +198,18 @@ function EidHamperCard({ hamper, index }: { hamper: any, index: number }) {
 
       <div className="p-3 flex flex-col gap-2 bg-white relative z-10 flex-1">
         <h3 className="text-sm font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2">
-          {hamper.name}
+          {product.name}
         </h3>
         <div className="flex items-center justify-between mt-auto">
-          <span className="text-sm font-bold text-accent-gold">
-            {hamper.price}
-          </span>
-          <div className="flex items-center gap-1">
-            <Star className="w-3 h-3 fill-accent-gold text-accent-gold" />
-            <span className="text-[10px] font-bold text-soft-gray">5.0</span>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {product.strike_price && product.strike_price > product.price && (
+              <span className="text-xs font-sans text-soft-gray line-through decoration-red-400">
+                ₹{product.strike_price.toLocaleString("en-IN")}
+              </span>
+            )}
+            <span className="text-sm font-bold text-accent-gold">
+              ₹{product.price.toLocaleString("en-IN")}
+            </span>
           </div>
         </div>
       </div>

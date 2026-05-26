@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingBag, Star } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabaseClient";
@@ -12,6 +12,7 @@ interface Item {
   slug?: string;
   name: string;
   price: number;
+  strike_price?: number;
   tag: string;
   image: string;
   images?: string[];
@@ -20,12 +21,12 @@ interface Item {
 
 // Fallback items in case Supabase is unreachable
 const FALLBACK_ITEMS: Item[] = [
-  { id: "1", name: "Classic Ranunculus Bouquet", price: 2499, tag: "Best Seller", image: "/images/bouquets/IMG_3926.png" },
-  { id: "2", name: "Signature Silk Trousseau Box", price: 5999, tag: "Handcrafted", image: "/images/themed-hampers/IMG_3915.jpg" },
-  { id: "3", name: "Artisanal Chocolate Hamper", price: 3250, tag: "Indulgent", image: "/images/themed-hampers/IMG_3900.jpg" },
-  { id: "4", name: "Premium Peony Arrangement", price: 4799, tag: "Limited Edition", image: "/images/bouquets/IMG_3893.jpg" },
-  { id: "5", name: "Royal Celebration Hamper", price: 7499, tag: "Premium", image: "/images/themed-hampers/IMG_3723.jpg" },
-  { id: "6", name: "Velvet Crimson Rose", price: 3499, tag: "Bestseller", image: "/images/bouquets/IMG_3893.jpg" },
+  { id: "1", name: "Classic Ranunculus Bouquet", price: 2499, strike_price: 2999, tag: "Best Seller", image: "/images/bouquets/IMG_3926.png" },
+  { id: "2", name: "Signature Silk Trousseau Box", price: 5999, strike_price: 7299, tag: "Handcrafted", image: "/images/themed-hampers/IMG_3915.jpg" },
+  { id: "3", name: "Artisanal Chocolate Hamper", price: 3250, strike_price: 3999, tag: "Indulgent", image: "/images/themed-hampers/IMG_3900.jpg" },
+  { id: "4", name: "Premium Peony Arrangement", price: 4799, strike_price: 4999, tag: "Limited Edition", image: "/images/bouquets/IMG_3893.jpg" },
+  { id: "5", name: "Royal Celebration Hamper", price: 7499, strike_price: 8999, tag: "Premium", image: "/images/themed-hampers/IMG_3723.jpg" },
+  { id: "6", name: "Velvet Crimson Rose", price: 3499, strike_price: 4299, tag: "Bestseller", image: "/images/bouquets/IMG_3893.jpg" },
 ];
 
 export default function FeaturedCarousel() {
@@ -53,6 +54,7 @@ export default function FeaturedCarousel() {
             slug: p.slug,
             name: p.name,
             price: Number(p.price),
+            strike_price: p.strike_price ? Number(p.strike_price) : undefined,
             tag: p.tag || "Premium",
             image: p.image || "/images/placeholder.jpg",
             category: p.category,
@@ -101,15 +103,7 @@ export default function FeaturedCarousel() {
   return (
     <section className="py-16 md:py-24 bg-primary/10 overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <span className="text-accent-sage font-sans text-xs uppercase tracking-[0.3em] font-semibold mb-4 block">
-            Curated for You
-          </span>
-          <h2 className="text-3xl md:text-5xl font-serif text-text-main tracking-tighter">
-            Most Loved <span className="italic font-normal">Creations</span>
-          </h2>
-        </div>
+
 
         {/* Products Grid - Responsive layout */}
         {isLoading ? (
@@ -204,14 +198,17 @@ export default function FeaturedCarousel() {
                         {item.name}
                       </Link>
                     </h3>
-                    <div className="flex items-center gap-1 shrink-0 mt-0.5">
-                      <Star className="w-3 h-3 fill-accent-gold text-accent-gold" />
-                      <span className="text-[10px] md:text-xs font-bold text-text-main">4.9</span>
-                    </div>
                   </div>
-                  <p className="text-sm md:text-base font-sans text-text-main/70 font-bold tracking-tight mt-auto">
-                    ₹{item.price.toLocaleString("en-IN")}
-                  </p>
+                  <div className="flex items-center gap-2 mt-auto flex-wrap">
+                    {item.strike_price && item.strike_price > item.price && (
+                      <span className="text-xs md:text-sm font-sans text-soft-gray line-through decoration-red-400">
+                        ₹{item.strike_price.toLocaleString("en-IN")}
+                      </span>
+                    )}
+                    <span className="text-sm md:text-base font-sans text-text-main/70 font-bold tracking-tight">
+                      ₹{item.price.toLocaleString("en-IN")}
+                    </span>
+                  </div>
                 </div>
               </div>
             );

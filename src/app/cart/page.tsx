@@ -15,6 +15,8 @@ export default function CartPage() {
   const [address, setAddress] = useState("");
   const [addressError, setAddressError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [shippingZone, setShippingZone] = useState<"chennai" | "pan-india">("chennai");
+  const [shippingSpeed, setShippingSpeed] = useState<"standard" | "express">("standard");
 
   const itemSummary = useMemo(
     () =>
@@ -28,61 +30,76 @@ export default function CartPage() {
     [items]
   );
 
-  const handleWhatsAppCheckout = async () => {
-    const trimmedAddress = address.trim();
-    if (!trimmedAddress) {
-      setAddressError("Please enter a delivery address before continuing.");
-      return;
-    }
+  const shippingCost = useMemo(() => {
+    const base = shippingZone === "chennai" ? 150 : 450;
+    const speedFee = shippingSpeed === "express" ? 300 : 0;
+    return base + speedFee;
+  }, [shippingZone, shippingSpeed]);
 
-    setAddressError("");
-    setIsSubmitting(true);
-    // Generate text for WhatsApp
-    const orderNumber = Math.floor(Math.random() * 1000000);
-    let message = `Hello GIFTRAPTURE!\nI'd like to place an order (Ref: #${orderNumber}).\n\n*Order Details:*\n`;
-    
-    itemSummary.forEach((item, index) => {
-      message += `${index + 1}. ${item.name}\n   Qty: ${item.quantity} x ₹${item.price} = ₹${item.quantity * item.price}\n`;
-    });
-    
-    message += `\n*Total Amount:* ₹${getTotal()}\n\n*Delivery Address:*\n${trimmedAddress}\n\nPlease confirm availability and payment details. Thank you!`;
-    
-    // Replace this with your actual WhatsApp business number (with country code)
-    const phoneNumber = "917200623758"; 
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    
-    let shouldOpenWhatsApp = true;
-    try {
-      const supabaseClient = getSupabaseClient();
-      const { error } = await supabaseClient.from("orders").insert([
-        {
-          order_number: orderNumber.toString(),
-          address: trimmedAddress,
-          total_amount: getTotal(),
-          status: "whatsapp_pending",
-          items: itemSummary,
-        },
-      ]);
+  const totalWithShipping = useMemo(() => getTotal() + shippingCost, [getTotal, shippingCost]);
 
-      if (error) {
-        console.error("Supabase insert error:", error);
-        shouldOpenWhatsApp = false;
-        setAddressError("We couldn't save your order details. Please try again in a moment.");
-      }
-    } catch (err) {
-      console.error("Order save failed:", err);
-      shouldOpenWhatsApp = false;
-      setAddressError("We couldn't save your order details. Please try again in a moment.");
-    } finally {
-      setIsSubmitting(false);
-      if (shouldOpenWhatsApp) {
-        const opened = window.open(whatsappUrl, "_blank");
-        if (!opened) {
-          window.location.href = whatsappUrl;
-        }
-      }
-    }
-  };
+   const handleWhatsAppCheckout = async () => {
+     const trimmedAddress = address.trim();
+     if (!trimmedAddress) {
+       setAddressError("Please enter a delivery address before continuing.");
+       return;
+     }
+
+     setAddressError("");
+     setIsSubmitting(true);
+     // Generate text for WhatsApp
+     const orderNumber = Math.floor(Math.random() * 1000000);
+     let message = `Hello GIFTRAPTURE!\nI'd like to place an order (Ref: #${orderNumber}).\n\n*Order Details:*\n`;
+     
+     itemSummary.forEach((item, index) => {
+       message += `${index + 1}. ${item.name}\n   Qty: ${item.quantity} x ₹${item.price} = ₹${item.quantity * item.price}\n`;
+     });
+     
+     const zoneLabel = shippingZone === "chennai" ? "Chennai" : "Pan-India";
+     const speedLabel = shippingSpeed === "express" ? "Express" : "Standard";
+     
+     message += `\n*Shipping:*\n`;
+     message += `Zone: ${zoneLabel}\n`;
+     message += `Speed: ${speedLabel}\n`;
+     message += `Shipping Cost: ₹${shippingCost}\n`;
+     message += `\n*Total Amount:* ₹${totalWithShipping}\n\n*Delivery Address:*\n${trimmedAddress}\n\nPlease confirm availability and payment details. Thank you!`;
+     
+     // Replace this with your actual WhatsApp business number (with country code)
+     const phoneNumber = "917200623758"; 
+     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+     
+     let shouldOpenWhatsApp = true;
+     try {
+       const supabaseClient = getSupabaseClient();
+        const { error } = await supabaseClient.from("orders").insert([
+          {
+            order_number: orderNumber.toString(),
+            address: trimmedAddress,
+            total_amount: totalWithShipping,
+            status: "whatsapp_pending",
+            items: itemSummary,
+          },
+        ]);
+
+       if (error) {
+         console.error("Supabase insert error:", error);
+         shouldOpenWhatsApp = false;
+         setAddressError("We couldn't save your order details. Please try again in a moment.");
+       }
+     } catch (err) {
+       console.error("Order save failed:", err);
+       shouldOpenWhatsApp = false;
+       setAddressError("We couldn't save your order details. Please try again in a moment.");
+     } finally {
+       setIsSubmitting(false);
+       if (shouldOpenWhatsApp) {
+         const opened = window.open(whatsappUrl, "_blank");
+         if (!opened) {
+           window.location.href = whatsappUrl;
+         }
+       }
+     }
+   };
 
   return (
     <main className="min-h-screen bg-secondary">
@@ -160,14 +177,60 @@ export default function CartPage() {
                     <span>Subtotal</span>
                     <span className="text-text-main font-bold">₹{getTotal()}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Shipping</span>
-                    <span className="text-accent-sage italic">Calculated on WhatsApp</span>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span>Delivery Zone</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { id: "chennai", label: "Chennai" },
+                        { id: "pan-india", label: "Pan-India" },
+                      ].map((zone) => (
+                        <button
+                          key={zone.id}
+                          onClick={() => setShippingZone(zone.id as "chennai" | "pan-india")}
+                          className={`px-3 py-1.5 rounded-full border text-[10px] uppercase tracking-widest transition-all ${
+                            shippingZone === zone.id
+                              ? "bg-text-main text-white border-text-main"
+                              : "border-text-main/10 text-soft-gray bg-secondary/20"
+                          }`}
+                        >
+                          {zone.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span>Shipping Speed</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { id: "standard", label: "Standard" },
+                        { id: "express", label: "Express" },
+                      ].map((speed) => (
+                        <button
+                          key={speed.id}
+                          onClick={() => setShippingSpeed(speed.id as "standard" | "express")}
+                          className={`px-3 py-1.5 rounded-full border text-[10px] uppercase tracking-widest transition-all ${
+                            shippingSpeed === speed.id
+                              ? "bg-text-main text-white border-text-main"
+                              : "border-text-main/10 text-soft-gray bg-secondary/20"
+                          }`}
+                        >
+                          {speed.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center pt-2 border-t border-text-main/10">
+                    <span className="text-xs uppercase tracking-widest text-soft-gray font-bold">Shipping Cost</span>
+                    <span className="text-sm font-serif text-accent-gold font-bold">₹{shippingCost}</span>
                   </div>
                 </div>
                 <div className="border-t border-text-main/10 pt-4 mb-8 flex justify-between items-end">
                   <span className="font-bold">Total</span>
-                  <span className="text-2xl font-serif text-accent-gold font-bold">₹{getTotal()}</span>
+                  <span className="text-2xl font-serif text-accent-gold font-bold">₹{totalWithShipping}</span>
                 </div>
                 <div className="mb-6">
                   <label className="text-xs uppercase tracking-widest font-bold text-text-main/60 mb-2 block">

@@ -1,30 +1,31 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import { useCartStore } from "@/store/cartStore";
-import { ShoppingBag, Star, Eye, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const FALLBACK_PORTFOLIO: Product[] = [
-  { id: "bq-1", name: "Velvet Crimson Rose", price: 3499, image: "/images/bouquets/IMG_3893.jpg", tag: "Bestseller", category: "bouquets", relation: "For Her" },
-  { id: "bq-2", name: "Ethereal White Lilies", price: 2999, image: "/images/bouquets/IMG_3894.jpg", tag: "Classic", category: "bouquets", relation: "For Parents" },
-  { id: "bq-3", name: "Blush Peony Symphony", price: 4200, image: "/images/bouquets/IMG_3895.jpg", tag: "Premium", category: "bouquets", relation: "For Her" },
-  { id: "bq-6", name: "Classic Ranunculus Bouquet", price: 2499, image: "/images/bouquets/IMG_3926.png", tag: "Best Seller", category: "bouquets", relation: "For Colleagues" },
-  { id: "bq-7", name: "Pastel Hydrangea Cloud", price: 3800, image: "/images/bouquets/IMG_3927.png", tag: "Elegant", category: "bouquets", relation: "For Her" },
-  { id: "hm-1", name: "Royal Celebration Hamper", price: 7499, image: "/images/themed-hampers/IMG_3723.jpg", tag: "Premium", category: "hampers", relation: "For Couples" },
-  { id: "hm-3", name: "Artisanal Chocolate Hamper", price: 3250, image: "/images/themed-hampers/IMG_3900.jpg", tag: "Bestseller", category: "hampers", relation: "For Her" },
-  { id: "hm-6", name: "Signature Silk Trousseau Box", price: 5999, image: "/images/themed-hampers/IMG_3915.jpg", tag: "Handcrafted", category: "hampers", relation: "For Parents" },
-  { id: "eh-1", name: "Al-Noor Premium Eid Box", price: 6499, image: "/images/eid-hampers/IMG_3848.png", tag: "Premium", category: "eid-hampers", relation: "For Parents" },
-  { id: "eh-3", name: "Royal Mubarak Trunk", price: 8500, image: "/images/eid-hampers/IMG_3943.png", tag: "Signature", category: "eid-hampers", relation: "For Parents" },
+  { id: "bq-1", name: "Velvet Crimson Rose", price: 3499, strike_price: 4499, image: "/images/bouquets/IMG_3893.jpg", tag: "Bestseller", category: "bouquets", relation: "For Her" },
+  { id: "bq-2", name: "Ethereal White Lilies", price: 2999, strike_price: 3599, image: "/images/bouquets/IMG_3894.jpg", tag: "Classic", category: "bouquets", relation: "For Parents" },
+  { id: "bq-3", name: "Blush Peony Symphony", price: 4200, strike_price: 4999, image: "/images/bouquets/IMG_3895.jpg", tag: "Premium", category: "bouquets", relation: "For Her" },
+  { id: "bq-6", name: "Classic Ranunculus Bouquet", price: 2499, strike_price: 2999, image: "/images/bouquets/IMG_3926.png", tag: "Best Seller", category: "bouquets", relation: "For Colleagues" },
+  { id: "bq-7", name: "Pastel Hydrangea Cloud", price: 3800, strike_price: 4599, image: "/images/bouquets/IMG_3927.png", tag: "Elegant", category: "bouquets", relation: "For Her" },
+  { id: "hm-1", name: "Royal Celebration Hamper", price: 7499, strike_price: 8999, image: "/images/themed-hampers/IMG_3723.jpg", tag: "Premium", category: "hampers", relation: "For Couples" },
+  { id: "hm-3", name: "Artisanal Chocolate Hamper", price: 3250, strike_price: 3999, image: "/images/themed-hampers/IMG_3900.jpg", tag: "Bestseller", category: "hampers", relation: "For Her" },
+  { id: "hm-6", name: "Signature Silk Trousseau Box", price: 5999, strike_price: 7299, image: "/images/themed-hampers/IMG_3915.jpg", tag: "Handcrafted", category: "hampers", relation: "For Parents" },
+  { id: "eh-1", name: "Al-Noor Premium Eid Box", price: 6499, strike_price: 7799, image: "/images/eid-hampers/IMG_3848.png", tag: "Premium", category: "eid-hampers", relation: "For Parents" },
+  { id: "eh-3", name: "Royal Mubarak Trunk", price: 8500, strike_price: 10299, image: "/images/eid-hampers/IMG_3943.png", tag: "Signature", category: "eid-hampers", relation: "For Parents" },
 ];
 
 interface Product {
   id: string;
   name: string;
   price: number;
+  strike_price?: number;
   image: string;
   images?: string[];
   relations?: string[];
@@ -34,32 +35,6 @@ interface Product {
 }
 
 function ProductItem({ product, index }: { product: Product; index: number }) {
-  const { addItem } = useCartStore();
-  const [isAdded, setIsAdded] = useState(false);
-  const isAddedRef = useRef(false);
-
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const productImage = (product.images && product.images.length > 0)
-      ? product.images[0]
-      : product.image || "/images/placeholder.jpg";
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: productImage,
-      quantity: 1,
-    });
-    
-    isAddedRef.current = true;
-    setIsAdded(true);
-
-    setTimeout(() => {
-      isAddedRef.current = false;
-      setIsAdded(false);
-    }, 2500);
-  };
 
   const href = `/product/${product.id}`;
 
@@ -108,43 +83,8 @@ function ProductItem({ product, index }: { product: Product; index: number }) {
                   ))}
                 </div>
               )}
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            {/* Tag */}
-            {product.tag && (
-              <div className="absolute top-2 left-2 z-20">
-                <span className="px-2 py-1 bg-white/90 backdrop-blur-md rounded-full text-[8px] uppercase tracking-widest font-bold text-text-main shadow-sm">
-                  {product.tag}
-                </span>
-              </div>
-            )}
-
-            {/* Quick Add Button - Always visible on mobile, hover on desktop */}
-            <div className="absolute bottom-2 left-2 right-2 z-20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
-              <button
-                onClick={handleAddToCart}
-                className={`w-full py-2 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[10px] uppercase tracking-widest ${
-                  isAdded
-                    ? "bg-accent-sage text-white scale-105"
-                    : "bg-white text-text-main hover:bg-accent-gold"
-                }`}
-              >
-                {isAdded ? (
-                  <>
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Added
-                  </>
-                ) : (
-                  <>
-                    <ShoppingBag className="w-3 h-3" />
-                    Quick Add
-                  </>
-                )}
-              </button>
-            </div>
+             </div>
+             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </div>
 
           {/* Product Info */}
@@ -153,14 +93,22 @@ function ProductItem({ product, index }: { product: Product; index: number }) {
               {product.name}
             </h3>
             <div className="flex items-center justify-between mt-auto">
-              <span className="text-sm font-bold text-accent-gold">
-                ₹{product.price.toLocaleString("en-IN")}
-              </span>
-              <div className="flex items-center gap-1">
-                <Star className="w-3 h-3 fill-accent-gold text-accent-gold" />
-                <span className="text-[10px] font-bold text-soft-gray">4.8</span>
-              </div>
-            </div>
+               <div className="flex items-center gap-1.5 flex-wrap">
+                 {product.strike_price && product.strike_price > product.price && (
+                   <>
+                     <span className="text-xs font-sans text-soft-gray line-through decoration-red-400">
+                       ₹{product.strike_price.toLocaleString("en-IN")}
+                     </span>
+                     <span className="text-[10px] font-bold bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full">
+                       {Math.round(((product.strike_price - product.price) / product.strike_price) * 100)}% OFF
+                     </span>
+                   </>
+                 )}
+                 <span className="text-sm font-bold text-accent-gold">
+                   ₹{product.price.toLocaleString("en-IN")}
+                 </span>
+               </div>
+             </div>
           </div>
         </div>
       </Link>
@@ -233,20 +181,26 @@ export default function PortfolioGrid() {
       </div>
 
       {/* Category Tabs */}
-      <div className="flex flex-wrap justify-center gap-3 mb-12">
-        {categories.map((cat) => (
-          <button
-            key={cat.key}
-            onClick={() => setActiveCategory(cat.key)}
-            className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 border ${
-              activeCategory === cat.key
-                ? "bg-text-main text-white border-text-main shadow-lg"
-                : "bg-white text-text-main/70 border-text-main/10 hover:border-accent-gold hover:text-accent-gold"
-            }`}
-          >
-            {cat.label}
-          </button>
-        ))}
+      <div className="flex justify-center mb-12">
+        <div className="w-full max-w-3xl px-3">
+          <div className="rounded-full border border-text-main/10 bg-white/80 backdrop-blur shadow-sm overflow-hidden">
+            <div className="flex items-center gap-1 px-1.5 py-1 overflow-x-auto hide-scrollbar">
+              {categories.map((cat) => (
+                <button
+                  key={cat.key}
+                  onClick={() => setActiveCategory(cat.key)}
+                  className={`px-5 py-2 text-[11px] md:text-sm uppercase tracking-[0.2em] md:tracking-[0.25em] font-bold rounded-full whitespace-nowrap transition-all duration-300 ${
+                    activeCategory === cat.key
+                      ? "bg-text-main text-white shadow-md"
+                      : "text-text-main/60 hover:text-text-main hover:bg-secondary/60"
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Grid */}

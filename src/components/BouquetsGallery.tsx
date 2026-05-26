@@ -2,32 +2,75 @@
 
 import { motion, useScroll } from "framer-motion";
 import Image from "next/image";
-import { useRef, useState } from "react";
-import { ShoppingBag, Star, Check } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { ShoppingBag, Check } from "lucide-react";
 import Link from "next/link";
 import { useCartStore } from "@/store/cartStore";
+import { supabase } from "@/lib/supabaseClient";
 
-const bouquets = [
-  { id: 1, name: "Velvet Crimson Rose", price: "₹ 3,499", image: "/images/bouquets/IMG_3893.jpg", tag: "Bestseller" },
-  { id: 2, name: "Ethereal White Lilies", price: "₹ 2,999", image: "/images/bouquets/IMG_3894.jpg", tag: "Classic" },
-  { id: 3, name: "Blush Peony Symphony", price: "₹ 4,200", image: "/images/bouquets/IMG_3895.jpg", tag: "Premium" },
-  { id: 4, name: "Midnight Orchid Cascade", price: "₹ 5,499", image: "/images/bouquets/IMG_3897.jpg", tag: "Signature" },
-  { id: 5, name: "Sunset Orange Tulips", price: "₹ 2,750", image: "/images/bouquets/IMG_3898.jpg", tag: "Seasonal" },
-  { id: 6, name: "Golden Sunflower Burst", price: "₹ 2,299", image: "/images/bouquets/IMG_3926.png", tag: "Vibrant" },
-  { id: 7, name: "Pastel Hydrangea Cloud", price: "₹ 3,800", image: "/images/bouquets/IMG_3927.png", tag: "Elegant" },
-  { id: 8, name: "Royal Purple Iris", price: "₹ 3,100", image: "/images/bouquets/IMG_3928.png", tag: "Exotic" },
-  { id: 9, name: "Wildflower Meadows", price: "₹ 2,650", image: "/images/bouquets/IMG_3930.png", tag: "Rustic" },
-  { id: 10, name: "Scarlet Passion Mix", price: "₹ 4,500", image: "/images/bouquets/IMG_3931.png", tag: "Romantic" },
-  { id: 11, name: "Frosty Morning Blooms", price: "₹ 3,300", image: "/images/bouquets/IMG_3932.png", tag: "Fresh" },
-  { id: 12, name: "Enchanted Forest Ferns", price: "₹ 2,899", image: "/images/bouquets/IMG_3933.png", tag: "Verdant" },
-  { id: 13, name: "Candy Pink Carnations", price: "₹ 1,999", image: "/images/bouquets/IMG_3936.png", tag: "Sweet" },
-  { id: 14, name: "Sapphire Blue Delphinium", price: "₹ 4,100", image: "/images/bouquets/IMG_3937.png", tag: "Rare" },
-  { id: 15, name: "Majestic Imperial Lily", price: "₹ 5,999", image: "/images/bouquets/IMG_3941.png", tag: "Signature" },
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  strike_price?: number;
+  image: string;
+  tag?: string;
+  category: string;
+}
+
+const FALLBACK_PRODUCTS: Product[] = [
+  { id: "bq-3", name: "Blush Peony Symphony", price: 4200, strike_price: 4999, image: "/images/bouquets/IMG_3895.jpg", tag: "Premium", category: "bouquets" },
+  { id: "bq-1", name: "Velvet Crimson Rose", price: 3499, strike_price: 4299, image: "/images/bouquets/IMG_3893.jpg", tag: "Bestseller", category: "bouquets" },
+  { id: "bq-2", name: "Ethereal White Lilies", price: 2999, strike_price: 3599, image: "/images/bouquets/IMG_3894.jpg", tag: "Classic", category: "bouquets" },
+  { id: "bq-4", name: "Midnight Orchid Cascade", price: 5499, strike_price: 6499, image: "/images/bouquets/IMG_3897.jpg", tag: "Signature", category: "bouquets" },
+  { id: "bq-6", name: "Classic Ranunculus Bouquet", price: 2499, strike_price: 2999, image: "/images/bouquets/IMG_3926.png", tag: "Best Seller", category: "bouquets" },
 ];
 
 export default function BouquetsGallery() {
   const containerRef = useRef(null);
-  
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .eq("category", "bouquets")
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          console.error("Error fetching bouquets:", error);
+          setProducts(FALLBACK_PRODUCTS);
+          return;
+        }
+
+        if (data && data.length > 0) {
+          const mapped: Product[] = data.map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            price: Number(p.price),
+            strike_price: p.strike_price ? Number(p.strike_price) : undefined,
+            image: p.image || "/images/placeholder.jpg",
+            tag: p.tag || "Premium",
+            category: p.category,
+          }));
+          setProducts(mapped);
+        } else {
+          setProducts(FALLBACK_PRODUCTS);
+        }
+      } catch (err) {
+        console.error("Failed to fetch bouquets:", err);
+        setProducts(FALLBACK_PRODUCTS);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
   return (
     <div ref={containerRef} className="py-32 px-6 md:px-12 max-w-[1600px] mx-auto min-h-screen">
       <div className="mb-24 text-center max-w-4xl mx-auto pt-10">
@@ -58,15 +101,28 @@ export default function BouquetsGallery() {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 items-stretch">
-        {bouquets.map((bouquet, index) => (
-          <BouquetCard key={bouquet.id} bouquet={bouquet} index={index} />
-        ))}
+        {loading ? (
+          // Loading skeleton
+          Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="relative group rounded-xl overflow-hidden bg-white shadow-sm animate-pulse">
+              <div className="aspect-[3/4] bg-primary/10" />
+              <div className="p-3 space-y-2">
+                <div className="h-4 bg-secondary/50 rounded w-3/4" />
+                <div className="h-3 bg-secondary/50 rounded w-1/2" />
+              </div>
+            </div>
+          ))
+        ) : (
+          products.map((product, index) => (
+            <BouquetCard key={product.id} product={product} index={index} />
+          ))
+        )}
       </div>
     </div>
   );
 }
 
-function BouquetCard({ bouquet, index }: { bouquet: any, index: number }) {
+function BouquetCard({ product, index }: { product: Product; index: number }) {
   const addItem = useCartStore((state) => state.addItem);
   const [added, setAdded] = useState(false);
 
@@ -74,12 +130,11 @@ function BouquetCard({ bouquet, index }: { bouquet: any, index: number }) {
     e.preventDefault();
     e.stopPropagation();
     
-    const numericPrice = parseInt(bouquet.price.replace(/[^\d]/g, ""), 10);
     addItem({
-      id: `bq-${bouquet.id}`,
-      name: bouquet.name,
-      price: numericPrice,
-      image: bouquet.image,
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
       quantity: 1
     });
 
@@ -98,8 +153,8 @@ function BouquetCard({ bouquet, index }: { bouquet: any, index: number }) {
     >
       <div className="relative w-full aspect-[3/4] overflow-hidden bg-primary/10 shrink-0">
         <Image
-          src={bouquet.image}
-          alt={bouquet.name}
+          src={product.image}
+          alt={product.name}
           fill
           priority={index < 4}
           className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -109,11 +164,13 @@ function BouquetCard({ bouquet, index }: { bouquet: any, index: number }) {
         {/* Mobile-optimized overlay layout */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         
-        <div className="absolute top-2 left-2 z-20">
-          <span className="px-2 py-1 bg-white/90 backdrop-blur-md rounded-full text-[8px] uppercase tracking-widest font-bold text-text-main shadow-sm">
-            {bouquet.tag}
-          </span>
-        </div>
+        {product.tag && (
+          <div className="absolute top-2 left-2 z-20">
+            <span className="px-2 py-1 bg-white/90 backdrop-blur-md rounded-full text-[8px] uppercase tracking-widest font-bold text-text-main shadow-sm">
+              {product.tag}
+            </span>
+          </div>
+        )}
 
         {/* Quick Add - Always visible on mobile, hover on desktop */}
         <div className="absolute bottom-2 left-2 right-2 z-20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
@@ -142,15 +199,18 @@ function BouquetCard({ bouquet, index }: { bouquet: any, index: number }) {
 
       <div className="p-3 flex flex-col gap-2 bg-white relative z-10 flex-1">
         <h3 className="text-sm font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2">
-          {bouquet.name}
+          {product.name}
         </h3>
         <div className="flex items-center justify-between mt-auto">
-          <span className="text-sm font-bold text-accent-gold">
-            {bouquet.price}
-          </span>
-          <div className="flex items-center gap-1">
-            <Star className="w-3 h-3 fill-accent-gold text-accent-gold" />
-            <span className="text-[10px] font-bold text-soft-gray">5.0</span>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {product.strike_price && product.strike_price > product.price && (
+              <span className="text-xs font-sans text-soft-gray line-through decoration-red-400">
+                ₹{product.strike_price.toLocaleString("en-IN")}
+              </span>
+            )}
+            <span className="text-sm font-bold text-accent-gold">
+              ₹{product.price.toLocaleString("en-IN")}
+            </span>
           </div>
         </div>
       </div>

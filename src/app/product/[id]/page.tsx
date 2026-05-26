@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { useState, useMemo, use, useEffect } from "react";
 import { useCartStore } from "@/store/cartStore";
-import { ShoppingBag, Star, Heart, ArrowLeft, ShieldCheck, Truck, RefreshCw } from "lucide-react";
+import { ShoppingBag, Star, ArrowLeft, ShieldCheck, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -15,6 +15,7 @@ const PRODUCTS_POOL: Record<string, {
   id: string;
   name: string;
   price: number;
+  strike_price?: number;
   image: string;
   tag: string;
   description: string;
@@ -25,6 +26,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bs-1",
     name: "The Royal Azure Box",
     price: 6800,
+    strike_price: 7999,
     image: "/images/themed-hampers/IMG_3723.jpg",
     tag: "Bestseller",
     description: "Our signature premium hamper packed in a majestic indigo leather trunk, decorated with dried golden lavender stems. Features top-tier organic dry fruits, custom almond dragees, and an exquisite scented soy candle.",
@@ -38,6 +40,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bs-2",
     name: "Blush Peony Symphony",
     price: 4200,
+    strike_price: 4999,
     image: "/images/bouquets/IMG_3895.jpg",
     tag: "Premium",
     description: "An elegant, hand-tied premium floral bouquet showcasing premium blush Dutch peonies, miniature pastel pink roses, and fresh eucalyptus foliage, wrapped in heavy waterproof Parisian craft paper.",
@@ -50,6 +53,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bs-3",
     name: "Corporate Executive Kit",
     price: 9999,
+    strike_price: 12499,
     image: "/images/themed-hampers/IMG_3899.jpg",
     tag: "Signature",
     description: "A state-of-the-art corporate gifting case engineered for executive partnerships. Conceived with premium writing tools, insulated thermal cups, gourmet teas, and custom leather accessories.",
@@ -62,6 +66,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bs-4",
     name: "Classic Trousseau Trunk",
     price: 15000,
+    strike_price: 18499,
     image: "/images/themed-hampers/IMG_3915.jpg",
     tag: "Wedding Special",
     description: "An opulent wedding trousseau chest made of sheer wood and brass. Beautifully decorated with pastel roses, orchids, and custom net wrapping. The ultimate chest for bridal blessings.",
@@ -74,6 +79,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-6",
     name: "Classic Ranunculus Bouquet",
     price: 2499,
+    strike_price: 2999,
     image: "/images/bouquets/IMG_3926.png",
     tag: "Best Seller",
     description: "A breathtaking hand-tied bouquet featuring fresh imported ranunculus, garden roses, and eucalyptus foliage, wrapped in premium Parisian craft paper. Perfect for birthdays, anniversaries, and heartfelt celebrations.",
@@ -87,6 +93,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-6",
     name: "Signature Silk Trousseau Box",
     price: 5999,
+    strike_price: 7299,
     image: "/images/themed-hampers/IMG_3915.jpg",
     tag: "Handcrafted",
     description: "An exquisite silk-lined trousseau box crafted for weddings and bridal gifting. Filled with premium keepsakes, artisanal treats, and a bespoke fragrance collection, wrapped in hand-dyed silk and finished with a wax seal.",
@@ -100,6 +107,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-3",
     name: "Artisanal Chocolate Hamper",
     price: 3250,
+    strike_price: 3999,
     image: "/images/themed-hampers/IMG_3900.jpg",
     tag: "Indulgent",
     description: "A decadent hamper for the true chocolate connoisseur, featuring an assortment of single-origin, bean-to-bar chocolates, handmade truffles, and premium cocoa-dipped almonds, presented in a reusable luxury keepsake box.",
@@ -113,6 +121,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-3",
     name: "Premium Peony Arrangement",
     price: 4799,
+    strike_price: 4999,
     image: "/images/bouquets/IMG_3893.jpg",
     tag: "Limited Edition",
     description: "An opulent arrangement of the finest imported Dutch peonies, hand-selected at peak bloom, paired with soft blush roses and cascading greenery. A rare and luxurious floral gift for the most discerning recipient.",
@@ -126,6 +135,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-1",
     name: "Velvet Crimson Rose",
     price: 3499,
+    strike_price: 4299,
     image: "/images/bouquets/IMG_3893.jpg",
     tag: "Bestseller",
     description: "A hand-tied arrangement of deep velvet crimson roses, layered with lush greenery and seasonal wildflowers. Wrapped in premium textured kraft with a satin crimson bow, this bouquet speaks passion, elegance, and heartfelt emotion.",
@@ -139,6 +149,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-2",
     name: "Ethereal White Lilies",
     price: 2999,
+    strike_price: 3599,
     image: "/images/bouquets/IMG_3894.jpg",
     tag: "Classic",
     description: "Pure, ethereal white lilies paired with fragrant jasmine and silver-dollar eucalyptus. A classic and sophisticated choice for celebrations, condolences, and moments of grace.",
@@ -152,6 +163,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-4",
     name: "Midnight Orchid Cascade",
     price: 5499,
+    strike_price: 6499,
     image: "/images/bouquets/IMG_3897.jpg",
     tag: "Signature",
     description: "A dramatic cascade of midnight orchids intertwined with deep purple anthuriums and trailing amaranthus. Designed for those who appreciate the extraordinary and the bold.",
@@ -164,6 +176,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-5",
     name: "Sunset Orange Tulips",
     price: 2750,
+    strike_price: 3199,
     image: "/images/bouquets/IMG_3898.jpg",
     tag: "Seasonal",
     description: "A vibrant burst of orange, yellow, and coral tulips, hand-arranged with sprigs of eucalyptus and babys breath. A perfect way to celebrate new beginnings and joyful milestones.",
@@ -176,6 +189,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-7",
     name: "Pastel Hydrangea Cloud",
     price: 3800,
+    strike_price: 4599,
     image: "/images/bouquets/IMG_3927.png",
     tag: "Elegant",
     description: "A dreamy, cloud-like arrangement of pastel hydrangeas in shades of lavender, blue and white, accented with ruscus and ferns. Ideal for baby showers and congratulatory gifts.",
@@ -188,6 +202,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-8",
     name: "Royal Purple Iris",
     price: 3100,
+    strike_price: 3699,
     image: "/images/bouquets/IMG_3928.png",
     tag: "Exotic",
     description: "Majestic royal purple irises paired with lavender sprigs and white alstroemeria. A symbol of wisdom and admiration, wrapped in deep purple luxe paper.",
@@ -200,6 +215,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-9",
     name: "Wildflower Meadows",
     price: 2650,
+    strike_price: 3199,
     image: "/images/bouquets/IMG_3930.png",
     tag: "Rustic",
     description: "A rustic, free-spirited mix of seasonal wildflowers and dried botanicals. Hand gathered with care and wrapped in hessian for a countryside charm feel.",
@@ -212,6 +228,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-10",
     name: "Scarlet Passion Mix",
     price: 4500,
+    strike_price: 5499,
     image: "/images/bouquets/IMG_3931.png",
     tag: "Romantic",
     description: "A passionate blend of deep red roses, burgundy dahlias and scarlet ranunculus, accented with dark foliage. A dramatic expression of love and desire.",
@@ -224,6 +241,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-11",
     name: "Frosty Morning Blooms",
     price: 3300,
+    strike_price: 3999,
     image: "/images/bouquets/IMG_3932.png",
     tag: "Fresh",
     description: "Cool-toned blooms of white hyacinth, pale blue delphiniums and frosted greenery, perfect for winter celebrations and new year beginnings.",
@@ -236,6 +254,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-12",
     name: "Enchanted Forest Ferns",
     price: 2899,
+    strike_price: 3499,
     image: "/images/bouquets/IMG_3933.png",
     tag: "Verdant",
     description: "An enchanted forest arrangement of fiddlehead ferns, baby ferns, soft star-shaped flowers and trailing ivy in an earthy moss green wrapping.",
@@ -248,6 +267,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-13",
     name: "Candy Pink Carnations",
     price: 1999,
+    strike_price: 2399,
     image: "/images/bouquets/IMG_3936.png",
     tag: "Sweet",
     description: "A cheerful mix of candy pink carnations, spray roses and hypericum berries. Sweet, playful and universally loved.",
@@ -260,6 +280,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-14",
     name: "Sapphire Blue Delphinium",
     price: 4100,
+    strike_price: 4899,
     image: "/images/bouquets/IMG_3937.png",
     tag: "Rare",
     description: "Rare sapphire blue delphiniums tower above a base of white roses and pale blue statice. Truly a sight to behold for the most discerning recipient.",
@@ -272,6 +293,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "bq-15",
     name: "Majestic Imperial Lily",
     price: 5999,
+    strike_price: 7299,
     image: "/images/bouquets/IMG_3941.png",
     tag: "Signature",
     description: "A majestic arrangement of 49 imperial lilies set in a premium golden vase, exuding luxury and reverence. The ultimate floral gift.",
@@ -284,6 +306,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-1",
     name: "Royal Celebration Hamper",
     price: 7499,
+    strike_price: 8999,
     image: "/images/themed-hampers/IMG_3723.jpg",
     tag: "Premium",
     description: "A royal celebration hamper overflowing with the finest hand-picked treats. Includes premium nuts, artisanal chocolates, and a bespoke metallic keepsake chest.",
@@ -296,6 +319,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-2",
     name: "Gilded Indulgence Box",
     price: 6999,
+    strike_price: 8499,
     image: "/images/themed-hampers/IMG_3899.jpg",
     tag: "Signature",
     description: "A gilded box of pure indulgence, featuring gold leaf macarons, champagne truffles, velvet pouches of saffron, and a luxury scented candle.",
@@ -308,6 +332,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-4",
     name: "Midnight Bliss Hamper",
     price: 8200,
+    strike_price: 9999,
     image: "/images/themed-hampers/IMG_3912.jpg",
     tag: "Signature",
     description: "A midnight-themed hamper of dark wonders. Includes midnight jasmine tea, espresso beans, truffle chocolates, and an obsidian glass candle.",
@@ -320,6 +345,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-5",
     name: "Golden Glow Festive Basket",
     price: 4999,
+    strike_price: 5999,
     image: "/images/themed-hampers/IMG_3914.jpg",
     tag: "Festive",
     description: "A festive golden glow hamper packed with premium treats, artisanal cookies, dry fruits, and a festive gold-wrapped chocolate collection.",
@@ -332,6 +358,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-7",
     name: "Opulent Harvest Tray",
     price: 3899,
+    strike_price: 4699,
     image: "/images/themed-hampers/IMG_3916.jpg",
     tag: "Organic",
     description: "A wholesome organic harvest tray featuring raw honey, farm-fresh nuts, cold-pressed oils, freshly baked sourdough, and organic preserves.",
@@ -344,6 +371,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-8",
     name: "Champagne & Roses Box",
     price: 9500,
+    strike_price: 11499,
     image: "/images/themed-hampers/IMG_3917.jpg",
     tag: "Ultimate",
     description: "The ultimate indulgence — a champagne and roses box pairing a premium sparkling wine with artisanal treats, a live orchid, and silk roses.",
@@ -356,6 +384,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-9",
     name: "Sweet Serenade Basket",
     price: 4500,
+    strike_price: 5499,
     image: "/images/themed-hampers/IMG_3918.png",
     tag: "Sweet",
     description: "A sweet serenade basket of macarons, honey, gourmet candy and a luxury silk sleep mask. A melody of comfort and sweetness.",
@@ -368,6 +397,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-10",
     name: "Blossom & Bites Platter",
     price: 5100,
+    strike_price: 6199,
     image: "/images/themed-hampers/IMG_3920.png",
     tag: "Curated",
     description: "A curated platter pairing fresh seasonal florals with gourmet treats — dried fruits, artisan crackers, and truffle cheese. Best of both worlds.",
@@ -380,6 +410,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-11",
     name: "Gourmet Symphony Trunk",
     price: 7999,
+    strike_price: 9699,
     image: "/images/themed-hampers/IMG_3921.png",
     tag: "Gourmet",
     description: "A gourmets delight trunk featuring aged balsamic vinegar, truffle oil, heirloom pasta, and a curated recipe book within an engraved box.",
@@ -392,6 +423,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-12",
     name: "Aura of Gold Hamper",
     price: 6750,
+    strike_price: 8199,
     image: "/images/themed-hampers/IMG_3922.png",
     tag: "Limited",
     description: "A limited edition gold hamper with hand-numbered luxury items, 24k gold-infused honey, and a signed artisan certificate of authenticity.",
@@ -404,6 +436,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-13",
     name: "Pink Petal Perfection Box",
     price: 4200,
+    strike_price: 4999,
     image: "/images/themed-hampers/IMG_3923.png",
     tag: "Romantic",
     description: "A romantic pink petal perfection box, overflowing with rose-scented candles, petals, a silk scarf, and a personalised photo frame.",
@@ -416,6 +449,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-14",
     name: "Artisan Casket",
     price: 8900,
+    strike_price: 10799,
     image: "/images/themed-hampers/IMG_3929.png",
     tag: "Custom",
     description: "A bespoke artisan casket offering fully customisable contents. Engrave your initials and fill it with your choice of five select items.",
@@ -428,6 +462,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-15",
     name: "Ethereal Treats Tray",
     price: 3600,
+    strike_price: 4299,
     image: "/images/themed-hampers/IMG_3938.jpg",
     tag: "Delight",
     description: "A delicate tray of ethereal treats including meringues, sugar-free artisanal delights, lavender cookies, and a hand-blown glass jar of fairy dust sugar.",
@@ -440,6 +475,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "hm-16",
     name: "Deluxe Wellness Hamper",
     price: 5800,
+    strike_price: 6999,
     image: "/images/themed-hampers/IMG_3940.jpg",
     tag: "Wellness",
     description: "A deluxe wellness hamper promoting holistic well-being with herbal teas, ceramide candles, an incense set, and an eye pillow.",
@@ -452,6 +488,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "eh-1",
     name: "Al-Noor Premium Eid Box",
     price: 6499,
+    strike_price: 7799,
     image: "/images/eid-hampers/IMG_3848.png",
     tag: "Premium",
     description: "An opulent Eid box curated with Turkish delight, dates, gold-wrapped chocolates, and a beautifully embroidered prayer cap.",
@@ -464,6 +501,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "eh-2",
     name: "Hilal Delights Basket",
     price: 5200,
+    strike_price: 6299,
     image: "/images/eid-hampers/IMG_3942.png",
     tag: "Festive",
     description: "A festive crescent-shaped basket brimming with date varieties, nut platters, and a limited edition Eid keepsake.",
@@ -476,6 +514,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "eh-3",
     name: "Royal Mubarak Trunk",
     price: 8500,
+    strike_price: 10299,
     image: "/images/eid-hampers/IMG_3943.png",
     tag: "Signature",
     description: "A majestic trunk fit for royalty, packed with the finest hibiscus tea, saffron, Moroccan dates, and an engraved lantern.",
@@ -488,6 +527,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "eh-4",
     name: "Sacred Bloom Platter",
     price: 4800,
+    strike_price: 5799,
     image: "/images/eid-hampers/IMG_3944.png",
     tag: "Elegant",
     description: "An elegant platter of natural beauty with fresh rose petals, attar, a pearl tasbih, and a hand-painted Eid card.",
@@ -500,6 +540,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "eh-5",
     name: "Barakah Abundance Hamper",
     price: 7299,
+    strike_price: 8799,
     image: "/images/eid-hampers/IMG_3945.png",
     tag: "Bestseller",
     description: "This Eid best seller offers abundance in beauty and taste — dates, nuts, chocolate, and an ornate serving tray.",
@@ -512,6 +553,7 @@ const PRODUCTS_POOL: Record<string, {
     id: "eh-6",
     name: "Zamarud Gold Artisan Tray",
     price: 3999,
+    strike_price: 4799,
     image: "/images/eid-hampers/IMG_3946.png",
     tag: "Handcrafted",
     description: "A handcrafted zafran and gold artisan tray featuring saffron threads, gold-dusted dates, and marbled halwa.",
@@ -526,6 +568,7 @@ interface ProductDetail {
   id: string;
   name: string;
   price: number;
+  strike_price?: number;
   image: string;
   images?: string[];
   relations?: string[];
@@ -544,18 +587,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   const addItem = useCartStore((state) => state.addItem);
   const [successMessage, setSuccessMessage] = useState(false);
-  const [shippingZone, setShippingZone] = useState("chennai");
-  const [shippingSpeed, setShippingSpeed] = useState("standard");
 
   useEffect(() => {
     if (poolProduct) {
       setProduct(poolProduct);
       setLoading(false);
-      return;
     }
 
     async function fetchDbProduct() {
-      setLoading(true);
+      setLoading(!poolProduct);
       try {
         const { supabase } = await import("@/lib/supabaseClient");
 
@@ -579,10 +619,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
         if (error) {
           console.error("Error fetching product from Supabase:", error);
-          setFetchError(true);
+          if (!poolProduct) {
+            setFetchError(true);
+          }
         } else if (!data) {
           // Product not found in Supabase — notFound() will serve the 404 page
-          setFetchError(true);
+          if (!poolProduct) {
+            setFetchError(true);
+          }
         } else {
           // Parse images - Supabase JSONB returns parsed arrays, but fallback to string parse
           let parsedImages: string[] = [];
@@ -614,6 +658,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             id: data.id,
             name: data.name,
             price: Number(data.price),
+            strike_price: data.strike_price ? Number(data.strike_price) : undefined,
             image: data.image,
             images: parsedImages,
             relations: parsedRelations,
@@ -629,10 +674,13 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 ]
           };
           setProduct(dbProduct);
+          setFetchError(false);
         }
       } catch (err) {
         console.error("Failed to load product from DB:", err);
-        setFetchError(true);
+        if (!poolProduct) {
+          setFetchError(true);
+        }
       } finally {
         setLoading(false);
       }
@@ -640,12 +688,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
     fetchDbProduct();
   }, [id, poolProduct]);
-
-  const shippingCost = useMemo(() => {
-    const base = shippingZone === "chennai" ? 150 : 450;
-    const speedFee = shippingSpeed === "express" ? 300 : 0;
-    return base + speedFee;
-  }, [shippingZone, shippingSpeed]);
 
   if (loading) {
     return (
@@ -660,8 +702,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     );
   }
 
-  if (fetchError || !product) {
+  if (fetchError && !product) {
     notFound();
+  }
+
+  if (!product) {
+    return null;
   }
 
   const handleAddToCart = () => {
@@ -691,12 +737,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           <div className="lg:col-span-6">
-            <div className="relative">
-              <div className="absolute top-4 left-4 z-30">
-                <span className="px-4 py-2 bg-white/95 backdrop-blur-md rounded-full text-xs uppercase tracking-widest font-bold text-text-main shadow-md">
-                  {product.tag}
-                </span>
-              </div>
+         <div className="relative">
               <ImageGallery
                 images={product.images && product.images.length > 0 ? product.images : [product.image || "/images/placeholder.jpg"]}
                 alt={product.name}
@@ -707,31 +748,34 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
           {/* Product Info Column */}
           <div className="lg:col-span-6 space-y-8">
-            <div>
-              <div className="flex items-center gap-1 bg-primary/20 px-3 py-1.5 rounded-full w-fit mb-4">
-                <Star className="w-3.5 h-3.5 fill-accent-gold text-accent-gold" />
-                <span className="text-xs font-bold text-text-main">5.0 Star Praise</span>
-              </div>
-              <h1 className="text-4xl md:text-5xl font-serif text-text-main mb-4 leading-tight">{product.name}</h1>
-              <p className="text-3xl font-sans text-accent-gold font-bold">₹{product.price.toLocaleString("en-IN")}</p>
-            </div>
+             <div>
+                <h1 className="text-4xl md:text-5xl font-serif text-text-main mb-4 leading-tight">{product.name}</h1>
+                <div className="flex items-center gap-3 flex-wrap">
+                  {product.strike_price && product.strike_price > product.price && (
+                    <>
+                      <span className="text-xl font-sans text-soft-gray line-through decoration-red-400">
+                        ₹{product.strike_price.toLocaleString("en-IN")}
+                      </span>
+                      <span className="text-sm font-bold bg-red-100 text-red-600 px-3 py-1 rounded-full">
+                        {Math.round(((product.strike_price - product.price) / product.strike_price) * 100)}% OFF
+                      </span>
+                    </>
+                  )}
+                  <p className="text-3xl font-serif text-accent-gold font-bold">₹{product.price.toLocaleString("en-IN")}</p>
+                </div>
+             </div>
 
             <p className="text-soft-gray leading-relaxed text-sm md:text-base font-sans font-light">
               {product.description}
             </p>
 
-            {/* Inclusions List */}
-            <div className="bg-white p-8 rounded-[2.5rem] border border-text-main/5 shadow-sm space-y-4">
-              <h3 className="font-serif italic text-lg font-bold text-text-main">Inclusions & Packaging</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs md:text-sm text-soft-gray font-sans font-medium">
-                {product.inclusions.map((item, idx) => (
-                  <li key={idx} className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent-gold shrink-0" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+             {/* What's Included? */}
+             <div className="bg-white p-8 rounded-[2.5rem] border border-text-main/5 shadow-sm">
+                <h3 className="font-serif italic text-lg font-bold text-text-main">What&apos;s Included?</h3>
+               <p className="text-xs md:text-sm text-soft-gray font-sans font-medium">
+                 {product.inclusions.join(", ")}.
+               </p>
+             </div>
 
             {/* Cart & Quick Checkout Triggers */}
             <div className="space-y-4 pt-4">
@@ -750,79 +794,19 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               )}
             </div>
 
-            <div className="bg-white p-6 rounded-[2rem] border border-text-main/5 shadow-sm space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="font-serif italic text-lg font-bold text-text-main">Shipping Calculator</h3>
-                <Link href="/delivery-info" className="text-[10px] uppercase tracking-widest font-bold text-accent-gold">
-                  View Delivery Info
-                </Link>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold uppercase tracking-widest text-text-main/70">
-                <div className="space-y-2">
-                  <p>Delivery Zone</p>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      { id: "chennai", label: "Chennai" },
-                      { id: "pan-india", label: "Pan-India" }
-                    ].map((zone) => (
-                      <button
-                        key={zone.id}
-                        onClick={() => setShippingZone(zone.id)}
-                        className={`px-3 py-2 rounded-full border text-[10px] transition-all ${
-                          shippingZone === zone.id
-                            ? "bg-text-main text-white border-text-main"
-                            : "border-text-main/10 text-soft-gray bg-secondary/20"
-                        }`}
-                      >
-                        {zone.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <p>Speed</p>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      { id: "standard", label: "Standard" },
-                      { id: "express", label: "Express" }
-                    ].map((speed) => (
-                      <button
-                        key={speed.id}
-                        onClick={() => setShippingSpeed(speed.id)}
-                        className={`px-3 py-2 rounded-full border text-[10px] transition-all ${
-                          shippingSpeed === speed.id
-                            ? "bg-text-main text-white border-text-main"
-                            : "border-text-main/10 text-soft-gray bg-secondary/20"
-                        }`}
-                      >
-                        {speed.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-text-main/10">
-                <span className="text-xs uppercase tracking-widest text-soft-gray font-bold">Estimated Shipping</span>
-                <span className="text-lg font-serif text-accent-gold font-bold">₹{shippingCost}</span>
-              </div>
-              <p className="text-[11px] text-soft-gray">Chennai same-day options may include a rush fee for select items.</p>
-            </div>
 
-            {/* Premium Trust Accoutrements */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-text-main/10 text-center font-sans text-[10px] uppercase tracking-wider font-bold text-soft-gray">
-              <div className="flex flex-col items-center gap-2">
-                <Truck className="w-5 h-5 text-accent-sage" />
-                <span>Express Courier</span>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-accent-sage" />
-                <span>Secure Checkout</span>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <RefreshCw className="w-5 h-5 text-accent-sage" />
-                <span>Premium Exchange</span>
-              </div>
-            </div>
+
+             {/* Trust Accoutrements */}
+             <div className="grid grid-cols-2 gap-4 pt-6 border-t border-text-main/10 text-center font-sans text-[10px] uppercase tracking-wider font-bold text-soft-gray">
+               <div className="flex flex-col items-center gap-2">
+                 <Truck className="w-5 h-5 text-accent-sage" />
+                 <span>Express Courier</span>
+               </div>
+               <div className="flex flex-col items-center gap-2">
+                 <ShieldCheck className="w-5 h-5 text-accent-sage" />
+                 <span>Secure Checkout</span>
+               </div>
+             </div>
           </div>
         </div>
 
@@ -837,7 +821,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     <Star key={i} className="w-4 h-4 fill-accent-gold text-accent-gold" />
                   ))}
                 </div>
-                <p className="text-soft-gray italic mb-6 text-sm">"{review.text}"</p>
+                <p className="text-soft-gray italic mb-6 text-sm">&ldquo;{review.text}&rdquo;</p>
                 <p className="font-bold text-xs text-text-main">— {review.author}</p>
               </div>
             ))}

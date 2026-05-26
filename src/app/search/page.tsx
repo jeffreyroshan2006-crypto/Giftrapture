@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, ShoppingBag, Search, Check } from "lucide-react";
+import { ShoppingBag, Search, Check } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useState, useMemo, useEffect, Suspense } from "react";
 import { supabase } from "@/lib/supabaseClient";
@@ -212,10 +212,6 @@ function SearchContent() {
                       <h3 className="text-xl md:text-2xl font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2 min-h-[3.2rem]">
                         {product.name}
                       </h3>
-                      <div className="flex items-center gap-1 bg-primary/20 px-2 py-1 rounded-md shrink-0 mt-1">
-                        <Star className="w-3 h-3 fill-accent-gold text-accent-gold" />
-                        <span className="text-xs font-bold text-text-main">5.0</span>
-                      </div>
                     </div>
                     <p className="text-lg font-sans text-soft-gray font-medium tracking-tight">
                       ₹{product.price.toLocaleString("en-IN")}

@@ -10,6 +10,7 @@ interface ProductPreview {
   id: string;
   name: string;
   price: number;
+  strike_price?: number;
   image: string;
   images?: string[];
   relations?: string[];
@@ -18,20 +19,20 @@ interface ProductPreview {
 
 const FALLBACK_PRODUCTS: Record<string, ProductPreview[]> = {
   bouquets: [
-    { id: "bq-3", name: "Blush Peony Symphony", price: 4200, image: "/images/bouquets/IMG_3895.jpg", images: [], tag: "Premium" },
-    { id: "bq-1", name: "Velvet Crimson Rose", price: 3499, image: "/images/bouquets/IMG_3893.jpg", images: [], tag: "Bestseller" }
+    { id: "bq-3", name: "Blush Peony Symphony", price: 4200, strike_price: 4999, image: "/images/bouquets/IMG_3895.jpg", images: [], tag: "Premium" },
+    { id: "bq-1", name: "Velvet Crimson Rose", price: 3499, strike_price: 4299, image: "/images/bouquets/IMG_3893.jpg", images: [], tag: "Bestseller" }
   ],
   hampers: [
-    { id: "hm-1", name: "Royal Celebration Hamper", price: 7499, image: "/images/themed-hampers/IMG_3723.jpg", images: [], tag: "Premium" },
-    { id: "hm-3", name: "Velvet Treasure Chest", price: 5499, image: "/images/themed-hampers/IMG_3900.jpg", images: [], tag: "Bestseller" }
+    { id: "hm-1", name: "Royal Celebration Hamper", price: 7499, strike_price: 8999, image: "/images/themed-hampers/IMG_3723.jpg", images: [], tag: "Premium" },
+    { id: "hm-3", name: "Velvet Treasure Chest", price: 5499, strike_price: 6699, image: "/images/themed-hampers/IMG_3900.jpg", images: [], tag: "Bestseller" }
   ],
   "eid-hampers": [
-    { id: "eh-1", name: "Al-Noor Premium Eid Box", price: 6499, image: "/images/eid-hampers/IMG_3848.png", images: [], tag: "Premium" },
-    { id: "eh-3", name: "Royal Mubarak Trunk", price: 8500, image: "/images/eid-hampers/IMG_3943.png", images: [], tag: "Luxury" }
+    { id: "eh-1", name: "Al-Noor Premium Eid Box", price: 6499, strike_price: 7799, image: "/images/eid-hampers/IMG_3848.png", images: [], tag: "Premium" },
+    { id: "eh-3", name: "Royal Mubarak Trunk", price: 8500, strike_price: 10299, image: "/images/eid-hampers/IMG_3943.png", images: [], tag: "Luxury" }
   ],
   corporate: [
-    { id: "bs-3", name: "Corporate Executive Kit", price: 9999, image: "/images/themed-hampers/IMG_3899.jpg", images: [], tag: "Signature" },
-    { id: "hm-2", name: "Gilded Indulgence Box", price: 6999, image: "/images/themed-hampers/IMG_3899.jpg", images: [], tag: "Luxury" }
+    { id: "bs-3", name: "Corporate Executive Kit", price: 9999, strike_price: 12499, image: "/images/themed-hampers/IMG_3899.jpg", images: [], tag: "Signature" },
+    { id: "hm-2", name: "Gilded Indulgence Box", price: 6999, strike_price: 8499, image: "/images/themed-hampers/IMG_3899.jpg", images: [], tag: "Luxury" }
   ]
 };
 
@@ -59,22 +60,23 @@ export default function BespokePreviewBox() {
           return;
         }
 
-        if (data && data.length > 0) {
-          const categorized: Record<string, ProductPreview[]> = {
-            bouquets: [],
-            hampers: [],
-            "eid-hampers": [],
-            corporate: []
-          };
+         if (data && data.length > 0) {
+           const categorized: Record<string, ProductPreview[]> = {
+             bouquets: [],
+             hampers: [],
+             "eid-hampers": [],
+             corporate: []
+           };
 
-          data.forEach((p: any) => {
-            const item: ProductPreview = {
-              id: p.id,
-              name: p.name,
-              price: Number(p.price),
-              image: p.image,
-              tag: p.tag || "Seeded"
-            };
+           data.forEach((p: any) => {
+             const item: ProductPreview = {
+               id: p.id,
+               name: p.name,
+               price: Number(p.price),
+               strike_price: p.strike_price ? Number(p.strike_price) : undefined,
+               image: p.image,
+               tag: p.tag || "Seeded"
+             };
 
             if (p.category === "bouquets") {
               categorized.bouquets.push(item);
@@ -202,20 +204,27 @@ export default function BespokePreviewBox() {
                     />
                   </div>
 
-                  {/* Product Metadata */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="px-2 py-0.5 bg-accent-gold/20 text-accent-gold rounded-full text-[9px] uppercase tracking-wider font-extrabold">
-                        {product.tag}
-                      </span>
-                    </div>
-                    <h4 className="font-serif text-sm text-white font-medium truncate group-hover/item:text-accent-gold transition-colors">
-                      {product.name}
-                    </h4>
-                    <p className="font-sans text-xs text-white/60 mt-0.5">
-                      {product.price.toLocaleString("en-IN")}
-                    </p>
-                  </div>
+                   {/* Product Metadata */}
+                   <div className="flex-1 min-w-0">
+                     <div className="flex items-center gap-2 mb-1">
+                       <span className="px-2 py-0.5 bg-accent-gold/20 text-accent-gold rounded-full text-[9px] uppercase tracking-wider font-extrabold">
+                         {product.tag}
+                       </span>
+                     </div>
+                     <h4 className="font-serif text-sm text-white font-medium truncate group-hover/item:text-accent-gold transition-colors">
+                       {product.name}
+                     </h4>
+                     <div className="flex items-center gap-2 mt-0.5">
+                       {product.strike_price && product.strike_price > product.price && (
+                         <span className="text-xs text-white/40 line-through">
+                           ₹{product.strike_price.toLocaleString("en-IN")}
+                         </span>
+                       )}
+                       <p className="font-sans text-xs text-accent-gold">
+                         ₹{product.price.toLocaleString("en-IN")}
+                       </p>
+                     </div>
+                   </div>
 
                   {/* Navigate Indicator */}
                   <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/50 group-hover/item:bg-white group-hover/item:text-text-main transition-all shrink-0">

@@ -1,26 +1,20 @@
 import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import Hero from "@/components/Hero";
-import FeaturedCarousel from "@/components/FeaturedCarousel";
 import PortfolioGrid from "@/components/PortfolioGrid";
-import BespokePreviewBox from "@/components/BespokePreviewBox";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-secondary relative overflow-x-hidden">
       <Navbar />
 
-      {/* Hero Section */}
-      <Hero />
+       {/* Hero Section */}
+       <Hero />
 
-      {/* Featured Products */}
-      <FeaturedCarousel />
-
-      {/* Bestsellers Portfolio Grid */}
-      <PortfolioGrid />
+       {/* Bestsellers Portfolio Grid */}
+       <PortfolioGrid />
 
       {/* Make Your Own Box Promo */}
       <section className="py-12 px-6 max-w-7xl mx-auto">

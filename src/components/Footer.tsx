@@ -59,11 +59,11 @@ export default function Footer() {
             <h4 className="font-serif text-xl font-bold mb-6 italic">Gifts of Elegance, <span className="font-bold not-italic">Directly to You.</span></h4>
             <p className="text-soft-gray text-sm mb-6 max-w-xs font-sans tracking-tight">Subscribe for exclusive access to new collections and gifting tips.</p>
             <div className="relative w-full max-w-sm">
-              <input
-                type="email"
-                placeholder="Your exquisite email address"
-                className="w-full px-6 py-4 rounded-full border border-text-main/10 bg-secondary/30 text-sm focus:outline-none focus:border-accent-gold transition-all duration-300 font-sans tracking-tight italic"
-              />
+               <input
+                 type="email"
+                 placeholder="Enter your email address"
+                 className="w-full px-6 py-4 rounded-full border border-text-main/10 bg-secondary/30 text-sm focus:outline-none focus:border-accent-gold transition-all duration-300 font-sans tracking-tight"
+               />
               <button className="absolute right-2 top-2 bottom-2 px-6 bg-text-main text-white text-[10px] md:text-xs font-bold rounded-full uppercase tracking-widest hover:bg-accent-gold hover:text-text-main transition-all duration-300 shadow-xl">
                 Join
               </button>

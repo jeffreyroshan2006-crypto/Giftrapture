@@ -28,11 +28,18 @@ UPDATE public.products
     AND image IS NOT NULL
     AND image != '/images/placeholder.jpg';
 
--- Step 6: Backfill 'relations' from 'relation' for existing products
-UPDATE public.products
-  SET relations = jsonb_build_array(relation)
-  WHERE (relations IS NULL OR relations = '[]'::jsonb)
-    AND relation IS NOT NULL;
+ -- Step 6: Backfill 'relations' from 'relation' for existing products
+ UPDATE public.products
+   SET relations = jsonb_build_array(relation)
+   WHERE (relations IS NULL OR relations = '[]'::jsonb)
+     AND relation IS NOT NULL;
 
--- Done! Verify:
-SELECT id, name, slug, image, images, relations FROM public.products LIMIT 5;
+ -- Step 7: Add missing 'strike_price' column for original/discounted pricing
+ ALTER TABLE public.products
+   ADD COLUMN IF NOT EXISTS strike_price NUMERIC;
+
+ -- Step 8: Backfill strike_price for any products that might have it in the future
+ -- (No backfill needed for existing data unless you want to manually set values)
+
+ -- Done! Verify:
+ SELECT id, name, price, strike_price, slug, image, images, relations FROM public.products LIMIT 5;

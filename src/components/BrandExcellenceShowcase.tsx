@@ -10,6 +10,7 @@ interface Product {
   id: string;
   name: string;
   price: number;
+  strike_price?: number;
   image: string;
   category: string;
 }
@@ -22,11 +23,11 @@ export default function BrandExcellenceShowcase() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data, error } = await supabase
-          .from("products")
-          .select("id, name, price, image, category")
-          .order("created_at", { ascending: false })
-          .limit(6);
+         const { data, error } = await supabase
+           .from("products")
+           .select("id, name, price, strike_price, image, category")
+           .order("created_at", { ascending: false })
+           .limit(6);
 
         // Supabase returns an `error` object when something goes wrong.
         if (error) {
@@ -110,7 +111,14 @@ export default function BrandExcellenceShowcase() {
             {/* Product Info - Below Image */}
             <div className="mt-8 text-center w-full">
               <p className="text-white text-2xl font-bold mb-2">{currentProduct.name}</p>
-              <p className="text-accent-gold text-3xl font-bold mb-8">₹{currentProduct.price.toLocaleString("en-IN")}</p>
+              <div className="flex items-center justify-center gap-4 mb-8">
+                {currentProduct.strike_price && currentProduct.strike_price > currentProduct.price && (
+                  <span className="text-xl text-white/60 line-through decoration-red-400">
+                    ₹{currentProduct.strike_price.toLocaleString("en-IN")}
+                  </span>
+                )}
+                <p className="text-accent-gold text-3xl font-bold">₹{currentProduct.price.toLocaleString("en-IN")}</p>
+              </div>
             </div>
 
             {/* Navigation Controls */}

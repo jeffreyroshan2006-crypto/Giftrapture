@@ -34,6 +34,7 @@ interface Product {
   slug: string;
   name: string;
   price: number;
+  strike_price?: number;
   image: string;
   images: string[];
   tag: string;
@@ -131,6 +132,7 @@ function ProductModal({
   const [name, setName] = useState(product?.name || "");
   const [slug, setSlug] = useState(product?.slug || "");
   const [price, setPrice] = useState(product?.price?.toString() || "");
+  const [strikePrice, setStrikePrice] = useState(product?.strike_price?.toString() || "");
   const [tag, setTag] = useState(product?.tag || "");
   const [category, setCategory] = useState<typeof CATEGORIES[number]["value"]>(
     product?.category || "bouquets"
@@ -175,11 +177,14 @@ function ProductModal({
     const finalSlug = product?.slug || slug || generateSlug(name);
     const mainImage = images[0] || "/images/placeholder.jpg";
     
+    const strikePriceNum = strikePrice && strikePrice.trim() !== "" ? parseInt(strikePrice) : undefined;
+    
     onSave({
       ...(product ? { id: product.id } : {}),
       name: name.trim(),
       slug: finalSlug,
       price: parseInt(price) || 0,
+      strike_price: strikePriceNum,
       image: mainImage,
       images: images,
       tag: tag.trim(),
@@ -245,10 +250,10 @@ function ProductModal({
             </div>
           </div>
 
-          {/* Price & Tag */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Price, Strike Price & Tag */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <label className="text-xs font-bold text-text-main/60 uppercase tracking-widest">Price (₹)</label>
+              <label className="text-xs font-bold text-text-main/60 uppercase tracking-widest">Selling Price (₹)</label>
               <input
                 type="number"
                 value={price}
@@ -257,6 +262,17 @@ function ProductModal({
                 min="0"
                 className="w-full px-4 py-3 rounded-xl border border-text-main/10 bg-white text-text-main text-sm focus:outline-none focus:border-accent-gold/50 focus:ring-2 focus:ring-accent-gold/10 transition-all"
                 placeholder="4200"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-text-main/60 uppercase tracking-widest">Strike Price (₹)</label>
+              <input
+                type="number"
+                value={strikePrice}
+                onChange={(e) => setStrikePrice(e.target.value)}
+                min="0"
+                className="w-full px-4 py-3 rounded-xl border border-text-main/10 bg-white text-text-main text-sm focus:outline-none focus:border-accent-gold/50 focus:ring-2 focus:ring-accent-gold/10 transition-all"
+                placeholder="Original price (optional)"
               />
             </div>
             <div className="space-y-2">
@@ -484,10 +500,10 @@ export default function AdminDashboardClient() {
         console.error("Error inspecting database columns:", e);
       }
 
-      // Filter payload data to only send columns that actually exist in the DB schema
-      const payload: any = {};
-      const coreFields = ["name", "slug", "price", "image", "images", "tag", "category", "relation", "relations", "description", "inclusions"];
-      const fieldsToFilter = allowedFields.length > 0 ? allowedFields : coreFields;
+       // Filter payload data to only send columns that actually exist in the DB schema
+       const payload: any = {};
+       const coreFields = ["name", "slug", "price", "strike_price", "image", "images", "tag", "category", "relation", "relations", "description", "inclusions"];
+       const fieldsToFilter = allowedFields.length > 0 ? allowedFields : coreFields;
 
       Object.keys(data).forEach((key) => {
         if (fieldsToFilter.includes(key)) {
@@ -690,25 +706,28 @@ export default function AdminDashboardClient() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead>
-                  <tr className="border-b border-text-main/5">
-                    <th className="text-left px-6 py-4 text-xs font-bold text-text-main/50 uppercase tracking-widest">
-                      Product
-                    </th>
-                    <th className="text-left px-6 py-4 text-xs font-bold text-text-main/50 uppercase tracking-widest hidden md:table-cell">
-                      Category
-                    </th>
-                    <th className="text-left px-6 py-4 text-xs font-bold text-text-main/50 uppercase tracking-widest hidden sm:table-cell">
-                      Price
-                    </th>
-                    <th className="text-left px-6 py-4 text-xs font-bold text-text-main/50 uppercase tracking-widest hidden sm:table-cell">
-                      Tag
-                    </th>
-                    <th className="text-right px-6 py-4 text-xs font-bold text-text-main/50 uppercase tracking-widest">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
+                 <thead>
+                   <tr className="border-b border-text-main/5">
+                     <th className="text-left px-6 py-4 text-xs font-bold text-text-main/50 uppercase tracking-widest">
+                       Product
+                     </th>
+                     <th className="text-left px-6 py-4 text-xs font-bold text-text-main/50 uppercase tracking-widest hidden md:table-cell">
+                       Category
+                     </th>
+                     <th className="text-left px-6 py-4 text-xs font-bold text-text-main/50 uppercase tracking-widest hidden sm:table-cell">
+                       Price
+                     </th>
+                     <th className="text-left px-6 py-4 text-xs font-bold text-text-main/50 uppercase tracking-widest hidden sm:table-cell">
+                       Strike Price
+                     </th>
+                     <th className="text-left px-6 py-4 text-xs font-bold text-text-main/50 uppercase tracking-widest hidden sm:table-cell">
+                       Tag
+                     </th>
+                     <th className="text-right px-6 py-4 text-xs font-bold text-text-main/50 uppercase tracking-widest">
+                       Actions
+                     </th>
+                   </tr>
+                 </thead>
                 <tbody>
                   {filteredProducts.map((product) => {
                     const categoryMeta = getCategoryMeta(product.category);
@@ -752,16 +771,25 @@ export default function AdminDashboardClient() {
                           {categoryMeta.label}
                         </span>
                       </td>
-                      <td className="px-6 py-4 hidden sm:table-cell">
-                        <span className="text-sm font-bold text-text-main">
-                          ₹{product.price.toLocaleString("en-IN")}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 hidden sm:table-cell">
-                        <span className="px-3 py-1 bg-accent-gold/10 rounded-full text-xs font-medium text-text-main">
-                          {product.tag || "—"}
-                        </span>
-                      </td>
+                       <td className="px-6 py-4 hidden sm:table-cell">
+                         <span className="text-sm font-bold text-accent-gold">
+                           ₹{product.price.toLocaleString("en-IN")}
+                         </span>
+                       </td>
+                       <td className="px-6 py-4 hidden sm:table-cell">
+                         {product.strike_price && product.strike_price > product.price ? (
+                            <span className="text-xs font-sans text-soft-gray line-through decoration-red-400">
+                             ₹{product.strike_price.toLocaleString("en-IN")}
+                           </span>
+                         ) : (
+                           <span className="text-xs text-soft-gray/50">—</span>
+                         )}
+                       </td>
+                       <td className="px-6 py-4 hidden sm:table-cell">
+                         <span className="px-3 py-1 bg-accent-gold/10 rounded-full text-xs font-medium text-text-main">
+                           {product.tag || "—"}
+                         </span>
+                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-end gap-2">
                           <button
