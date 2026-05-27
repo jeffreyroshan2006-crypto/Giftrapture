@@ -83,13 +83,13 @@ export default function Hero() {
             </Link>
           </motion.div>
 
-          {/* Trust indicators */}
-          <motion.div
-            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mt-14 pt-8"
-            style={{ borderTop: '1px solid rgba(201,162,39,0.12)' }}
-          >
+           {/* Trust indicators */}
+           <motion.div
+             variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+             transition={{ duration: 0.8, delay: 0.6 }}
+             className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mt-2 pt-2"
+             style={{ borderTop: '1px solid rgba(201,162,39,0.12)' }}
+           >
             {[
               { label: "Handcrafted", detail: "With Love" },
               { label: "Same Day", detail: "Delivery" },

@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/cartStore";
 
 const NavLinks = [
-  { name: "Shop By Category", href: "/shop" },
   { name: "Signature Bouquets", href: "/shop/bouquets" },
   { name: "Themed Hampers", href: "/shop/themed-hampers" },
   { name: "EID Hampers", href: "/shop/eid-hampers" },
@@ -106,11 +105,20 @@ export default function Navbar() {
                   )}
                 </Link>
               ))}
-               </nav>
+                </nav>
              )}
-          </div>
+             
+             {!isAdmin && (
+               <Link
+                 href="/shop"
+                 className="hidden md:block text-sm font-medium text-text-main/80 hover:text-text-main transition-colors"
+               >
+                 Shop By Category
+               </Link>
+             )}
+           </div>
 
-           {!isAdmin && (
+            {!isAdmin && (
              <div className="flex items-center space-x-2 md:space-x-5">
             {searchOpen ? (
               <form onSubmit={handleSearch} className="relative hidden sm:block">
@@ -176,7 +184,20 @@ export default function Navbar() {
                 </button>
               </div>
                <div className="flex flex-col space-y-4">
-                 {NavLinks.map((link, i) => (
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0 }}
+                  >
+                    <Link
+                      href="/shop"
+                      className="text-lg font-serif text-text-main hover:text-accent-gold transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Shop By Category
+                    </Link>
+                  </motion.div>
+                  {NavLinks.map((link, i) => (
                    <motion.div
                      key={link.name}
                      initial={{ opacity: 0, x: -20 }}
