@@ -18,7 +18,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto py-24 md:py-32 w-full">
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto py-12 md:py-16 w-full">
         {/* Staggered entrance animation container */}
         <motion.div
           initial="hidden"
