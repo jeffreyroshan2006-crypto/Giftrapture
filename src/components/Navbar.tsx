@@ -191,7 +191,7 @@ export default function Navbar() {
                   >
                     <Link
                       href="/shop"
-                      className="text-lg font-serif text-text-main hover:text-accent-gold transition-colors"
+                      className="text-xl font-bold font-serif text-text-main hover:text-accent-gold transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Shop By Category
@@ -206,7 +206,7 @@ export default function Navbar() {
                    >
                      <Link
                        href={link.href}
-                       className="text-lg font-serif text-text-main hover:text-accent-gold transition-colors"
+                       className="text-xl font-bold font-serif text-text-main hover:text-accent-gold transition-colors"
                        onClick={() => setMobileMenuOpen(false)}
                      >
                        {link.name}
@@ -220,7 +220,7 @@ export default function Navbar() {
                    >
                      <Link
                        href="/shop/custom-box"
-                       className="text-lg font-serif text-text-main hover:text-accent-gold transition-colors"
+                       className="text-xl font-bold font-serif text-text-main hover:text-accent-gold transition-colors"
                        onClick={() => setMobileMenuOpen(false)}
                      >
                        Make Your Own Box

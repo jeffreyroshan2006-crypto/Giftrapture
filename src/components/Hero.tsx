@@ -38,25 +38,6 @@ export default function Hero() {
           />
 
           {/* Badge */}
-          <motion.span
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-block px-5 py-2 rounded-full text-[10px] md:text-xs tracking-[0.35em] font-sans uppercase font-bold mb-8"
-            style={{ backgroundColor: 'rgba(201,162,39,0.1)', color: '#C9A227', border: '1px solid rgba(201,162,39,0.25)' }}
-          >
-            Signature Gifting Reimagined
-          </motion.span>
-
-          {/* Heading */}
-          <motion.h1
-            variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-serif tracking-tighter leading-[0.9] mb-6"
-            style={{ color: '#2C1E1E' }}
-          >
-            Curated Elegance <br />
-            <span className="italic font-normal" style={{ color: '#C9A227' }}>For Every Occasion</span>
-          </motion.h1>
 
            {/* Action Buttons */}
            <motion.div
