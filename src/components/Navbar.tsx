@@ -213,19 +213,19 @@ export default function Navbar() {
                      </Link>
                    </motion.div>
                   ))}
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: NavLinks.length * 0.1 }}
-                  >
-                    <Link
-                      href="/shop/custom-box"
-                      className="text-lg font-serif text-text-main bg-accent-gold/60 border border-accent-gold/50 px-4 py-2 rounded-full shadow-sm hover:bg-accent-gold block w-fit transition-colors"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Make Your Own Box
-                    </Link>
-                  </motion.div>
+                   <motion.div
+                     initial={{ opacity: 0, x: -20 }}
+                     animate={{ opacity: 1, x: 0 }}
+                     transition={{ delay: NavLinks.length * 0.1 }}
+                   >
+                     <Link
+                       href="/shop/custom-box"
+                       className="text-lg font-serif text-text-main hover:text-accent-gold transition-colors"
+                       onClick={() => setMobileMenuOpen(false)}
+                     >
+                       Make Your Own Box
+                     </Link>
+                   </motion.div>
                 </div>
                <div className="mt-auto pt-10 border-t border-text-main/10 space-y-6">
                  <div>
