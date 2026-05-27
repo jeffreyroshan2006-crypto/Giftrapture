@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#FFF8E7' }}>
+    <section className="relative w-full flex items-center justify-center overflow-hidden py-20 md:py-24" style={{ backgroundColor: '#FFF8E7' }}>
       {/* Subtle decorative background elements */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Large soft gold circle — top right */}
@@ -18,7 +18,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto py-12 md:py-16 w-full">
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto w-full">
         {/* Staggered entrance animation container */}
         <motion.div
           initial="hidden"
@@ -58,12 +58,12 @@ export default function Hero() {
             <span className="italic font-normal" style={{ color: '#C9A227' }}>For Every Occasion</span>
           </motion.h1>
 
-          {/* Action Buttons */}
-          <motion.div
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
-          >
+           {/* Action Buttons */}
+           <motion.div
+             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+             className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-6"
+           >
             <Link
               href="/shop/custom-box"
               className="group flex items-center justify-center gap-3 px-8 py-4 font-bold rounded-full transition-all duration-300 hover:shadow-lg active:scale-95 text-base w-full sm:w-auto"
@@ -87,7 +87,7 @@ export default function Hero() {
            <motion.div
              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
              transition={{ duration: 0.8, delay: 0.6 }}
-             className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mt-2 pt-2"
+             className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mt-0 pt-4"
              style={{ borderTop: '1px solid rgba(201,162,39,0.12)' }}
            >
             {[

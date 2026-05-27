@@ -166,7 +166,7 @@ export default function PortfolioGrid() {
   }, [activeCategory, products]);
 
   return (
-    <section className="py-4 px-6 max-w-7xl mx-auto" id="portfolio">
+    <section className="py-0 px-6 max-w-7xl mx-auto" id="portfolio">
       {/* Header */}
       <div className="text-center mb-16">
           <span className="text-accent-gold text-[10px] tracking-[0.3em] font-sans uppercase font-bold mb-4 block">
