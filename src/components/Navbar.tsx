@@ -14,7 +14,6 @@ const NavLinks = [
   { name: "Themed Hampers", href: "/shop/themed-hampers" },
   { name: "EID Hampers", href: "/shop/eid-hampers" },
   { name: "Corporate Gifting", href: "/services" },
-  { name: "Make Your Own Box", href: "/shop/custom-box", isPrimary: true },
 ];
 
 export default function Navbar() {
@@ -88,33 +87,34 @@ export default function Navbar() {
 
              {!isAdmin && (
                <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-              {NavLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={cn(
-                    "text-sm whitespace-nowrap font-medium transition-colors relative group",
-                    link.isPrimary
-                      ? "text-text-main bg-accent-gold/60 border border-accent-gold/50 px-4 py-2 rounded-full shadow-sm hover:bg-accent-gold"
-                      : "text-text-main/80 hover:text-text-main"
-                  )}
-                >
-                  {link.name}
-                  {!link.isPrimary && (
-                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent-gold transition-all duration-300 group-hover:w-full" />
-                  )}
-                </Link>
-              ))}
+               {NavLinks.map((link) => (
+                 <Link
+                   key={link.name}
+                   href={link.href}
+                   className="text-sm whitespace-nowrap font-medium text-text-main/80 hover:text-text-main transition-colors relative group"
+                 >
+                   {link.name}
+                   <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent-gold transition-all duration-300 group-hover:w-full" />
+                 </Link>
+               ))}
                 </nav>
              )}
              
              {!isAdmin && (
-               <Link
-                 href="/shop"
-                 className="hidden md:block text-sm font-medium text-text-main/80 hover:text-text-main transition-colors"
-               >
-                 Shop By Category
-               </Link>
+               <div className="hidden md:flex items-center gap-4">
+                 <Link
+                   href="/shop"
+                   className="text-sm font-medium text-text-main/80 hover:text-text-main transition-colors"
+                 >
+                   Shop By Category
+                 </Link>
+                 <Link
+                   href="/shop/custom-box"
+                   className="text-sm font-medium text-text-main bg-accent-gold/60 border border-accent-gold/50 px-4 py-2 rounded-full shadow-sm hover:bg-accent-gold transition-colors"
+                 >
+                   Make Your Own Box
+                 </Link>
+               </div>
              )}
            </div>
 
@@ -212,8 +212,21 @@ export default function Navbar() {
                        {link.name}
                      </Link>
                    </motion.div>
-                 ))}
-               </div>
+                  ))}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: NavLinks.length * 0.1 }}
+                  >
+                    <Link
+                      href="/shop/custom-box"
+                      className="text-lg font-serif text-text-main bg-accent-gold/60 border border-accent-gold/50 px-4 py-2 rounded-full shadow-sm hover:bg-accent-gold block w-fit transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Make Your Own Box
+                    </Link>
+                  </motion.div>
+                </div>
                <div className="mt-auto pt-10 border-t border-text-main/10 space-y-6">
                  <div>
                    <p className="text-xs uppercase tracking-[0.3em] font-bold text-accent-sage">Our Story</p>
