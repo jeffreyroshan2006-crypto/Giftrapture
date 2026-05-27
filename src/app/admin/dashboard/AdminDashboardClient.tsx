@@ -749,18 +749,13 @@ export default function AdminDashboardClient() {
                           <div>
                             <p className="font-bold text-text-main text-sm">{product.name}</p>
                             <p className="text-xs text-soft-gray font-light">{product.slug}</p>
-                            <div className="mt-2 flex flex-wrap items-center gap-2 md:hidden">
-                              <span
-                                className={`inline-flex items-center px-2 py-0.5 rounded-full border text-[10px] font-semibold uppercase tracking-widest ${categoryMeta.badge}`}
-                              >
-                                {categoryMeta.label}
-                              </span>
-                              {product.tag && (
-                                <span className="inline-flex items-center px-2 py-0.5 rounded-full border border-accent-gold/20 bg-accent-gold/10 text-[10px] font-semibold uppercase tracking-widest text-text-main">
-                                  {product.tag}
-                                </span>
-                              )}
-                            </div>
+                             <div className="mt-2 flex flex-wrap items-center gap-2 md:hidden">
+                               <span
+                                 className={`inline-flex items-center px-2 py-0.5 rounded-full border text-[10px] font-semibold uppercase tracking-widest ${categoryMeta.badge}`}
+                               >
+                                 {categoryMeta.label}
+                               </span>
+                             </div>
                           </div>
                         </div>
                       </td>
@@ -784,13 +779,8 @@ export default function AdminDashboardClient() {
                          ) : (
                            <span className="text-xs text-soft-gray/50">—</span>
                          )}
-                       </td>
-                       <td className="px-6 py-4 hidden sm:table-cell">
-                         <span className="px-3 py-1 bg-accent-gold/10 rounded-full text-xs font-medium text-text-main">
-                           {product.tag || "—"}
-                         </span>
-                       </td>
-                      <td className="px-6 py-4">
+                        </td>
+                       <td className="px-6 py-4">
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => {

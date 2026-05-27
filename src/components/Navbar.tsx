@@ -10,11 +10,12 @@ import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/cartStore";
 
 const NavLinks = [
+  { name: "Shop By Category", href: "/shop" },
   { name: "Signature Bouquets", href: "/shop/bouquets" },
   { name: "Themed Hampers", href: "/shop/themed-hampers" },
   { name: "EID Hampers", href: "/shop/eid-hampers" },
   { name: "Corporate Gifting", href: "/services" },
-  { name: "CUSTOM BOX", href: "/shop/custom-box", isPrimary: true },
+  { name: "Make Your Own Box", href: "/shop/custom-box", isPrimary: true },
 ];
 
 export default function Navbar() {
@@ -52,60 +53,62 @@ export default function Navbar() {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 py-4",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-5 md:px-6 py-4",
             scrolled
               ? "bg-white/95 py-3 shadow-sm"
               : "bg-white/80 backdrop-blur-md py-4 shadow-sm"
         )}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <button
-            type="button"
-            aria-label="Open menu"
-            className="md:hidden p-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-text-main hover:bg-primary/20 rounded-full transition-colors active:scale-95 touch-manipulation"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <Menu className="w-6 h-6" />
-          </button>
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-6">
+          <div className="flex items-center gap-8">
+            <button
+              type="button"
+              aria-label="Open menu"
+              className="md:hidden p-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-text-main hover:bg-primary/20 rounded-full transition-colors active:scale-95 touch-manipulation"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <Menu className="w-6 h-6" />
+            </button>
 
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 md:w-12 h-10 md:h-12 transition-transform duration-500 group-hover:scale-110">
-               <Image 
-                 src="/images/logo.png" 
-                 alt="GIFTRAPTURE" 
-                 fill 
-                 className="object-contain" 
-                 priority 
-               />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-serif text-xl md:text-2xl text-text-main font-bold leading-none">
-                GIFTRAPTURE
-              </span>
-            </div>
-          </Link>
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="relative w-10 md:w-12 h-10 md:h-12 transition-transform duration-500 group-hover:scale-110">
+                 <Image 
+                   src="/images/logo.png" 
+                   alt="GIFTRAPTURE" 
+                   fill 
+                   className="object-contain" 
+                   priority 
+                 />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-serif text-xl md:text-2xl text-text-main font-bold leading-none">
+                  GIFTRAPTURE
+                </span>
+              </div>
+            </Link>
 
-           {!isAdmin && (
-             <nav className="hidden md:flex items-center space-x-10">
-            {NavLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={cn(
-                  "text-sm font-medium transition-colors relative group",
-                  link.isPrimary
-                    ? "text-text-main bg-accent-gold/60 border border-accent-gold/50 px-4 py-2 rounded-full shadow-sm hover:bg-accent-gold"
-                    : "text-text-main/80 hover:text-text-main"
-                )}
-              >
-                {link.name}
-                {!link.isPrimary && (
-                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent-gold transition-all duration-300 group-hover:w-full" />
-                )}
-              </Link>
-            ))}
-             </nav>
-           )}
+             {!isAdmin && (
+               <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+              {NavLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={cn(
+                    "text-sm whitespace-nowrap font-medium transition-colors relative group",
+                    link.isPrimary
+                      ? "text-text-main bg-accent-gold/60 border border-accent-gold/50 px-4 py-2 rounded-full shadow-sm hover:bg-accent-gold"
+                      : "text-text-main/80 hover:text-text-main"
+                  )}
+                >
+                  {link.name}
+                  {!link.isPrimary && (
+                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent-gold transition-all duration-300 group-hover:w-full" />
+                  )}
+                </Link>
+              ))}
+               </nav>
+             )}
+          </div>
 
            {!isAdmin && (
              <div className="flex items-center space-x-2 md:space-x-5">
@@ -172,24 +175,24 @@ export default function Navbar() {
                   <X className="w-6 h-6" />
                 </button>
               </div>
-              <div className="flex flex-col space-y-6">
-                {NavLinks.map((link, i) => (
-                  <motion.div
-                    key={link.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                  >
-                    <Link
-                      href={link.href}
-                      className="text-2xl font-serif text-text-main hover:text-accent-gold transition-colors"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {link.name}
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
+               <div className="flex flex-col space-y-4">
+                 {NavLinks.map((link, i) => (
+                   <motion.div
+                     key={link.name}
+                     initial={{ opacity: 0, x: -20 }}
+                     animate={{ opacity: 1, x: 0 }}
+                     transition={{ delay: i * 0.1 }}
+                   >
+                     <Link
+                       href={link.href}
+                       className="text-lg font-serif text-text-main hover:text-accent-gold transition-colors"
+                       onClick={() => setMobileMenuOpen(false)}
+                     >
+                       {link.name}
+                     </Link>
+                   </motion.div>
+                 ))}
+               </div>
                <div className="mt-auto pt-10 border-t border-text-main/10 space-y-6">
                  <div>
                    <p className="text-xs uppercase tracking-[0.3em] font-bold text-accent-sage">Our Story</p>

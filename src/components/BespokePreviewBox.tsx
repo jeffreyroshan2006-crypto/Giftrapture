@@ -206,12 +206,7 @@ export default function BespokePreviewBox() {
 
                    {/* Product Metadata */}
                    <div className="flex-1 min-w-0">
-                     <div className="flex items-center gap-2 mb-1">
-                       <span className="px-2 py-0.5 bg-accent-gold/20 text-accent-gold rounded-full text-[9px] uppercase tracking-wider font-extrabold">
-                         {product.tag}
-                       </span>
-                     </div>
-                     <h4 className="font-serif text-sm text-white font-medium truncate group-hover/item:text-accent-gold transition-colors">
+                      <h4 className="font-serif text-sm text-white font-medium truncate group-hover/item:text-accent-gold transition-colors">
                        {product.name}
                      </h4>
                      <div className="flex items-center gap-2 mt-0.5">

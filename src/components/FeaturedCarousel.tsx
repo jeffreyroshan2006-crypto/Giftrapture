@@ -124,10 +124,6 @@ export default function FeaturedCarousel() {
               >
                 {/* Image Container */}
                 <div className="relative aspect-[3/4] overflow-hidden">
-                  <span className="absolute top-3 left-3 z-20 px-2 py-1 bg-white/90 backdrop-blur-md rounded-full text-[9px] md:text-[10px] uppercase tracking-widest font-bold text-text-main shadow-sm">
-                    {item.tag}
-                  </span>
-
                   <div className="relative w-full h-full">
                     <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full h-full scroll-smooth">
                       {(item.images && item.images.length > 0) ? (

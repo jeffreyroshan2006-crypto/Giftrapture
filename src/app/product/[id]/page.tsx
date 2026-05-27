@@ -784,7 +784,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 className="w-full py-5 bg-text-main text-white font-bold rounded-2xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:bg-accent-gold hover:text-text-main hover:scale-[1.02] flex items-center justify-center gap-2 text-sm uppercase tracking-widest"
               >
                 <ShoppingBag className="w-4 h-4" />
-                Secure Selection (Add to Bag)
+                Add to Cart
               </button>
 
               {successMessage && (

@@ -159,12 +159,6 @@ function SearchContent() {
                       />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-700" />
                     
-                    <div className="absolute top-5 left-5 z-20">
-                      <span className="px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-[10px] uppercase tracking-widest font-bold text-text-main shadow-sm">
-                        {product.tag}
-                      </span>
-                    </div>
-
                     <div className="absolute top-5 right-5 z-20 flex flex-col items-end gap-2">
                       <Link
                         href="/shop/custom-box"

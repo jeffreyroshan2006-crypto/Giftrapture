@@ -181,15 +181,15 @@ export default function PortfolioGrid() {
       </div>
 
       {/* Category Tabs */}
-      <div className="flex justify-center mb-12">
-        <div className="w-full max-w-3xl px-3">
+      <div className="flex justify-center mb-8 md:mb-12">
+        <div className="w-full max-w-xl md:max-w-3xl px-3">
           <div className="rounded-full border border-text-main/10 bg-white/80 backdrop-blur shadow-sm overflow-hidden">
-            <div className="flex items-center gap-1 px-1.5 py-1 overflow-x-auto hide-scrollbar">
+            <div className="flex items-center justify-center gap-1 px-1.5 py-1.5 md:py-1">
               {categories.map((cat) => (
                 <button
                   key={cat.key}
                   onClick={() => setActiveCategory(cat.key)}
-                  className={`px-5 py-2 text-[11px] md:text-sm uppercase tracking-[0.2em] md:tracking-[0.25em] font-bold rounded-full whitespace-nowrap transition-all duration-300 ${
+                  className={`flex-1 px-1 md:px-5 py-1.5 md:py-2 text-[10px] md:text-sm uppercase tracking-[0.15em] md:tracking-[0.25em] font-bold rounded-full transition-all duration-300 text-center ${
                     activeCategory === cat.key
                       ? "bg-text-main text-white shadow-md"
                       : "text-text-main/60 hover:text-text-main hover:bg-secondary/60"

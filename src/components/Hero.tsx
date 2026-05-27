@@ -58,17 +58,6 @@ export default function Hero() {
             <span className="italic font-normal" style={{ color: '#C9A227' }}>For Every Occasion</span>
           </motion.h1>
 
-          {/* Subtext */}
-          <motion.p
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="text-base md:text-lg max-w-xl mx-auto mb-12 leading-relaxed font-sans"
-            style={{ color: '#7A7A7A' }}
-          >
-            Handcrafted gift hampers, signature bouquets, and bespoke boxes — 
-            designed to make every moment unforgettable.
-          </motion.p>
-
           {/* Action Buttons */}
           <motion.div
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
