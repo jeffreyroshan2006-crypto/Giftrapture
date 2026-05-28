@@ -30,14 +30,6 @@ export default function CartPage() {
     [items]
   );
 
-  const shippingCost = useMemo(() => {
-    const base = shippingZone === "chennai" ? 150 : 450;
-    const speedFee = shippingSpeed === "express" ? 300 : 0;
-    return base + speedFee;
-  }, [shippingZone, shippingSpeed]);
-
-  const totalWithShipping = useMemo(() => getTotal() + shippingCost, [getTotal, shippingCost]);
-
    const handleWhatsAppCheckout = async () => {
      const trimmedAddress = address.trim();
      if (!trimmedAddress) {
@@ -61,8 +53,8 @@ export default function CartPage() {
      message += `\n*Shipping:*\n`;
      message += `Zone: ${zoneLabel}\n`;
      message += `Speed: ${speedLabel}\n`;
-     message += `Shipping Cost: ₹${shippingCost}\n`;
-     message += `\n*Total Amount:* ₹${totalWithShipping}\n\n*Delivery Address:*\n${trimmedAddress}\n\nPlease confirm availability and payment details. Thank you!`;
+      message += `\n*Subtotal:* ₹${getTotal()}\n`;
+      message += `Final total will be shared after shipping charges are confirmed.\n\n*Delivery Address:*\n${trimmedAddress}\n\nPlease confirm availability and payment details. Thank you!`;
      
      // Replace this with your actual WhatsApp business number (with country code)
      const phoneNumber = "917200623758"; 
@@ -75,7 +67,7 @@ export default function CartPage() {
           {
             order_number: orderNumber.toString(),
             address: trimmedAddress,
-            total_amount: totalWithShipping,
+            total_amount: getTotal(),
             status: "whatsapp_pending",
             items: itemSummary,
           },
@@ -223,15 +215,14 @@ export default function CartPage() {
                       ))}
                     </div>
                   </div>
-                  <div className="flex justify-between items-center pt-2 border-t border-text-main/10">
-                    <span className="text-xs uppercase tracking-widest text-soft-gray font-bold">Shipping Cost</span>
-                    <span className="text-sm font-serif text-accent-gold font-bold">₹{shippingCost}</span>
-                  </div>
                 </div>
                 <div className="border-t border-text-main/10 pt-4 mb-8 flex justify-between items-end">
-                  <span className="font-bold">Total</span>
-                  <span className="text-2xl font-serif text-accent-gold font-bold">₹{totalWithShipping}</span>
+                  <span className="font-bold">Subtotal</span>
+                  <span className="text-2xl font-serif text-accent-gold font-bold">₹{getTotal()}</span>
                 </div>
+                <p className="text-[10px] text-soft-gray mb-6 tracking-widest uppercase font-bold">
+                  Total amount will be finalized after shipping charges are confirmed.
+                </p>
                 <div className="mb-6">
                   <label className="text-xs uppercase tracking-widest font-bold text-text-main/60 mb-2 block">
                     Delivery Address
