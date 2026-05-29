@@ -60,14 +60,16 @@ export default function AdminReviewsPage() {
   }, [fetchAllReviews]);
 
   const handleDelete = async (type: ReviewType, id: string) => {
-    if (!confirm("Are you sure you want to delete this review?")) return;
+    if (!confirm("Are you sure you want to delete this review? This action cannot be undone.")) return;
     setDeletingId(id);
+    setMessage(null);
     const supabase = getSupabaseClient();
     const table = type === "product" ? "product_reviews" : "testimonials";
     const { error } = await supabase.from(table).delete().eq("id", id);
     setDeletingId(null);
     if (error) {
-      setMessage({ type: "error", text: "Failed to delete." });
+      console.error("Delete error:", error);
+      setMessage({ type: "error", text: `Failed to delete: ${error.message}` });
     } else {
       setMessage({ type: "success", text: "Review deleted successfully." });
       // Refresh lists

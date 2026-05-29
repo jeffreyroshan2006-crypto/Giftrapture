@@ -123,6 +123,10 @@ CREATE POLICY "Allow public read approved testimonials" ON public.testimonials
 CREATE POLICY "Allow public insert testimonials" ON public.testimonials
   FOR INSERT WITH CHECK (true);
 
+-- 13. Delete policy for authenticated users (admin)
+CREATE POLICY "Allow authenticated delete testimonials" ON public.testimonials
+  FOR DELETE USING (auth.role() = 'authenticated');
+
 -- 13. Create product_reviews table
 CREATE TABLE IF NOT EXISTS public.product_reviews (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -148,3 +152,7 @@ CREATE POLICY "Allow public read approved product reviews" ON public.product_rev
 -- 17. Public insert policy (anyone can submit)
 CREATE POLICY "Allow public insert product reviews" ON public.product_reviews
   FOR INSERT WITH CHECK (true);
+
+-- 18. Delete policy for authenticated users (admin)
+CREATE POLICY "Allow authenticated delete product reviews" ON public.product_reviews
+  FOR DELETE USING (auth.role() = 'authenticated');
