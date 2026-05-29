@@ -170,10 +170,10 @@ export default function PortfolioGrid() {
       {/* Header */}
       <div className="text-center mb-16">
           <span className="text-accent-gold text-[10px] tracking-[0.3em] font-sans uppercase font-bold mb-4 block">
-            Most Loved
+            Personalized
           </span>
           <h2 className="text-4xl md:text-5xl font-serif tracking-tighter italic mb-6">
-            <span className="font-bold not-italic">Bestsellers</span>
+            <span className="font-bold not-italic">Curated For You</span>
           </h2>
         <p className="text-soft-gray max-w-lg mx-auto text-sm md:text-base leading-relaxed">
           Every piece in our collection is curated with intention. Explore our signature bouquets, themed hampers, and festive Eid selections.

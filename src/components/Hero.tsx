@@ -74,24 +74,7 @@ export default function Hero() {
             </Link>
           </motion.div>
 
-           {/* Trust indicators */}
-           <motion.div
-             variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-             transition={{ duration: 0.8, delay: 0.6 }}
-             className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mt-0 pt-4"
-             style={{ borderTop: '1px solid rgba(201,162,39,0.12)' }}
-           >
-            {[
-              { label: "Handcrafted", detail: "With Love" },
-              { label: "Same Day", detail: "Delivery" },
-              { label: "Premium", detail: "Packaging" },
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col items-center text-center">
-                <span className="text-xs font-bold uppercase tracking-[0.2em] font-sans" style={{ color: '#C9A227' }}>{item.label}</span>
-                <span className="text-[11px] font-sans mt-0.5" style={{ color: '#7A7A7A' }}>{item.detail}</span>
-              </div>
-            ))}
-          </motion.div>
+
         </motion.div>
       </div>
     </section>

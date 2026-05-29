@@ -13,7 +13,7 @@ const NavLinks = [
   { name: "Signature Bouquets", href: "/shop/bouquets" },
   { name: "Themed Hampers", href: "/shop/themed-hampers" },
   { name: "EID Hampers", href: "/shop/eid-hampers" },
-  { name: "Corporate Gifting", href: "/services" },
+  { name: "Other Services", href: "/services" },
 ];
 
 export default function Navbar() {

@@ -4,8 +4,26 @@ import Hero from "@/components/Hero";
 import PortfolioGrid from "@/components/PortfolioGrid";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { getServerClient } from "@/lib/supabaseServerClient";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch approved testimonials (limit 3, newest first)
+  let testimonials: { id: string; text: string; author: string; created_at: string }[] = [];
+  try {
+    const supabase = await getServerClient();
+    const { data, error } = await supabase
+      .from("testimonials")
+      .select("id, text, author, created_at")
+      .eq("is_approved", true)
+      .order("created_at", { ascending: false })
+      .limit(3);
+    if (!error && data) {
+      testimonials = data;
+    }
+  } catch (e) {
+    console.error("Failed to load testimonials", e);
+  }
+
   return (
     <main className="min-h-screen bg-secondary relative overflow-x-hidden">
       <Navbar />
@@ -90,21 +108,27 @@ export default function Home() {
           <span className="text-accent-gold text-[10px] tracking-[0.3em] font-sans uppercase font-bold mb-4 block">Testimonials</span>
           <h2 className="text-4xl font-serif mb-16 italic">Words of Rapture</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { text: "The presentation was breathtaking. It felt less like a gift and more like an experience.", author: "Aanya S." },
-              { text: "We trusted them with our corporate Diwali hampers, and the feedback was incredible.", author: "Rajiv M." },
-              { text: "Perfect trousseau packing! It was elegant, cohesive, and incredibly refined.", author: "Sneha V." }
-            ].map((review, i) => (
+           {testimonials.map((review, i) => (
               <div key={i} className="bg-white p-8 rounded-3xl shadow-sm text-center">
                 <p className="text-soft-gray italic mb-6">"{review.text}"</p>
                 <p className="font-bold text-sm text-text-main">— {review.author}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+         </div>
+         {/* CTA to submit review */}
+         <div className="mt-12 text-center">
+           <Link
+             href="/reviews"
+             className="inline-flex items-center gap-2 group px-8 py-4 bg-accent-gold text-white font-bold rounded-full transition-all duration-300 hover:shadow-2xl hover:scale-105"
+           >
+             Share Your Experience
+             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+           </Link>
+         </div>
+       </section>
 
-      <MobileBottomNav />
+       <MobileBottomNav />
     </main>
   );
 }

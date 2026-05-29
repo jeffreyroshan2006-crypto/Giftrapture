@@ -21,8 +21,13 @@ export default function Footer() {
                   <span className="font-serif text-2xl tracking-tighter font-bold text-text-main">GIFTRAPTURE</span>
                </div>
             </Link>
-            <p className="text-soft-gray text-sm md:text-base mb-8 max-w-xs font-sans tracking-tight leading-relaxed">
-              Your premier destination for premium gifting, artistic bouquets, and bespoke trousseau services.
+            <p className="text-soft-gray text-sm md:text-base mb-8 max-w-xs font-sans leading-relaxed">
+              <span className="block text-text-main font-serif font-bold mb-2">Your One-Stop Solution</span>
+              <span className="text-accent-gold font-medium">Customised Gifts</span>,{' '}
+              <span className="text-accent-gold font-medium">Hampers</span>,{' '}
+              <span className="text-accent-gold font-medium">Bouquets</span>,{' '}
+              <span className="text-accent-gold font-medium">Wedding Solutions</span> &{' '}
+              <span className="text-accent-gold font-medium">Return Gifts</span>
             </p>
             <div className="flex space-x-5 text-text-main justify-center lg:justify-start w-full">
               <InstagramLink href="https://www.instagram.com/giftrapture?igsh=MXVncmJyOXR4b3c5bQ==" />

@@ -93,12 +93,32 @@ CREATE POLICY "Allow public insert and select" ON public.orders
    ('eh-3', 'Royal Mubarak Trunk', 8500, 10299, '/images/eid-hampers/IMG_3943.png', 'Luxury', 'eid-hampers', 'For Couples'),
    ('eh-4', 'Sacred Bloom Platter', 4800, 5799, '/images/eid-hampers/IMG_3944.png', 'Elegant', 'eid-hampers', 'For Her'),
    ('eh-5', 'Barakah Abundance Hamper', 7299, 8799, '/images/eid-hampers/IMG_3945.png', 'Bestseller', 'eid-hampers', 'For Parents'),
-   ('eh-6', 'Zamarud Gold Artisan Tray', 3999, 4799, '/images/eid-hampers/IMG_3946.png', 'Handcrafted', 'eid-hampers', 'For Colleagues')
- ON CONFLICT (id) DO UPDATE SET
-   name = EXCLUDED.name,
-   price = EXCLUDED.price,
-   strike_price = EXCLUDED.strike_price,
-   image = EXCLUDED.image,
-   tag = EXCLUDED.tag,
-   category = EXCLUDED.category,
-   relation = EXCLUDED.relation;
+  ('eh-6', 'Zamarud Gold Artisan Tray', 3999, 4799, '/images/eid-hampers/IMG_3946.png', 'Handcrafted', 'eid-hampers', 'For Colleagues')
+ON CONFLICT (id) DO UPDATE SET
+  name = EXCLUDED.name,
+  price = EXCLUDED.price,
+  strike_price = EXCLUDED.strike_price,
+  image = EXCLUDED.image,
+  tag = EXCLUDED.tag,
+  category = EXCLUDED.category,
+  relation = EXCLUDED.relation;
+
+-- 9. Create testimonials table
+CREATE TABLE IF NOT EXISTS public.testimonials (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  text TEXT NOT NULL,
+  author TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  is_approved BOOLEAN DEFAULT true
+);
+
+-- 10. Enable Row Level Security (RLS)
+ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
+
+-- 11. Public read policy (only approved testimonials)
+CREATE POLICY "Allow public read approved testimonials" ON public.testimonials
+  FOR SELECT USING (is_approved = true);
+
+-- 12. Public insert policy (anyone can submit)
+CREATE POLICY "Allow public insert testimonials" ON public.testimonials
+  FOR INSERT WITH CHECK (true);

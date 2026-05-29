@@ -164,61 +164,17 @@ export default function CartPage() {
             <div className="lg:col-span-1">
               <div className="bg-white p-8 rounded-3xl shadow-sm border border-text-main/5 sticky top-32">
                 <h3 className="font-serif text-2xl font-bold mb-6">Order Summary</h3>
-                <div className="space-y-4 mb-6 text-sm text-soft-gray">
-                  <div className="flex justify-between">
-                    <span>Subtotal</span>
-                    <span className="text-text-main font-bold">₹{getTotal()}</span>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span>Delivery Zone</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {[
-                        { id: "chennai", label: "Chennai" },
-                        { id: "pan-india", label: "Pan-India" },
-                      ].map((zone) => (
-                        <button
-                          key={zone.id}
-                          onClick={() => setShippingZone(zone.id as "chennai" | "pan-india")}
-                          className={`px-3 py-1.5 rounded-full border text-[10px] uppercase tracking-widest transition-all ${
-                            shippingZone === zone.id
-                              ? "bg-text-main text-white border-text-main"
-                              : "border-text-main/10 text-soft-gray bg-secondary/20"
-                          }`}
-                        >
-                          {zone.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span>Shipping Speed</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {[
-                        { id: "standard", label: "Standard" },
-                        { id: "express", label: "Express" },
-                      ].map((speed) => (
-                        <button
-                          key={speed.id}
-                          onClick={() => setShippingSpeed(speed.id as "standard" | "express")}
-                          className={`px-3 py-1.5 rounded-full border text-[10px] uppercase tracking-widest transition-all ${
-                            shippingSpeed === speed.id
-                              ? "bg-text-main text-white border-text-main"
-                              : "border-text-main/10 text-soft-gray bg-secondary/20"
-                          }`}
-                        >
-                          {speed.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="border-t border-text-main/10 pt-4 mb-8 flex justify-between items-end">
-                  <span className="font-bold">Subtotal</span>
+
+
+                <div className="flex justify-between items-end pb-4 border-b border-text-main/10 mb-6">
+                  <span className="font-bold text-lg">Subtotal</span>
                   <span className="text-2xl font-serif text-accent-gold font-bold">₹{getTotal()}</span>
+                </div>
+                <div className="flex justify-between items-center mb-6">
+                  <span className="font-bold text-lg">Shipping</span>
+                  <span className="px-3 py-1.5 rounded-full text-[10px] tracking-[0.15em] font-sans uppercase font-bold bg-[#C9A227]/5 text-[#C9A227] border border-[#C9A227]/15 whitespace-nowrap">
+                    To be calculated
+                  </span>
                 </div>
                 <p className="text-[10px] text-soft-gray mb-6 tracking-widest uppercase font-bold">
                   Total amount will be finalized after shipping charges are confirmed.
