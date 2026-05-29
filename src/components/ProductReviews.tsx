@@ -43,13 +43,17 @@ export default function ProductReviews({ productId }: { productId: string }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    const { error } = await supabase.from("product_reviews").insert({
-      product_id: productId,
-      author_name: formData.name,
-      rating: formData.rating,
-      review_text: formData.text,
-      is_approved: true,
-    });
+    console.log("Submitting review", { productId, rating: formData.rating, ratingType: typeof formData.rating, formData });
+    const { data: inserted, error } = await supabase
+      .from("product_reviews")
+      .insert({
+        product_id: productId,
+        author_name: formData.name,
+        rating: Number.parseInt(String(formData.rating), 10),
+        review_text: formData.text,
+        is_approved: true,
+      })
+      .select();
     setSubmitting(false);
     if (error) {
       setMessage({ type: "error", text: "Failed to submit. Please try again." });
@@ -58,12 +62,20 @@ export default function ProductReviews({ productId }: { productId: string }) {
       setFormData({ name: "", rating: 5, text: "" });
       setShowForm(false);
       // Refresh reviews
-      const { data } = await supabase.from("product_reviews").select("*").eq("product_id", productId).eq("is_approved", true).order("created_at", { ascending: false });
-      if (data) setReviews(data);
+      if (inserted && inserted.length > 0) {
+        // Normalize rating in returned row(s) then prepend to reviews
+        const rows = inserted.map((r: any) => ({ ...r, rating: Number.parseInt(String(r.rating || 0), 10) }));
+        setReviews((prev) => [...rows, ...prev]);
+      } else {
+        const { data } = await supabase.from("product_reviews").select("*").eq("product_id", productId).eq("is_approved", true).order("created_at", { ascending: false });
+        if (data) setReviews(data.map((r: any) => ({ ...r, rating: Number.parseInt(String(r.rating || 0), 10) })));
+      }
     }
   };
 
-  const averageRating = reviews.length > 0 ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length : 0;
+  const averageRating = reviews.length > 0
+    ? reviews.reduce((sum, r) => sum + Number((r as any).rating || 0), 0) / reviews.length
+    : 0;
 
   return (
     <div className="mt-24 pt-16 border-t border-text-main/10">
@@ -94,9 +106,12 @@ export default function ProductReviews({ productId }: { productId: string }) {
             {reviews.map((review) => (
               <div key={review.id} className="bg-white p-8 rounded-[2rem] shadow-sm border border-text-main/5">
                 <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className={`w-4 h-4 ${i < review.rating ? 'fill-accent-gold text-accent-gold' : 'text-gray-300'}`} />
-                  ))}
+                  {(() => {
+                    const ratingValue = Math.min(5, Math.max(0, Math.round(Number((review as any).rating || 0))));
+                    return [...Array(5)].map((_, i) => (
+                      <Star key={i} className={`w-4 h-4 ${i < ratingValue ? 'fill-accent-gold text-accent-gold' : 'text-gray-300'}`} />
+                    ));
+                  })()}
                 </div>
                 <p className="text-soft-gray italic mb-6 text-sm">&ldquo;{review.review_text}&rdquo;</p>
                 <div className="flex justify-between items-center">
@@ -143,14 +158,14 @@ export default function ProductReviews({ productId }: { productId: string }) {
               <div>
                 <label className="block text-xs uppercase tracking-widest font-bold text-text-main/60 mb-2">Rating</label>
                 <div className="flex gap-2">
-                  {[5,4,3,2,1].map(rating => (
+                  {[1,2,3,4,5].map((r) => (
                     <button
-                      key={rating}
+                      key={r}
                       type="button"
-                      onClick={() => setFormData({...formData, rating})}
-                      className={`p-2 rounded-full transition-colors ${formData.rating === rating ? 'bg-accent-gold text-white' : 'bg-secondary text-soft-gray hover:bg-accent-gold/20'}`}
+                      onClick={() => setFormData(prev => ({ ...prev, rating: r }))}
+                      className={`p-2 rounded-full transition-colors ${formData.rating === r ? 'bg-accent-gold text-white' : 'bg-secondary text-soft-gray hover:bg-accent-gold/20'}`}
                     >
-                      <Star className={`w-6 h-6 ${formData.rating === rating ? 'fill-white' : 'fill-current'}`} />
+                      <Star className={`w-6 h-6 ${r <= formData.rating ? 'fill-white' : 'fill-current'}`} />
                     </button>
                   ))}
                 </div>
