@@ -157,15 +157,16 @@ export default function ProductReviews({ productId }: { productId: string }) {
               </div>
               <div>
                 <label className="block text-xs uppercase tracking-widest font-bold text-text-main/60 mb-2">Rating</label>
-                <div className="flex gap-2">
+                <div className="flex gap-2" role="radiogroup" aria-label="Rating">
                   {[1,2,3,4,5].map((r) => (
                     <button
                       key={r}
                       type="button"
+                      aria-pressed={formData.rating === r}
                       onClick={() => setFormData(prev => ({ ...prev, rating: r }))}
-                      className={`p-2 rounded-full transition-colors ${formData.rating === r ? 'bg-accent-gold text-white' : 'bg-secondary text-soft-gray hover:bg-accent-gold/20'}`}
+                      className={`p-2 rounded-full transition-colors hover:bg-accent-gold/10 focus:outline-none focus:ring-2 focus:ring-accent-gold`}
                     >
-                      <Star className={`w-6 h-6 ${r <= formData.rating ? 'fill-white' : 'fill-current'}`} />
+                      <Star className={`w-6 h-6 ${r <= formData.rating ? 'fill-accent-gold text-accent-gold' : 'text-gray-300'}`} />
                     </button>
                   ))}
                 </div>
