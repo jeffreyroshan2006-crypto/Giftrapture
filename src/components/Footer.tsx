@@ -26,7 +26,8 @@ export default function Footer() {
               <span className="text-black font-medium">Customised Gifts</span>,{' '}
               <span className="text-black font-medium">Hampers</span>,{' '}
               <span className="text-black font-medium">Bouquets</span>,{' '}
-              <span className="text-black font-medium">Wedding Solutions</span> &{' '}
+              <span className="text-black font-medium">Wedding Solutions</span>{' '}
+              <span className="text-black font-medium">&</span>{' '}
               <span className="text-black font-medium">Return Gifts</span>
             </p>
             <div className="flex space-x-5 text-text-main justify-center lg:justify-start w-full">
