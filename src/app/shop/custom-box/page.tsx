@@ -176,15 +176,15 @@ export default function CustomBoxPage() {
               <span className="text-[10px] tracking-widest font-bold text-accent-gold uppercase mb-2 block">Step 02</span>
               <h2 className="text-2xl font-serif text-text-main mb-6 italic">Choose Items From the Catalog</h2>
               
-               <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5">
                  {CATALOG_ITEMS.map((filler) => {
                    const qty = selectedCatalogItems[filler.id] || 0;
                    return (
                      <div
                        key={filler.id}
-                       className="p-5 rounded-3xl border border-text-main/10 bg-white hover:shadow-sm transition-all group flex flex-col"
+                       className="p-3 sm:p-5 rounded-3xl border border-text-main/10 bg-white hover:shadow-sm transition-all group flex flex-col h-full min-w-0"
                      >
-                       <div className="aspect-[4/5] rounded-2xl overflow-hidden mb-4 relative bg-primary/10">
+                       <div className="aspect-[4/5] rounded-2xl overflow-hidden mb-3 sm:mb-4 relative bg-primary/10">
                          <Image
                            src={filler.image}
                            alt={filler.name}
@@ -192,39 +192,39 @@ export default function CustomBoxPage() {
                            className="object-cover transition-transform duration-500 group-hover:scale-110"
                          />
                        </div>
-                       <div className="flex items-start justify-between gap-4 mt-auto">
-                         <div className="flex-1">
+                       <div className="flex flex-col gap-3 mt-auto">
+                         <div className="flex-1 min-w-0">
                            <span className="text-[9px] uppercase tracking-wider font-bold text-accent-sage block mb-1">{filler.category}</span>
-                           <h3 className="font-bold text-sm text-text-main mb-1 line-clamp-2">{filler.name}</h3>
-                           <p className="text-sm font-bold text-accent-gold">₹{filler.price}</p>
+                           <h3 className="font-bold text-[13px] sm:text-sm text-text-main mb-1 leading-tight line-clamp-2">{filler.name}</h3>
+                           <p className="text-xs sm:text-sm font-bold text-accent-gold">₹{filler.price}</p>
                          </div>
-                         <div className="flex items-center gap-2 bg-white p-1 rounded-full border border-text-main/10 self-start">
-                           {qty > 0 ? (
-                             <>
-                               <button
-                                 onClick={() => toggleCatalogItem(filler.id, "remove")}
-                                 className="w-8 h-8 rounded-full bg-secondary hover:bg-text-main hover:text-white flex items-center justify-center transition-colors text-text-main"
-                               >
-                                 <Minus className="w-4 h-4" />
-                               </button>
-                               <span className="text-sm font-bold w-4 text-center">{qty}</span>
-                               <button
-                                 onClick={() => toggleCatalogItem(filler.id, "add")}
-                                 className="w-8 h-8 rounded-full bg-secondary hover:bg-text-main hover:text-white flex items-center justify-center transition-colors text-text-main"
-                               >
-                                 <Plus className="w-4 h-4" />
-                               </button>
-                             </>
-                           ) : (
-                             <button
-                               onClick={() => toggleCatalogItem(filler.id, "add")}
-                               className="px-4 py-2 bg-text-main text-white text-xs font-bold rounded-full hover:bg-accent-gold hover:text-text-main transition-colors uppercase tracking-widest flex items-center gap-1.5"
-                             >
-                               <Plus className="w-3.5 h-3.5" />
-                               Add
-                             </button>
-                           )}
-                         </div>
+                          <div className="flex items-center gap-2 bg-white p-1 rounded-full border border-text-main/10 self-start shrink-0 w-fit max-w-full">
+                            {qty > 0 ? (
+                              <>
+                                <button
+                                  onClick={() => toggleCatalogItem(filler.id, "remove")}
+                                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-secondary hover:bg-text-main hover:text-white flex items-center justify-center transition-colors text-text-main"
+                                >
+                                  <Minus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                                </button>
+                                <span className="text-xs sm:text-sm font-bold w-4 text-center">{qty}</span>
+                                <button
+                                  onClick={() => toggleCatalogItem(filler.id, "add")}
+                                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-secondary hover:bg-text-main hover:text-white flex items-center justify-center transition-colors text-text-main"
+                                >
+                                  <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                                </button>
+                              </>
+                            ) : (
+                              <button
+                                onClick={() => toggleCatalogItem(filler.id, "add")}
+                                className="px-3 py-2 sm:px-4 bg-text-main text-white text-[10px] sm:text-xs font-bold rounded-full hover:bg-accent-gold hover:text-text-main transition-colors uppercase tracking-widest flex items-center gap-1.5"
+                              >
+                                <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                                Add
+                              </button>
+                            )}
+                          </div>
                        </div>
                      </div>
                    );
