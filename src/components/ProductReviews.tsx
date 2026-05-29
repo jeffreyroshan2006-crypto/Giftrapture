@@ -18,7 +18,7 @@ export default function ProductReviews({ productId }: { productId: string }) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({ name: "", rating: 5, text: "" });
+  const [formData, setFormData] = useState({ name: "", rating: 0, text: "" });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<{type: 'success'|'error'; text: string} | null>(null);
 
@@ -59,7 +59,7 @@ export default function ProductReviews({ productId }: { productId: string }) {
       setMessage({ type: "error", text: "Failed to submit. Please try again." });
     } else {
       setMessage({ type: "success", text: "Thank you! Your review has been submitted." });
-      setFormData({ name: "", rating: 5, text: "" });
+      setFormData({ name: "", rating: 0, text: "" });
       setShowForm(false);
       // Refresh reviews
       if (inserted && inserted.length > 0) {
@@ -164,7 +164,7 @@ export default function ProductReviews({ productId }: { productId: string }) {
                       type="button"
                       aria-pressed={formData.rating === r}
                       onClick={() => setFormData(prev => ({ ...prev, rating: r }))}
-                      className={`p-2 rounded-full transition-colors hover:bg-accent-gold/10 focus:outline-none focus:ring-2 focus:ring-accent-gold`}
+                      className={`transition-colors hover:text-accent-gold focus:outline-none`}
                     >
                       <Star className={`w-6 h-6 ${r <= formData.rating ? 'fill-accent-gold text-accent-gold' : 'text-gray-300'}`} />
                     </button>
