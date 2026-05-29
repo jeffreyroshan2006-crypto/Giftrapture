@@ -175,9 +175,7 @@ export default function PortfolioGrid() {
           <h2 className="text-4xl md:text-5xl font-serif tracking-tighter italic mb-6">
             <span className="font-bold not-italic">Curated For You</span>
           </h2>
-        <p className="text-soft-gray max-w-lg mx-auto text-sm md:text-base leading-relaxed">
-          Every piece in our collection is curated with intention. Explore our signature bouquets, themed hampers, and festive Eid selections.
-        </p>
+
       </div>
 
       {/* Category Tabs */}
