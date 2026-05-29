@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ImageGallery from "@/components/ImageGallery";
+import ProductReviews from "@/components/ProductReviews";
 
 // Dynamic Product Details Pool
 const PRODUCTS_POOL: Record<string, {
@@ -810,23 +811,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
 
-        {/* Reviews Section */}
-        <div className="mt-24 pt-16 border-t border-text-main/10">
-          <h2 className="text-3xl font-serif mb-12 italic text-center">Words of Appreciation</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {product.reviews.map((review, idx) => (
-              <div key={idx} className="bg-white p-8 rounded-[2rem] shadow-sm border border-text-main/5">
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-accent-gold text-accent-gold" />
-                  ))}
-                </div>
-                <p className="text-soft-gray italic mb-6 text-sm">&ldquo;{review.text}&rdquo;</p>
-                <p className="font-bold text-xs text-text-main">— {review.author}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+         {/* Reviews Section */}
+         <ProductReviews productId={product.id} />
       </div>
 
       <MobileBottomNav />

@@ -617,12 +617,18 @@ export default function AdminDashboardClient() {
               <span className="hidden md:inline text-xs text-soft-gray bg-secondary/50 px-3 py-1.5 rounded-full">
                 Admin
               </span>
-              <a
-                href="/admin/orders"
-                className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full border border-text-main/10 text-xs uppercase tracking-widest font-bold text-text-main/70 hover:text-text-main hover:border-accent-gold/40 transition-colors"
-              >
-                Orders
-              </a>
+               <a
+                 href="/admin/orders"
+                 className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full border border-text-main/10 text-xs uppercase tracking-widest font-bold text-text-main/70 hover:text-text-main hover:border-accent-gold/40 transition-colors"
+               >
+                 Orders
+               </a>
+               <a
+                 href="/admin/reviews"
+                 className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full border border-text-main/10 text-xs uppercase tracking-widest font-bold text-text-main/70 hover:text-text-main hover:border-accent-gold/40 transition-colors"
+               >
+                 Reviews
+               </a>
               <button
                 onClick={handleLogout}
                 className="p-2.5 hover:bg-red-50 rounded-xl transition-colors group"

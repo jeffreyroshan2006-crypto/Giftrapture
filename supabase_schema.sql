@@ -122,3 +122,29 @@ CREATE POLICY "Allow public read approved testimonials" ON public.testimonials
 -- 12. Public insert policy (anyone can submit)
 CREATE POLICY "Allow public insert testimonials" ON public.testimonials
   FOR INSERT WITH CHECK (true);
+
+-- 13. Create product_reviews table
+CREATE TABLE IF NOT EXISTS public.product_reviews (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  product_id TEXT NOT NULL,
+  author_name TEXT NOT NULL,
+  rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  review_text TEXT NOT NULL,
+  is_approved BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 14. Indexes for performance
+CREATE INDEX IF NOT EXISTS idx_product_reviews_product_id ON public.product_reviews(product_id);
+CREATE INDEX IF NOT EXISTS idx_product_reviews_approved ON public.product_reviews(is_approved) WHERE is_approved = true;
+
+-- 15. RLS for product_reviews
+ALTER TABLE public.product_reviews ENABLE ROW LEVEL SECURITY;
+
+-- 16. Public read policy (approved reviews only)
+CREATE POLICY "Allow public read approved product reviews" ON public.product_reviews
+  FOR SELECT USING (is_approved = true);
+
+-- 17. Public insert policy (anyone can submit)
+CREATE POLICY "Allow public insert product reviews" ON public.product_reviews
+  FOR INSERT WITH CHECK (true);
