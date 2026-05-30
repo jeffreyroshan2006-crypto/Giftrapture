@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative w-full flex items-center justify-center overflow-hidden py-20 md:py-24" style={{ backgroundColor: '#FFF8E7' }}>
+    <section className="relative w-full flex items-center justify-center overflow-hidden pt-20 pb-10 md:pt-24 md:pb-12" style={{ backgroundColor: '#FFF8E7' }}>
       {/* Subtle decorative background elements */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Large soft gold circle — top right */}

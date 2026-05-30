@@ -624,6 +624,12 @@ export default function AdminDashboardClient() {
                  Orders
                </a>
                <a
+                 href="/admin/custom-box"
+                 className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full border border-text-main/10 text-xs uppercase tracking-widest font-bold text-text-main/70 hover:text-text-main hover:border-accent-gold/40 transition-colors"
+               >
+                 Custom Box
+               </a>
+               <a
                  href="/admin/reviews"
                  className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full border border-text-main/10 text-xs uppercase tracking-widest font-bold text-text-main/70 hover:text-text-main hover:border-accent-gold/40 transition-colors"
                >

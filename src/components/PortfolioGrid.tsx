@@ -119,11 +119,10 @@ function ProductItem({ product, index }: { product: Product; index: number }) {
 export default function PortfolioGrid() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filtered, setFiltered] = useState<Product[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [activeCategory, setActiveCategory] = useState<string>("bouquets");
   const [loading, setLoading] = useState(true);
 
   const categories = [
-    { key: "all", label: "All" },
     { key: "bouquets", label: "Bouquets" },
     { key: "hampers", label: "Hampers" },
     { key: "eid-hampers", label: "Eid Hampers" },
@@ -158,17 +157,13 @@ export default function PortfolioGrid() {
   }, []);
 
   useEffect(() => {
-    if (activeCategory === "all") {
-      setFiltered(products);
-    } else {
-      setFiltered(products.filter((p) => p.category === activeCategory));
-    }
+    setFiltered(products.filter((p) => p.category === activeCategory));
   }, [activeCategory, products]);
 
   return (
     <section className="py-0 px-6 max-w-7xl mx-auto" id="portfolio">
       {/* Header */}
-      <div className="text-center mb-16">
+      <div className="text-center mb-8 md:mb-10">
           <h2 className="text-4xl md:text-5xl font-serif tracking-tighter italic mb-6">
             <span className="font-bold not-italic">Curated For You</span>
           </h2>
@@ -176,7 +171,7 @@ export default function PortfolioGrid() {
       </div>
 
       {/* Category Tabs */}
-      <div className="flex justify-center mb-8 md:mb-12">
+      <div className="flex justify-center mb-6 md:mb-8">
         <div className="w-full max-w-xl md:max-w-3xl px-3">
           <div className="rounded-full border border-text-main/10 bg-white/80 backdrop-blur shadow-sm overflow-hidden">
             <div className="flex items-center justify-center gap-1 px-1.5 py-1.5 md:py-1">

@@ -127,6 +127,89 @@ CREATE POLICY "Allow public insert testimonials" ON public.testimonials
 CREATE POLICY "Allow authenticated delete testimonials" ON public.testimonials
   FOR DELETE USING (auth.role() = 'authenticated');
 
+-- 16. Create packaging_options table for custom box builder
+CREATE TABLE IF NOT EXISTS public.packaging_options (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  price NUMERIC NOT NULL,
+  description TEXT,
+  image TEXT DEFAULT '/images/placeholder.jpg' NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.packaging_options ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read packaging options" ON public.packaging_options
+  FOR SELECT USING (true);
+
+CREATE POLICY "Allow admin all packaging" ON public.packaging_options
+  FOR ALL TO authenticated USING (true);
+
+-- 17. Create personalization_options table
+CREATE TABLE IF NOT EXISTS public.personalization_options (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  price NUMERIC NOT NULL DEFAULT 0,
+  description TEXT,
+  image TEXT DEFAULT '/images/placeholder.jpg' NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.personalization_options ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read personalization options" ON public.personalization_options
+  FOR SELECT USING (true);
+
+CREATE POLICY "Allow admin all personalization" ON public.personalization_options
+  FOR ALL TO authenticated USING (true);
+
+-- 18. Create custom_box_items table (catalog for custom box builder)
+CREATE TABLE IF NOT EXISTS public.custom_box_items (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  price NUMERIC NOT NULL,
+  category TEXT,
+  image TEXT DEFAULT ''::text,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.custom_box_items ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read custom box items" ON public.custom_box_items
+  FOR SELECT USING (true);
+
+CREATE POLICY "Allow admin all custom box items" ON public.custom_box_items
+  FOR ALL TO authenticated USING (true);
+
+-- Seed packaging options (images left empty for manual upload)
+INSERT INTO public.packaging_options (id, name, price, description, image) VALUES
+  ('box-craft', 'Luxe Craft Cardboard Box', 350, 'Minimalist eco-premium packaging with signature silk ribbon.', ''),
+  ('box-pine', 'Premium Pine Wood Trunk', 750, 'Solid, reusable wooden trunk with brass latch for a rustic-royal charm.', ''),
+  ('box-velvet', 'Imperial Royal Velvet Chest', 1200, 'Soft, deep velvet casing lined with gold satin sheets.', ''),
+  ('basket-wicker', 'Heritage Wicker Basket', 480, 'Handwoven basket finished with satin lining and a custom tag.', ''),
+  ('tray-lacquer', 'Lacquered Celebration Tray', 650, 'Glossy keepsake tray for floral + gourmet pairings.', '')
+ON CONFLICT (id) DO NOTHING;
+
+-- Seed personalization options (images left empty)
+INSERT INTO public.personalization_options (id, name, price, description, image) VALUES
+  ('message-card', 'Handwritten Message Card', 150, 'Personalize the presentation for a premium finish.', ''),
+  ('ribbon-emerald', 'Emerald Satin Ribbon', 120, 'Personalize the presentation for a premium finish.', ''),
+  ('foil-name', 'Gold Foil Name Tag', 250, 'Personalize the presentation for a premium finish.', ''),
+  ('color-palette', 'Custom Color Palette Wrap', 180, 'Personalize the presentation for a premium finish.', '')
+ON CONFLICT (id) DO NOTHING;
+
+-- Seed custom box catalog items (images left empty for manual upload)
+INSERT INTO public.custom_box_items (id, name, price, category, image) VALUES
+  ('fill-almonds', 'Gourmet Roasted Almonds (200g)', 450, 'Gourmet', ''),
+  ('fill-chocs', 'Artisanal Dark Hazelnut Chocolates', 650, 'Gourmet', ''),
+  ('fill-candle', 'Scented Lavender Soy Wax Candle', 399, 'Wellness', ''),
+  ('fill-tea', 'Exotic Kashmiri Saffron Tea (50g)', 800, 'Gourmet', ''),
+  ('fill-roses', 'Red Velvet Rose Arrangement', 1200, 'Floral', ''),
+  ('fill-perfume', 'Handcrafted Sandalwood Perfume (50ml)', 1800, 'Wellness', ''),
+  ('fill-cookie', 'Butter Pistachio Cookies (250g)', 520, 'Gourmet', ''),
+  ('fill-diffuser', 'Bergamot Reed Diffuser', 950, 'Wellness', '')
+ON CONFLICT (id) DO NOTHING;
+
 -- 13. Create product_reviews table
 CREATE TABLE IF NOT EXISTS public.product_reviews (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
