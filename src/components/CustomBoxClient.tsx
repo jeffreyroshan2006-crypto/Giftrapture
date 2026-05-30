@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { useMemo, useState, useEffect } from "react";
 import { useCartStore } from "@/store/cartStore";
-import { Check, Plus, Minus, ShoppingBag, Gift, Package, Sparkles, ShoppingBag as ShoppingBagIcon } from "lucide-react";
+import { Check, Plus, Minus, ShoppingBag, Gift, Package, Sparkles, ShoppingBag as ShoppingBagIcon, X } from "lucide-react";
 import Image from "next/image";
 
 type Option = { id: string; name: string; description?: string | null; price: number; image?: string | null; category?: string | null };
@@ -339,43 +339,122 @@ return (
               <p className="text-xs text-soft-gray uppercase tracking-widest font-bold mt-1">Live curating summary</p>
             </div>
 
-            <div className="space-y-4 max-h-60 overflow-y-auto font-sans text-sm text-soft-gray">
-              {selectedPackaging ? (
-                <div className="flex justify-between font-bold text-text-main">
-                  <span>{selectedPackaging.name}</span>
-                  <span>₹{Number(selectedPackaging.price || 0).toLocaleString("en-IN")}</span>
-                </div>
-              ) : (
+            <div className="space-y-5 max-h-72 overflow-y-auto font-sans text-sm text-soft-gray">
+              {!selectedPackaging && Object.keys(selectedCatalogItems).length === 0 && Object.keys(selectedPersonalization).filter(k => selectedPersonalization[k]).length === 0 && (
                 <p className="text-center italic py-4 text-xs text-soft-gray/60">Select packaging to see your custom box summary</p>
               )}
-              {Object.entries(selectedCatalogItems).map(([id, qty]) => {
-                const item = catalogItems.find((f) => f.id === id);
-                if (!item) return null;
-                return (
-                  <div key={id} className="flex justify-between items-center text-xs">
-                    <span>
-                      {item.name} <span className="font-bold text-text-main">(x{qty})</span>
-                    </span>
-                    <span>₹{Number(item.price || 0) * qty}</span>
-                  </div>
-                );
-              })}
 
-              {Object.entries(selectedPersonalization)
-                .filter(([, selected]) => selected)
-                .map(([id]) => {
-                  const option = personalizationOptions.find((p) => p.id === id);
-                  if (!option) return null;
-                  return (
-                    <div key={id} className="flex justify-between items-center text-xs">
-                      <span>{option.name}</span>
-                      <span>₹{Number(option.price || 0)}</span>
+              {selectedPackaging && (
+                <div className="space-y-2">
+                  <div className="text-[10px] tracking-widest font-bold text-accent-gold uppercase">Packaging</div>
+                  <div className="flex items-start justify-between gap-2 bg-secondary/30 rounded-lg p-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-text-main text-xs truncate">{selectedPackaging.name}</div>
+                      <div className="text-xs text-soft-gray">₹{Number(selectedPackaging.price || 0).toLocaleString("en-IN")}</div>
                     </div>
-                  );
-                })}
+                    <button
+                      onClick={() => setSelectedPackaging(null)}
+                      className="p-1 rounded-full hover:bg-red-50 text-soft-gray hover:text-red-500 transition-colors shrink-0"
+                      title="Remove packaging"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              )}
 
-              {Object.keys(selectedCatalogItems).length === 0 && (
-                <p className="text-center italic py-4 text-xs text-soft-gray/60">No items selected yet. You can add items or proceed with a minimal curated set.</p>
+              {Object.keys(selectedCatalogItems).length > 0 && (
+                <div className="space-y-2 pt-3 border-t border-text-main/5">
+                  <div className="text-[10px] tracking-widest font-bold text-accent-gold uppercase">Items</div>
+                  <div className="space-y-2">
+                    {Object.entries(selectedCatalogItems).map(([id, qty]) => {
+                      const item = catalogItems.find((f) => f.id === id);
+                      if (!item) return null;
+                      return (
+                        <div key={id} className="flex items-center justify-between gap-2 bg-secondary/30 rounded-lg p-2">
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-text-main text-xs truncate">{item.name}</div>
+                            <div className="text-xs text-soft-gray">₹{Number(item.price || 0) * qty}</div>
+                          </div>
+                          <div className="flex items-center gap-1 shrink-0">
+                            <button
+                              onClick={() => toggleCatalogItem(id, "remove")}
+                              className="p-1 rounded-md hover:bg-text-main/10 text-soft-gray hover:text-text-main transition-colors"
+                              title="Decrease quantity"
+                            >
+                              <Minus className="w-3 h-3" />
+                            </button>
+                            <span className="text-xs font-bold text-text-main w-5 text-center">{qty}</span>
+                            <button
+                              onClick={() => toggleCatalogItem(id, "add")}
+                              className="p-1 rounded-md hover:bg-accent-sage/20 text-soft-gray hover:text-accent-sage transition-colors"
+                              title="Increase quantity"
+                            >
+                              <Plus className="w-3 h-3" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setSelectedCatalogItems((prev) => {
+                                  const updated = { ...prev };
+                                  delete updated[id];
+                                  return updated;
+                                });
+                              }}
+                              className="p-1 rounded-full hover:bg-red-50 text-soft-gray hover:text-red-500 transition-colors ml-1"
+                              title="Remove item"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {Object.keys(selectedPersonalization).filter(key => selectedPersonalization[key]).length > 0 && (
+                <div className="space-y-2 pt-3 border-t border-text-main/5">
+                  <div className="text-[10px] tracking-widest font-bold text-accent-gold uppercase">Personalization</div>
+                  <div className="space-y-2">
+                    {Object.entries(selectedPersonalization)
+                      .filter(([, selected]) => selected)
+                      .map(([id]) => {
+                        const option = personalizationOptions.find((p) => p.id === id);
+                        if (!option) return null;
+                        return (
+                          <div key={id} className="flex items-start justify-between gap-2 bg-secondary/30 rounded-lg p-2">
+                            <div className="flex-1 min-w-0">
+                              <div className="font-bold text-text-main text-xs truncate">{option.name}</div>
+                              <div className="text-xs text-soft-gray">₹{Number(option.price || 0)}</div>
+                            </div>
+                            <button
+                              onClick={() => togglePersonalization(id)}
+                              className="p-1 rounded-full hover:bg-red-50 text-soft-gray hover:text-red-500 transition-colors shrink-0"
+                              title="Remove personalization"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
+              )}
+
+              {(selectedPackaging || Object.keys(selectedCatalogItems).length > 0 || Object.keys(selectedPersonalization).filter(k => selectedPersonalization[k]).length > 0) && (
+                <div className="pt-3 border-t border-text-main/10">
+                  <button
+                    onClick={() => {
+                      setSelectedPackaging(packagingOptions.length > 0 ? packagingOptions[0] : null);
+                      setSelectedCatalogItems({});
+                      setSelectedPersonalization({});
+                    }}
+                    className="w-full py-2 text-xs font-bold uppercase tracking-widest text-soft-gray hover:text-red-500 border border-text-main/10 hover:border-red-200 rounded-xl transition-all duration-300"
+                  >
+                    Clear All
+                  </button>
+                </div>
               )}
             </div>
 
