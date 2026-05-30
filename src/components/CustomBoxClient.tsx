@@ -2,7 +2,7 @@
 
 import Navbar from "@/components/Navbar";
 import MobileBottomNav from "@/components/MobileBottomNav";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { Check, Plus, Minus, ShoppingBag, Gift, Package, Sparkles, ShoppingBag as ShoppingBagIcon } from "lucide-react";
 import Image from "next/image";
@@ -33,6 +33,8 @@ export default function CustomBoxClient({
   const [selectedPersonalization, setSelectedPersonalization] = useState<Record<string, boolean>>({});
   const addItem = useCartStore((state) => state.addItem);
   const [successMessage, setSuccessMessage] = useState(false);
+const [mounted, setMounted] = useState(false);
+useEffect(() => setMounted(true), []);
 
   const catalogItems = items.length
     ? items
@@ -56,12 +58,12 @@ export default function CustomBoxClient({
         { id: "color-palette", name: "Custom Color Palette Wrap", price: 180, description: "Personalize the presentation for a premium finish." },
       ];
 
-  const CUSTOM_BOX_STEPS = [
-    { title: "Select Packaging", detail: "Box, basket, tray, or trunk", icon: Package },
-    { title: "Choose Items", detail: "Pick from the catalog", icon: ShoppingBagIcon },
-    { title: "Add Personalization", detail: "Message, colors, tags", icon: Sparkles },
-    { title: "Add to Cart", detail: "Live custom price", icon: Gift },
-  ];
+const CUSTOM_BOX_STEPS = [
+  { title: "Select Packaging", detail: "Box, basket, tray, or trunk", icon: Package },
+  { title: "Choose Items", detail: "Pick from the catalog", icon: ShoppingBagIcon },
+  { title: "Add Personalization", detail: "Message, colors, tags", icon: Sparkles },
+  { title: "Add to Cart", detail: "Live custom price", icon: Gift },
+];
 
   const toggleCatalogItem = (id: string, action: "add" | "remove") => {
     setSelectedCatalogItems((prev) => {
@@ -155,27 +157,22 @@ export default function CustomBoxClient({
           <div className="relative">
             <div className="absolute left-6 right-6 top-6 hidden md:block h-px bg-text-main/10" />
             <div className="flex items-start justify-between gap-2 sm:gap-4 overflow-x-auto pb-2 md:overflow-visible scrollbar-hide">
-              {CUSTOM_BOX_STEPS.map((item, index) => {
-                const Icon = item.icon;
-                
-                let isStepComplete = false;
-                if (index === 0) isStepComplete = isStep1Complete;
-                if (index === 1) isStepComplete = isStep2Complete;
-                if (index === 2) isStepComplete = isStep3Complete;
-                if (index === 3) isStepComplete = isStep4Complete;
-                
-                return (
-                  <div key={`${item.title}-${index}`} className="relative flex min-w-[80px] sm:min-w-[100px] md:min-w-0 flex-1 flex-col items-center text-center shrink-0">
-                    <div className="relative z-10 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-full border-2 sm:border-3 shadow-md transition-all duration-300">
-                      {isStepComplete ? (
-                        <div className="w-full h-full bg-accent-gold rounded-full flex items-center justify-center">
-                          <Check className="text-white h-5 sm:h-6 w-5 sm:w-6" />
-                        </div>
-                      ) : (
-                        <Icon className="text-black h-4 sm:h-5 w-4 sm:w-5" />
-                      )}
-                    </div>
-                    <div className="mt-3 sm:mt-4 space-y-1">
+{CUSTOM_BOX_STEPS.map((item, index) => {
+  const Icon = item.icon;
+
+  const isStepComplete = mounted
+    ? [isStep1Complete, isStep2Complete, isStep3Complete, isStep4Complete][index]
+    : false;
+
+return (
+  <div key={`${item.title}-${index}`} className="relative flex min-w-[80px] sm:min-w-[100px] md:min-w-0 flex-1 flex-col items-center text-center shrink-0">
+    <div className="relative z-10 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-full border-2 sm:border-3 shadow-md transition-all duration-300">
+      <div className={`w-full h-full bg-accent-gold rounded-full flex items-center justify-center ${isStepComplete ? 'opacity-100' : 'opacity-0 absolute'}`}>
+        <Check className="text-white h-5 sm:h-6 w-5 sm:w-6" />
+      </div>
+      <Icon className={`text-black h-4 sm:h-5 w-4 sm:w-5 ${isStepComplete ? 'opacity-0 absolute' : 'opacity-100'}`} />
+</div>
+    <div className="mt-3 sm:mt-4 space-y-1">
                       <span className="block text-[9px] sm:text-[10px] font-bold lowercase tracking-[0.12em] text-accent-gold">{index + 1}.</span>
                       <h3 className="text-xs sm:text-sm font-serif text-text-main italic leading-tight line-clamp-2">{item.title}</h3>
                       <p className="text-[8px] sm:text-xs text-soft-gray max-w-[8rem] sm:max-w-[10rem] mx-auto line-clamp-2">{item.detail}</p>
