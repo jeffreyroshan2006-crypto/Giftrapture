@@ -199,18 +199,23 @@ return (
                         <img src={box.image || '/images/placeholder.jpg'} alt={box.name} className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" />
                       </div>
 
-                      <div className="p-3 flex flex-col gap-2 bg-white relative z-10 flex-1">
-                        <h3 className="text-sm font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2">
+                      <div className="p-3 flex flex-col gap-2 bg-white relative z-10 flex-1 text-center">
+                        <h3 className="text-sm font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2 text-center">
                           {box.name}
                         </h3>
-                        <div className="flex items-center justify-between gap-2">
+                        {mounted && (
+                          <p className="text-xs text-soft-gray leading-relaxed line-clamp-2 text-center">
+                            {box.description || 'No description available.'}
+                          </p>
+                        )}
+                        <div className="mt-auto flex flex-col items-center justify-center gap-2 pt-2">
                           <div className="text-accent-gold font-bold text-sm">₹{Number(box.price || 0).toLocaleString('en-IN')}</div>
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               setSelectedPackaging(box);
                             }}
-                            className={`py-1 px-2.5 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[9px] uppercase tracking-wider ${
+                            className={`py-1 px-3 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[9px] uppercase tracking-wider ${
                               selectedForPackaging
                                 ? "bg-accent-gold text-white"
                                 : "bg-white text-text-main border border-text-main/20 hover:bg-accent-gold hover:text-white"
@@ -247,11 +252,16 @@ return (
                         )}
                       </div>
 
-                      <div className="p-3 flex flex-col gap-2 bg-white relative z-10 flex-1">
+                      <div className="p-3 flex flex-col gap-2 bg-white relative z-10 flex-1 text-center">
                         <h3 className="text-sm font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2">
                           {item.name}
                         </h3>
-                        <div className="flex items-center justify-between gap-2">
+                        {mounted && (
+                          <p className="text-xs text-soft-gray leading-relaxed line-clamp-2">
+                            {item.description || 'No description available.'}
+                          </p>
+                        )}
+                        <div className="mt-auto flex flex-col items-center justify-center gap-2 pt-2">
                           <div className="text-accent-gold font-bold text-sm">₹{Number(item.price || 0).toLocaleString("en-IN")}</div>
                           <button
                             onClick={(e) => {
@@ -259,7 +269,7 @@ return (
                               e.stopPropagation();
                               toggleCatalogItem(item.id, "add");
                             }}
-                            className={`py-1 px-2 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[9px] uppercase tracking-wider ${
+                            className={`py-1 px-3 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[9px] uppercase tracking-wider ${
                               qty > 0
                                 ? "bg-accent-sage text-white"
                                 : "bg-white text-text-main border border-text-main/20 hover:bg-accent-sage hover:text-white"
@@ -273,7 +283,7 @@ return (
                             ) : (
                               <>
                                 <ShoppingBag className="w-2.5 h-2.5" />
-                                Quick Add
+                                Add to Box
                               </>
                             )}
                           </button>
@@ -301,18 +311,23 @@ return (
                         <img src={option.image || '/images/placeholder.jpg'} alt={option.name} className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" />
                       </div>
 
-                      <div className="p-3 flex flex-col gap-2 bg-white relative z-10 flex-1">
+                      <div className="p-3 flex flex-col gap-2 bg-white relative z-10 flex-1 text-center">
                         <h3 className="text-sm font-serif text-text-main leading-tight group-hover:text-accent-gold transition-colors duration-300 line-clamp-2">
                           {option.name}
                         </h3>
-                        <div className="flex items-center justify-between gap-2">
+                        {mounted && (
+                          <p className="text-xs text-soft-gray leading-relaxed line-clamp-2">
+                            {option.description || 'No description available.'}
+                          </p>
+                        )}
+                        <div className="mt-auto flex flex-col items-center justify-center gap-2 pt-2">
                           <div className="text-accent-gold font-bold text-sm">₹{Number(option.price || 0).toLocaleString('en-IN')}</div>
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               togglePersonalization(option.id);
                             }}
-                            className={`py-1 px-2.5 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[9px] uppercase tracking-wider ${
+                            className={`py-1 px-3 font-bold rounded-lg flex items-center justify-center gap-1 transition-all duration-300 shadow-md text-[9px] uppercase tracking-wider ${
                               selectedForPersonalization
                                 ? "bg-accent-gold text-white"
                                 : "bg-white text-text-main border border-text-main/20 hover:bg-accent-gold hover:text-white"
@@ -350,6 +365,9 @@ return (
                   <div className="flex items-start justify-between gap-2 bg-secondary/30 rounded-lg p-2">
                     <div className="flex-1 min-w-0">
                       <div className="font-bold text-text-main text-xs truncate">{selectedPackaging.name}</div>
+                      {mounted && (
+                        <div className="text-xs text-soft-gray line-clamp-2">{selectedPackaging.description || 'No description available.'}</div>
+                      )}
                       <div className="text-xs text-soft-gray">₹{Number(selectedPackaging.price || 0).toLocaleString("en-IN")}</div>
                     </div>
                     <button
@@ -374,6 +392,9 @@ return (
                         <div key={id} className="flex items-center justify-between gap-2 bg-secondary/30 rounded-lg p-2">
                           <div className="flex-1 min-w-0">
                             <div className="font-bold text-text-main text-xs truncate">{item.name}</div>
+                            {mounted && (
+                              <div className="text-xs text-soft-gray line-clamp-2">{item.description || 'No description available.'}</div>
+                            )}
                             <div className="text-xs text-soft-gray">₹{Number(item.price || 0) * qty}</div>
                           </div>
                           <div className="flex items-center gap-1 shrink-0">
@@ -426,6 +447,9 @@ return (
                           <div key={id} className="flex items-start justify-between gap-2 bg-secondary/30 rounded-lg p-2">
                             <div className="flex-1 min-w-0">
                               <div className="font-bold text-text-main text-xs truncate">{option.name}</div>
+                              {mounted && (
+                                <div className="text-xs text-soft-gray line-clamp-2">{option.description || 'No description available.'}</div>
+                              )}
                               <div className="text-xs text-soft-gray">₹{Number(option.price || 0)}</div>
                             </div>
                             <button
