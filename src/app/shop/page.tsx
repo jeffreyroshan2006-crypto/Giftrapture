@@ -72,6 +72,7 @@ interface Product {
 
 function ShopContent() {
   const searchParams = useSearchParams();
+  const searchParamsString = searchParams.toString();
    // States
    const [activeCategory, setActiveCategory] = useState<string>("all");
   const [activePriceRange, setActivePriceRange] = useState<string>("all");
@@ -122,6 +123,22 @@ function ShopContent() {
     if (urlPrice) setActivePriceRange(urlPrice);
     if (urlRelation) setActiveRelation(urlRelation);
   }, [searchParams]);
+
+  // iOS Safari can preserve the previous scroll position when navigating to the same route with new query params.
+  // Force the shop page back to the top so filtered entry links always open in the expected place.
+  useEffect(() => {
+    window.history.scrollRestoration = "manual";
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+
+    const frameId = requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.history.scrollRestoration = "auto";
+    };
+  }, [searchParamsString]);
 
   // Helper to check if product matches relation filter
   const matchesRelation = (product: Product, relation: string) => {
